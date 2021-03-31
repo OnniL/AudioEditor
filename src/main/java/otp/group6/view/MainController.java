@@ -64,12 +64,13 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loadSoundboard();
+		sharedMain = mainContainer;
 	}
 	/**
 	 * Method that is called when the program is exit
 	 */
 	public void exitRoutine() {
-		boardController.saveSamples();
+		//boardController.saveSamples();
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +183,10 @@ public class MainController implements Initializable {
 	private AnchorPane paneLowPass;
 
 	@FXML
-	AnchorPane mainContainer;
+	private AnchorPane mainContainer;
+	
+	public static AnchorPane sharedMain;
+	
 	@FXML
 	AnchorPane soundboardRoot;
 	// Muuttujat tiedoston kokonaiskestolle ja toistetulle ajalle
@@ -191,7 +195,10 @@ public class MainController implements Initializable {
 
 	// TODO HOX TÄMÄN LOKALISOINTI
 	private DecimalFormat decimalFormat = new DecimalFormat("#0.00"); // kaikki luvut kahden desimaalin tarkkuuteen
-
+	
+	//public static AnchorPane getMainContainer() {
+		//return mainContainer;
+	//}
 	/*
 	 * 
 	 */
