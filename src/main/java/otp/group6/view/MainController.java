@@ -55,7 +55,7 @@ import otp.group6.controller.Controller;
  */
 public class MainController implements Initializable {
 	Controller controller;
-	SoundboardController boardController;
+	SoundboardViewController boardController;
 
 	public MainController() {
 		controller = new Controller(this);

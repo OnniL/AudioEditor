@@ -37,28 +37,29 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import otp.group6.AudioEditor.AudioFileHandler;
-import otp.group6.controller.Controller;
+import otp.group6.controller.SoundboardController;
+
 /**
- * Controller for soundboard view TODO changes to make this class control the view and standalone controller for soundboard in controller package
+ * Controller for soundboard view TODO changes to make this class control the
+ * view and standalone controller for soundboard in controller package
+ * 
  * @author kevin
  *
  */
-public class SoundboardController implements Initializable {
-	private Controller controller;
-	
+public class SoundboardViewController implements Initializable {
+	private SoundboardController controller;
+
 	/**
-	 * If main controller is given, creates a new controller inside object
-	 * otherwise requires controller
+	 * If main controller is given, creates a new controller inside object otherwise
+	 * requires controller
+	 * 
 	 * @param mainController
 	 */
-	public SoundboardController() {
-		controller = new Controller();
+	public SoundboardViewController() {
+		controller = SoundboardController.getInstance();
 	}
-	
-	public SoundboardController(Controller controller) {
-		this.controller = controller;
-	}
-	public static Button lastButton,currentButton;
+
+	public static Button lastButton, currentButton;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -67,8 +68,7 @@ public class SoundboardController implements Initializable {
 		soundboardInit();
 		applyBackgroundColor();
 	}
-	
-	
+
 	/**
 	 * FXML element variables
 	 */
@@ -80,8 +80,7 @@ public class SoundboardController implements Initializable {
 	GridPane buttonGrid;
 	@FXML
 	Button clearButton;
-	
-	
+
 	/**
 	 * Used to edit existing sample in the sample array Opens File explorer and
 	 * edits sample with given index to contain selected wav file Checks file
@@ -221,8 +220,10 @@ public class SoundboardController implements Initializable {
 
 		});
 	}
+
 	/**
 	 * Kooi atm al dente eli spagettia - TODO REWORK
+	 * 
 	 * @param button
 	 * @param index
 	 */
@@ -238,6 +239,7 @@ public class SoundboardController implements Initializable {
 		}
 		lastButton = button;
 	}
+
 	/**
 	 * Adds a listener to reset all button names;
 	 */
@@ -246,41 +248,42 @@ public class SoundboardController implements Initializable {
 
 			@Override
 			public void update(LineEvent event) {
-				if(event.getType() == Type.STOP) {
+				if (event.getType() == Type.STOP) {
 					Platform.runLater(new Runnable() {
 
 						@Override
 						public void run() {
 							resetAllButtonNames();
-							if(controller.isPlaying()) {
+							if (controller.isPlaying()) {
 								currentButton.setText("Stop");
 							}
 						}
-						
+
 					});
 				}
 			}
-			
+
 		});
 	}
+
 	/**
-	 * ATM raviolia eli TODO REWORK
-	 * jos se toimii nii se toimii - älä valita
+	 * ATM raviolia eli TODO REWORK jos se toimii nii se toimii - älä valita
 	 */
 	public void resetAllButtonNames() {
-		ObservableList<Node> tempList =(ObservableList<Node>) buttonGrid.getChildren();
+		ObservableList<Node> tempList = (ObservableList<Node>) buttonGrid.getChildren();
 		ArrayList<AnchorPane> apList = new ArrayList<AnchorPane>();
 		int index = controller.getSampleArrayLength();
 		tempList.forEach(root -> {
 			apList.add((AnchorPane) root);
 		});
-		for(int i = 0; i < index ;i++) {
+		for (int i = 0; i < index; i++) {
 			AnchorPane apRoot = apList.get(i);
 			AnchorPane btnRoot = (AnchorPane) apRoot.getChildren().get(0);
 			Button btnTemp = (Button) btnRoot.getChildren().get(0);
 			btnTemp.setText("Play");
 		}
 	}
+
 	/**
 	 * Method for renaming soundboard buttons
 	 * 
@@ -385,7 +388,7 @@ public class SoundboardController implements Initializable {
 			gridRoot.getChildren().add(newSoundButton);
 		}
 	}
-	
+
 	@FXML
 	public void removeAllCheck() {
 		Alert alert = new Alert(Alert.AlertType.NONE);
@@ -425,7 +428,7 @@ public class SoundboardController implements Initializable {
 		}
 	}
 
-	/**			
+	/**
 	 * @author Kevin Akkoyun
 	 */
 	public void checkSavedSamples() {
@@ -440,16 +443,15 @@ public class SoundboardController implements Initializable {
 	public void saveSamples() {
 		controller.saveSampleData();
 	}
-	
-	public void applyBackgroundColor(){
+
+	public void applyBackgroundColor() {
 		int length = controller.getSampleArrayLength();
 		for (int i = 0; i < length; i++) {
 			AnchorPane gridRoot = (AnchorPane) buttonGrid.getChildren().get(i);
 			AnchorPane root = (AnchorPane) gridRoot.getChildren().get(0);
-			if(i % 2 != 0) {
+			if (i % 2 != 0) {
 				root.setStyle("-fx-background-color: lightgray;");
-			}
-			else {
+			} else {
 				root.setStyle("-fx-background-color: lightblue;");
 			}
 		}
