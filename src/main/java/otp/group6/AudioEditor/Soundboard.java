@@ -9,6 +9,8 @@ import java.util.Scanner;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.LineListener;
 
+import otp.group6.AudioEditor.Soundboard.Sample;
+
 /**
  * Soundboard class for storing and playing sampled audio
  * 
@@ -114,14 +116,36 @@ public class Soundboard {
 	}
 
 	/**
-	 * Add sample via file path
-	 * 
-	 * @param path Filepath as String
+	 * Adds a sample to {@link #sampleArray}
+	 * @param path - file path as String
+	 * @return index of the sample
+	 * @see Sample
 	 */
-	public Sample addSample(String path) {
+	public int addSample(String path) {
 		Sample newSample = new Sample(path);
 		sampleArray.add(newSample);
-		return newSample;
+		return sampleArray.indexOf(newSample);
+	}
+	/**
+	 * Adds a sample to {@link #sampleArray}
+	 * @param sample - sample to be added
+	 * @return index of the sample
+	 * @see Sample
+	 */
+	public int addSample(Sample sample) {
+		sampleArray.add(sample);
+		return sampleArray.indexOf(sample);
+	}
+	/**
+	 * Adds a sample to {@link #sampleArray}
+	 * @param file - audio file
+	 * @return index of the sample
+	 * @see Sample
+	 */
+	public int addSample(File file) {
+		Sample newSample = new Sample(file.getAbsolutePath());
+		sampleArray.add(newSample);
+		return sampleArray.indexOf(newSample);
 	}
 
 	public void editSample(String path, int index) {

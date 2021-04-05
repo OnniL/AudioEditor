@@ -3,16 +3,21 @@ package otp.group6.view;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
@@ -24,25 +29,28 @@ import otp.group6.AudioEditor.AudioFileHandler;
 import otp.group6.controller.SoundboardController;
 
 /**
- * Controller for soundboard view TODO changes to make this class control the
- * view and standalone controller for soundboard in controller package
+ * Controller for soundboard view
  * 
  * @author Kevin Akkoyun
+ *TODO nappien toiminnot. Tallennus + tiedoston luku (kontrollerissa)
  *
  */
 public class SoundboardViewController implements Initializable {
 
 	private SoundboardController controller;
 
+	private FXMLLoader newSoundLoader = null, buttonLoader = null;
+
+	// Keeps track of all soundboard buttons and their indexes
+	private HashMap<Integer, Node> buttonMap = null;
+
+	// Keeps track of all containers
+	private HashMap<Integer, Pane> containerMap = null;
 	/**
 	 * FXML variables
 	 */
 	@FXML
-	private GridPane mainGrid;
-
-	private AnchorPane[] containerArray;
-
-	private FXMLLoader newSoundLoader = null, buttonLoader = null;
+	private GridPane mainGrid; // Main GridPane that contains every single soundboard button
 
 	/**
 	 * Fetches an instance of SoundboardController
@@ -53,9 +61,8 @@ public class SoundboardViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		getContainers();
+		createMaps();
 		getViewResources();
-		// TODO REMOVE
 		devTestMethod();
 	}
 
@@ -64,12 +71,34 @@ public class SoundboardViewController implements Initializable {
 	 * TODO REMOVE
 	 */
 	private void devTestMethod() {
-		addSoundboardButton(containerArray[0]);
+		containerMap.forEach((e, p) -> {
+			if (e != 19) {
+				addSoundboardButton(p, e);
+			} else {
+				addNewSoundButton(p);
+			}
+
+		});
+
 	}
-	
+
+	/**
+	 * Initializes maps that keep track of view components.
+	 */
+	public void createMaps() {
+		if (buttonMap == null) {
+			buttonMap = new HashMap<Integer, Node>();
+		}
+		if (containerMap == null) {
+			containerMap = new HashMap<Integer, Pane>();
+			getContainers();
+		}
+	}
+
 	/**
 	 * Opens system file explorer and returns selected file if it is .wav <br>
 	 * Performs a regex check to see if file is .wav
+	 * 
 	 * @return .wav file or null
 	 */
 	private File openFileExplorer() {
@@ -77,7 +106,7 @@ public class SoundboardViewController implements Initializable {
 		Pattern pattern = Pattern.compile("(\\.wav)$", Pattern.CASE_INSENSITIVE);
 
 		File file = AudioFileHandler.openFileExplorer(MainController.sharedMain.getScene().getWindow());
-		if(file != null) {
+		if (file != null) {
 			Matcher matcher = pattern.matcher(file.getName());
 			if (matcher.find()) {
 				return file;
@@ -95,15 +124,18 @@ public class SoundboardViewController implements Initializable {
 
 	/**
 	 * Fetches all container AnchorPanes from main GridPane and places them to an
-	 * array
+	 * HashMap<br>
+	 * Invoked in {@link #createMaps()}
 	 */
 	private void getContainers() {
 
 		Object[] temp = mainGrid.getChildren().toArray();
-		containerArray = new AnchorPane[temp.length];
+		if (containerMap == null) {
+			containerMap = new HashMap<Integer, Pane>();
+		}
 		int i = 0;
 		for (Object o : temp) {
-			containerArray[i] = (AnchorPane) o;
+			containerMap.put(i, (Pane) o);
 			i++;
 		}
 	}
@@ -125,25 +157,55 @@ public class SoundboardViewController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Configures the given SoundboardButton <br>
 	 * Adds functionality to all child nodes
+	 * 
 	 * @param root of the soundboard button
 	 */
-	private void configureButton(AnchorPane buttonRoot) {
-		buttonRoot.getChildren().forEach(e ->{
-			switch(e.getClass().getTypeName()) {
-			case "javafx.scene.control.Button":
+	private void configureButton(Pane buttonRoot) {
+		buttonRoot.getChildren().forEach(e -> {
+			String temp = e.getClass().getSimpleName();
+			switch (temp) {
+			case "Button":
 				System.out.println("button");
 				break;
-			case "javafx.scene.text.Text":
+			case "Text":
 				System.out.println("text");
 				break;
-			case "javafx.scene.control.MenuButton":
+			case "MenuButton":
 				System.out.println("menu button");
 				break;
 			}
 		});
+	}
+
+	/**
+	 * TODO localization Configures the button for playing samples
+	 * 
+	 * @param button
+	 */
+	private void configurePlayButton(Button button) {
+
+	}
+
+	/**
+	 * TODO localization Configures the text for renaming functionality
+	 * 
+	 * @param text
+	 */
+	private void configureRenameOnClick(Text button) {
+
+	}
+
+	/**
+	 * TODO localization Configures the menu button
+	 * 
+	 * @param button
+	 */
+	private void configureMenuButton(MenuButton button) {
+
 	}
 
 	// *********************VIEW MANIPULATION METHODS*********************//
@@ -173,13 +235,15 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Adds a new Soundboard button loaded from an FXML template to given
-	 * container.<br>
-	 * Clears all chilren from given Pane
+	 * Adds a new Soundboard button loaded from an FXML template to given container.
+	 * <br>
+	 * Clears all children from given container By default sets create buttons index
+	 * in {@link #buttonMap} to its length.
 	 * 
-	 * @param container for the button {@link #clearContainer(Pane)}
+	 * @param container - parent element for the button
+	 * @return if successful, returns created buttons root, otherwise returns null
 	 */
-	private void addSoundboardButton(Pane container) {
+	private Pane addSoundboardButton(Pane container, int sampleIndex) {
 		clearContainer(container);
 		buttonLoader = new FXMLLoader();
 		buttonLoader.setLocation(MainApplication.class.getResource("/SoundBoardButton.fxml"));
@@ -187,15 +251,41 @@ public class SoundboardViewController implements Initializable {
 			AnchorPane root = buttonLoader.load();
 			container.getChildren().add(root);
 			configureButton(root);
+			return root;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 
 	/**
-	 * Removes children of the given Pane
+	 * Adds an existing Soundboard button from the {@link #buttonMap} with given
+	 * index <br>
+	 * Clears all children from given container
 	 * 
-	 * @param container
+	 * @param container - parent element
+	 * @param index     - index of the button
+	 * @return if successful, returns added buttons root element, otherwise returns
+	 *         null.
+	 */
+	private Pane adSoundboardButton(Pane container, int index) {
+		clearContainer(container);
+		try {
+			Node root = buttonMap.get(index);
+			container.getChildren().add(root);
+			configureButton((Pane) root);
+			return (Pane) root;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
+	/**
+	 * Removes children from the given container.
+	 * 
+	 * @param container - container to be cleared
 	 * @see Pane
 	 */
 	private void clearContainer(Pane container) {
@@ -203,50 +293,75 @@ public class SoundboardViewController implements Initializable {
 			container.getChildren().clear();
 		}
 	}
-	//*****************************BUTTON FUNCTIONALITY*************************************//
-	
+	// *****************************BUTTON
+	// FUNCTIONALITY*************************************//
+
 	/**
-	 * Functionality for newSoundButton
+	 * Functionality for button created by {@link #addNewSoundButton(Pane)} <br>
+	 * <br>
+	 * Replaces itself with a button created by
+	 * {@link #addSoundboardButton(Pane)}<br>
+	 * Creates another one of itself to the next container in {@link #containerMap}
 	 */
 	private void newSoundButton() {
 		File newFile = openFileExplorer();
-		if(newFile != null) {
-			//TODO STUFF
+		if (newFile != null) {
+			// The next container pane
+			Pane currentContainer = containerMap.get(buttonMap.size());
+			clearContainer(currentContainer);
+			int sampleIndex = controller.addSample(newFile.getAbsolutePath());
+			Pane newButton = addSoundboardButton(currentContainer, sampleIndex);
+
+			if (newButton != null) {
+				//checks if a next container exists
+				Pane nextContainer = containerMap.get(buttonMap.size());
+				if (nextContainer != null) {
+					addNewSoundButton(nextContainer);
+				}
+
+			} else if (newButton == null) {
+				// If operation fails, removes added samples and reverts back to state before
+				clearContainer(currentContainer);
+				controller.removeSample(sampleIndex);
+				addNewSoundButton(currentContainer);
+			}
 		}
 	}
-	
+
 	/**
 	 * Functionality for play button
+	 * 
 	 * @param index of the sample
 	 */
 	private void playButton(int index) {
-		
+
 	}
-	
+
 	/**
 	 * Functionality for edit button
 	 */
 	private void editButton() {
-		
+
 	}
-	
+
 	/**
 	 * Functionality for rename Button
 	 */
 	private void renameButton() {
-		
+
 	}
-	
+
 	/**
 	 * Functionality for delete button
 	 */
 	private void deleteButton() {
-		
+
 	}
+
 	/**
 	 * Functionality for clear all button
 	 */
 	private void clearAllButton() {
-		
+
 	}
 }
