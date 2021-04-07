@@ -563,15 +563,17 @@ public class AudioCloudDAO {
 	 * 
 	 * Mehtod deletes mixer settings from the database
 	 * 
-	 * @param specify is a variable that specifies the id.
+	 * @param name is the specific user name
+	 * @param id is the mixer setting id that will be deleted
 	 * @return true or false according to the success of the method.
 	 */
-	public boolean deleteMix(String specify) {
+	public boolean deleteMix(String name, int id) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
 		if (!(userclass.getUser() == " ")) {
 			try (PreparedStatement statement = databaseConnection
-					.prepareStatement("DELETE FROM mixerSETTINGSTEST WHERE mixName = ?")) {
-				statement.setString(1, specify);
+					.prepareStatement("DELETE FROM mixerSETTINGSTEST WHERE mixCreator = ? AND id = ?")) {
+				statement.setString(1, name);
+				statement.setInt(2, id);
 				statement.executeUpdate();
 				// TODO käyttäjälle palaute, ehkäpä käyttöliittymään, ei tänne :)
 				// JOptionPane.showMessageDialog(null, "Poistaminen onnistui! :)"); //Nämä

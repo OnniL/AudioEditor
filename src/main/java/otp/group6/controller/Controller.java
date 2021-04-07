@@ -2,6 +2,9 @@ package otp.group6.controller;
 
 import java.io.File;
 import java.sql.SQLException;
+
+import javax.sound.sampled.LineListener;
+
 import otp.group6.AudioEditor.AudioCloudDAO;
 import otp.group6.AudioEditor.AudioCloudDAO.MixerSetting;
 import otp.group6.AudioEditor.AudioManipulator;
@@ -263,7 +266,13 @@ public class Controller {
 	public void clearSampleData() {
 		soundboard.clearSampleData();
 	}
-	// Soundboard methods stop
+	public void setListener(LineListener listener) {
+		soundboard.setListener(listener);
+	}
+	public void removeListener(LineListener listener) {
+		soundboard.removeListener(listener);
+	}
+	// Soundboard methods stop -------------------------
 
 	// AudioRecorder methods start
 	public void recordAudio() {
@@ -351,8 +360,8 @@ public class Controller {
 		return audioDAO.getCertainMixesArray(select, specify);
 	}
 
-	public boolean deleteMix(String specify) {
-		return audioDAO.deleteMix(specify);
+	public boolean deleteMix(String name, int id) {
+		return audioDAO.deleteMix(name, id);
 	}
 
 	public boolean deleteUser() {

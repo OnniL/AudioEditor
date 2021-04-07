@@ -12,10 +12,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
-
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineEvent.Type;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javafx.application.Platform;
 import be.tarsos.dsp.StopAudioProcessor;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -74,6 +77,8 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		controller.readSampleData();
 		checkSavedSamples();
+		soundboardInit();
+		applyBackgroundColor();
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1041,6 +1046,8 @@ public class MainController implements Initializable {
 
 	//// RECORDER METHODS END
 	//// HERE////////////////////////////////////////////////////////////////
+	// Used in play button methods
+	public static Button lastButton,currentButton;
 
 	/**
 	 * FXML element variables
@@ -1053,10 +1060,6 @@ public class MainController implements Initializable {
 	GridPane buttonGrid;
 	@FXML
 	Button clearButton;
-
-	// Used in play button methods
-	public Button lastButton;
-
 	/**
 	 * Used to edit existing sample in the sample array Opens File explorer and
 	 * edits sample with given index to contain selected wav file Checks file
@@ -1099,6 +1102,7 @@ public class MainController implements Initializable {
 				if (matcher.find()) {
 					controller.addSample(file.getAbsolutePath());
 					addButton(controller.getSampleArrayLength() - 1);
+					applyBackgroundColor();
 				}
 			}
 
@@ -1115,7 +1119,7 @@ public class MainController implements Initializable {
 	public void addButton(int index) {
 
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(MainApplication.class.getResource("SoundBoardButton.fxml"));
+		loader.setLocation(MainApplication.class.getResource("/SoundBoardButton.fxml"));
 
 		AnchorPane gridRoot = (AnchorPane) buttonGrid.getChildren().get(index);
 		Node soundButtonRoot;
@@ -1196,16 +1200,63 @@ public class MainController implements Initializable {
 
 		});
 	}
-
+	/**
+	 * Kooi atm al dente eli spagettia - TODO REWORK
+	 * @param button
+	 * @param index
+	 */
 	public void playButtonFunctionality(Button button, int index) {
 		if (!controller.isPlaying() || lastButton != button) {
+			currentButton = button;
+			resetAllButtonNames();
 			controller.playSound(index);
+			button.setText("Stop");
 		} else {
+			resetAllButtonNames();
 			controller.stopSound();
 		}
 		lastButton = button;
 	}
+	public void soundboardInit() {
+		controller.setListener(new LineListener() {
 
+			@Override
+			public void update(LineEvent event) {
+				if(event.getType() == Type.STOP) {
+					Platform.runLater(new Runnable() {
+
+						@Override
+						public void run() {
+							resetAllButtonNames();
+							if(controller.isPlaying()) {
+								currentButton.setText("Stop");
+							}
+						}
+						
+					});
+				}
+			}
+			
+		});
+	}
+	/**
+	 * ATM raviolia eli TODO REWORK
+	 * jos se toimii nii se toimii - älä valita
+	 */
+	public void resetAllButtonNames() {
+		ObservableList<Node> tempList =(ObservableList<Node>) buttonGrid.getChildren();
+		ArrayList<AnchorPane> apList = new ArrayList<AnchorPane>();
+		int index = controller.getSampleArrayLength();
+		tempList.forEach(root -> {
+			apList.add((AnchorPane) root);
+		});
+		for(int i = 0; i < index ;i++) {
+			AnchorPane apRoot = apList.get(i);
+			AnchorPane btnRoot = (AnchorPane) apRoot.getChildren().get(0);
+			Button btnTemp = (Button) btnRoot.getChildren().get(0);
+			btnTemp.setText("Play");
+		}
+	}
 	/**
 	 * Method for renaming soundboard buttons
 	 * 
@@ -1281,6 +1332,7 @@ public class MainController implements Initializable {
 	 * @author Kevin Akkoyun
 	 */
 	public void refreshButtons() {
+		applyBackgroundColor();
 		int length = controller.getSampleArrayLength();
 		for (int i = 0; i < length; i++) {
 			AnchorPane gridRoot = (AnchorPane) buttonGrid.getChildren().get(i);
@@ -1309,7 +1361,7 @@ public class MainController implements Initializable {
 			gridRoot.getChildren().add(newSoundButton);
 		}
 	}
-
+	
 	@FXML
 	public void removeAllCheck() {
 		Alert alert = new Alert(Alert.AlertType.NONE);
@@ -1349,7 +1401,7 @@ public class MainController implements Initializable {
 		}
 	}
 
-	/**
+	/**			
 	 * @author Kevin Akkoyun
 	 */
 	public void checkSavedSamples() {
@@ -1363,6 +1415,20 @@ public class MainController implements Initializable {
 
 	public void saveSamples() {
 		controller.saveSampleData();
+	}
+	
+	public void applyBackgroundColor(){
+		int length = controller.getSampleArrayLength();
+		for (int i = 0; i < length; i++) {
+			AnchorPane gridRoot = (AnchorPane) buttonGrid.getChildren().get(i);
+			AnchorPane root = (AnchorPane) gridRoot.getChildren().get(0);
+			if(i % 2 != 0) {
+				root.setStyle("-fx-background-color: lightgray;");
+			}
+			else {
+				root.setStyle("-fx-background-color: lightblue;");
+			}
+		}
 	}
 
 	/**
@@ -1393,7 +1459,7 @@ public class MainController implements Initializable {
 		controller.intializeDatabaseConnection();
 		if (controller.isConnected()) {
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\RegisterLoginView.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RegisterLoginView.fxml"));
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				RegisterLoginController rlc = fxmlLoader.getController();
@@ -1417,7 +1483,7 @@ public class MainController implements Initializable {
 		controller.intializeDatabaseConnection();
 		if (controller.isConnected()) {
 			try {
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\MixerSettingsView.fxml"));
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MixerSettingsView.fxml"));
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				MixerSettingsController msc = fxmlLoader.getController();
@@ -1442,10 +1508,9 @@ public class MainController implements Initializable {
 	 * Opens a new scene where the mixer settings can be saved to the database
 	 */
 	public void openMixerSave() {
-		setlogUserIn();
-
+		
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\SaveMixerSettings.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveMixerSettings.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			SaveMixerSettingsController smsc = fxmlLoader.getController();
 			smsc.setMainController(this);
@@ -1469,7 +1534,7 @@ public class MainController implements Initializable {
 	 */
 	public void openSaveSelection() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\SaveSelectionView.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveSelectionView.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			SaveSelectionController ssc = fxmlLoader.getController();
@@ -1491,7 +1556,7 @@ public class MainController implements Initializable {
 	 */
 	public void openLoadSelection() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\LoadSelectionView.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/LoadSelectionView.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			LoadSelectionController lsc = fxmlLoader.getController();
@@ -1512,7 +1577,7 @@ public class MainController implements Initializable {
 	 */
 	public void openUserSettings() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("\\UserSettingsView.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/UserSettingsView.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			UserSettingsController usc = fxmlLoader.getController();
@@ -1566,7 +1631,7 @@ public class MainController implements Initializable {
 	/**
 	 * Method to store mixer settings locally
 	 */
-	public void soundManipulatorSaveMixerSettings() {
+	public void saveMixerSettingsLocally() {
 		FileChooser fileChooser = new FileChooser();
 		ExtensionFilter filter = new ExtensionFilter("TXT files (*.txt)", "*.txt");
 		fileChooser.getExtensionFilters().add(filter);
@@ -1617,8 +1682,9 @@ public class MainController implements Initializable {
 			setlogUserOut();
 		});
 		userMenuButton.setText(controller.loggedIn());
-		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;");
+		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;"); //MUOTOILU CSSSSSÄÄÄÄN
 		userMenuButton.getItems().addAll(menu1, menu2);
+		loggedinuser.setVisible(true);
 		loggedinuser.setText("Logged in as: ");
 		loggedinuser.setGraphic(userMenuButton);
 		loggedinuser.setContentDisplay(ContentDisplay.RIGHT);
@@ -1631,9 +1697,12 @@ public class MainController implements Initializable {
 	 */
 	public void setlogUserOut() {
 		controller.logoutUser();
-		loggedinuser.setText("");
-		loggedinuser.setGraphic(null);
+		userMenuButton.setText("");
+		userMenuButton.setStyle("");
+		userMenuButton.getItems().removeAll(menu1, menu2);
+		loggedinuser.setVisible(false);
 		userSettings.setVisible(false);
 		loginoption.setVisible(true);
+
 	}
 }
