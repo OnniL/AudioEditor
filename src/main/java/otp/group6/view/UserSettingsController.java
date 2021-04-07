@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
@@ -34,7 +35,27 @@ public class UserSettingsController implements Initializable{
 	MainController mc;
 
 	@FXML
-	private Button closeButton;
+	private Label uSHeaderLabel;
+	@FXML
+	private Button uSXButton;
+	@FXML
+	private Label uSChangePWLabel;
+	@FXML
+	private Label uSOldPWLabel;
+	@FXML
+	private ToggleButton uSShowPW1Toggle;
+	@FXML
+	private Label uSNewPWLabel;
+	@FXML
+	private ToggleButton uSShowPW2Toggle;
+	@FXML
+	private Button uSChangeButton;
+	@FXML
+	private Label uSUserDeleLabel;
+	@FXML
+	private Button uSDeleteUserButton;
+	@FXML
+	private Button uSCancelButton;
 	@FXML
 	private Label userName;
 	@FXML
@@ -45,41 +66,78 @@ public class UserSettingsController implements Initializable{
 	private TextField npassword;
 	@FXML
 	private TextField showNewPW;
-	@FXML
-	private ToggleButton showPW1;
-	@FXML
-	private ToggleButton showPW2;
+	private String uSGeneralOKBT;
+	private String uSGeneralCancelBT;
+	private String uSDeleteAlert1Title;
+	private String uSDeleteAlert1Header;
+	private String uSDeleteAlert1Content;
+	private String uSDeleteAlert2Title;
+	private String uSDeleteAlert2Header;
+	private String uSDeleteAlert2Content;
+	private String uSChangePWAlert1Header;
+	private String uSChangePWAlert2Title;
+	private String uSChangePWAlert2Header;
+	private String uSChangePWAlert2Content;
+
+
 	
+	
+	final Tooltip uSpwtooltip = new Tooltip();
 
-	final Tooltip pwtooltip = new Tooltip("Passwords must contain 8-20 characters.\n"
-			+ "Must contain one uppercase letter\n" + "Must contain at least one number");
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		pwReminder();
+		//TODO Nämä properties tiedostosta haettavaksi
+		uSHeaderLabel.setText("Käyttäjäasetukset");
+		uSXButton.setText("X");
+		uSChangePWLabel.setText("Vaihda salasana");
+		uSOldPWLabel.setText("Vanha salasana");
+		uSShowPW1Toggle.setText("SILMÄ");
+		uSNewPWLabel.setText("Uusi salasana");
+		uSShowPW2Toggle.setText("SILMÄ");
+		uSChangeButton.setText("Vaihda");
+		uSUserDeleLabel.setText("Poista käyttäjätunnus");
+		uSDeleteUserButton.setText("Poista");
+		uSCancelButton.setText("Peruuta");
+		uSpwtooltip.setText("Salasanan pitää sisältää 8-20 merkkiä,\nvähintään yksi iso kirjain ja vähintään yksi numero");
+		uSGeneralOKBT="Kyllä";
+		uSGeneralCancelBT="Ei";
+		uSDeleteAlert1Title="Poistatko tunnuksen?";
+		uSDeleteAlert1Header="Olet poistamassa käyttäjätunnusta pysyvästi.\nTunnuksen poiston jälkeen mitään tietoja ei pystytä palauttamaan.";
+		uSDeleteAlert1Content="Oletko varma, että haluat poistaa käyttäjätunnuksen?";
+		uSDeleteAlert2Title="Onnistui!";
+		uSDeleteAlert2Header="Käyttäjätunnus poistettu";
+		uSDeleteAlert2Content="Kiitos, kun käytit ohjelmaamme!";
+		uSChangePWAlert1Header="Salasanan vaihto onnistui!";
+		uSChangePWAlert2Title="Virhe!";
+		uSChangePWAlert2Header="Jotain meni vikaan, ole hyvä ja koita uudelleen";
+		uSChangePWAlert2Content="Jos virhe toistuu ota yhteyttä ylläpitoon";
 
+	}
+	
 	@FXML
-	public void showPW1() {
-		
-		if (showPW1.isSelected()) {
+	public void showPW1() {		
+		if (uSShowPW1Toggle.isSelected()) {
 			password.setVisible(false);
 			showOldPW.setVisible(true);
 			showOldPW.setEditable(true);
 			showOldPW.setText(password.getText());
-		} else if (!showPW1.isSelected()) {
+		} else if (!uSShowPW1Toggle.isSelected()) {
 			password.setText(showOldPW.getText());
 			password.setVisible(true);			
 			showOldPW.setVisible(false);
 		}
 
-		
-
 	}
 	
 	@FXML
 	public void showPW2() {
-		if (showPW2.isSelected()) {
+		if (uSShowPW2Toggle.isSelected()) {
 			npassword.setVisible(false);
 			showNewPW.setVisible(true);
 			showNewPW.setEditable(true);
 			showNewPW.setText(npassword.getText());
-		} else if (!showPW2.isSelected()) {
+		} else if (!uSShowPW2Toggle.isSelected()) {
 			npassword.setText(showNewPW.getText());
 			npassword.setVisible(true);
 			showNewPW.setVisible(false);
@@ -105,7 +163,7 @@ public class UserSettingsController implements Initializable{
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) uSCancelButton.getScene().getWindow();
 		stage.close();
 	}
 
@@ -114,21 +172,23 @@ public class UserSettingsController implements Initializable{
 	 */
 	@FXML
 	public void deleteUser() {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete user?");
-		alert.setHeaderText(
-				"You are about to permanently delete your account!\nAll user data will be lost and can not be returned!");
-		alert.setContentText("Are you sure you want to delete your account?");
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
+		Alert alert1 = new Alert(AlertType.CONFIRMATION);
+		alert1.setTitle(uSDeleteAlert1Title);
+		alert1.setHeaderText(uSDeleteAlert1Header);
+		alert1.setContentText(uSDeleteAlert1Content);
+		ButtonType ok = new ButtonType(uSGeneralOKBT, ButtonData.OK_DONE);
+		ButtonType cancel = new ButtonType(uSGeneralCancelBT, ButtonData.CANCEL_CLOSE);
+		alert1.getButtonTypes().setAll(ok, cancel);
+		Optional<ButtonType> result = alert1.showAndWait();
+		if (result.get() == ok) {
 			controller.deleteUser();
 			mc.setlogUserOut();
 			Alert alert2 = new Alert(AlertType.INFORMATION);
-			alert2.setTitle("Information");
-			alert2.setHeaderText("User deleted succesfully");
-			alert2.setContentText("Thank you for using our software!");
+			alert2.setTitle(uSDeleteAlert2Title);
+			alert2.setHeaderText(uSDeleteAlert2Header);
+			alert2.setContentText(uSDeleteAlert2Content);
 			alert2.showAndWait();
-			Stage stage = (Stage) closeButton.getScene().getWindow();
+			Stage stage = (Stage) uSCancelButton.getScene().getWindow();
 			stage.close();
 		} else {
 
@@ -142,18 +202,18 @@ public class UserSettingsController implements Initializable{
 	public void changePassword() {
 		if (isValid(npassword.getText())) {
 			controller.changePW(controller.loggedIn(), password.getText(), npassword.getText());
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information");
-			alert.setHeaderText("Password changed succesfully!");
-			alert.showAndWait();
-			Stage stage = (Stage) closeButton.getScene().getWindow();
-			stage.close();
+			Alert alert1 = new Alert(AlertType.INFORMATION);
+			alert1.setTitle(uSDeleteAlert2Title);
+			alert1.setHeaderText(uSChangePWAlert1Header);
+			alert1.showAndWait();
+			//Stage stage = (Stage) uSCancelButton.getScene().getWindow();
+			//stage.close();
 		} else {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error!");
-			alert.setHeaderText("Something went wrong changing password, please try again");
-			alert.setContentText("If this error continues, please contact support");
-			alert.showAndWait();
+			Alert alert2 = new Alert(AlertType.ERROR);
+			alert2.setTitle(uSChangePWAlert2Title);
+			alert2.setHeaderText(uSChangePWAlert2Header);
+			alert2.setContentText(uSChangePWAlert2Content);
+			alert2.showAndWait();
 		}
 
 	}
@@ -164,21 +224,21 @@ public class UserSettingsController implements Initializable{
 	 */
 	@FXML
 	public void pwReminder() {
-		pwtooltip.setWrapText(true);
-		pwtooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
+		uSpwtooltip.setWrapText(true);
+		uSpwtooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
 
 		npassword.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (newValue) {
-					pwtooltip.show(npassword, //
+					uSpwtooltip.show(npassword, //
 							// popup tooltip on the right, you can adjust these values for different
 							// positions
 							npassword.getScene().getWindow().getX() + npassword.getLayoutX() + npassword.getWidth(), //
 							npassword.getScene().getWindow().getY() + npassword.getLayoutY() + npassword.getHeight()
 									+ 0);
 				} else {
-					pwtooltip.hide();
+					uSpwtooltip.hide();
 				}
 			}
 		});
@@ -197,11 +257,20 @@ public class UserSettingsController implements Initializable{
 		Matcher matcher = pattern.matcher(password);
 		return matcher.matches();
 	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		pwReminder();
-		
+	
+	@FXML
+	private void setText() {
+		if (uSShowPW1Toggle.isSelected()) {
+			showOldPW.setText(password.getText());
+		} else if (!uSShowPW1Toggle.isSelected()) {
+			password.setText(showOldPW.getText());
+		}
+		if (uSShowPW2Toggle.isSelected()) {
+			showNewPW.setText(npassword.getText());
+		} else if (!uSShowPW2Toggle.isSelected()) {
+			npassword.setText(showNewPW.getText());
+		}
 	}
+
 
 }
