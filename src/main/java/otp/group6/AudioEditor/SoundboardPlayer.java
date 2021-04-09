@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  */
 public class SoundboardPlayer {
-	Clip clip;
+	private Clip clip;
 	
 	public SoundboardPlayer() {
 		try {
@@ -21,7 +21,7 @@ public class SoundboardPlayer {
 		}
 	}
 	/**
-	 * Plays audio with given AudioInputStream
+	 * Plays audio with given {@link AudioInputStream}
 	 * @param sample AudioInputStream of file to be played
 	 */
 	public void playAudio(AudioInputStream sample) {

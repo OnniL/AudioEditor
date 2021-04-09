@@ -3,46 +3,66 @@ package otp.group6.view;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javafx.collections.ObservableList;
+import otp.group6.AudioEditor.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import javafx.stage.Window;
 import otp.group6.AudioEditor.AudioFileHandler;
+import otp.group6.AudioEditor.Soundboard;
+import otp.group6.AudioEditor.Soundboard.Sample;
 import otp.group6.controller.SoundboardController;
+import otp.group6.controller.SoundboardController.INPUT_TYPE;
 
 /**
  * Controller for soundboard view
  * 
- * @author Kevin Akkoyun
- *TODO nappien toiminnot. Tallennus + tiedoston luku (kontrollerissa)
+ * @author Kevin Akkoyun TODO nappien toiminnot. Tallennus + tiedoston luku +
+ *         play - pause nimien vaihto (kontrollerissa)
  *
  */
 public class SoundboardViewController implements Initializable {
+
+	/**
+	 * Used to determine type of operation necessary when adding a new Soundboard
+	 * button
+	 * 
+	 * @author Kevin Akkoyun
+	 */
+	private enum OP_TYPE {
+		NEW, EXISTING
+	}
 
 	private SoundboardController controller;
 
 	private FXMLLoader newSoundLoader = null, buttonLoader = null;
 
 	// Keeps track of all soundboard buttons and their indexes
-	private HashMap<Integer, Node> buttonMap = null;
+	private ArrayList<Node> buttonList = null;
 
 	// Keeps track of all containers
 	private HashMap<Integer, Pane> containerMap = null;
@@ -61,33 +81,26 @@ public class SoundboardViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		createMaps();
+		createStorageVariables();
 		getViewResources();
-		devTestMethod();
+		loadSavedSamples();
 	}
 
 	// *********************UTILITY METHODS*******************************//
+
 	/**
-	 * TODO REMOVE
+	 * TODO implements saving + loading
 	 */
-	private void devTestMethod() {
-		containerMap.forEach((e, p) -> {
-			if (e != 19) {
-				addSoundboardButton(p, e);
-			} else {
-				addNewSoundButton(p);
-			}
-
-		});
-
+	public void loadSavedSamples() {
+		addNewSoundButton(containerMap.get(0));
 	}
 
 	/**
-	 * Initializes maps that keep track of view components.
+	 * Initializes storage variables that contain runtime view components
 	 */
-	public void createMaps() {
-		if (buttonMap == null) {
-			buttonMap = new HashMap<Integer, Node>();
+	public void createStorageVariables() {
+		if (buttonList == null) {
+			buttonList = new ArrayList<Node>();
 		}
 		if (containerMap == null) {
 			containerMap = new HashMap<Integer, Pane>();
@@ -125,7 +138,7 @@ public class SoundboardViewController implements Initializable {
 	/**
 	 * Fetches all container AnchorPanes from main GridPane and places them to an
 	 * HashMap<br>
-	 * Invoked in {@link #createMaps()}
+	 * Invoked in {@link #createStorageVariables()}
 	 */
 	private void getContainers() {
 
@@ -159,53 +172,117 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Configures the given SoundboardButton <br>
+	 * Configures the given Soundboard button <br>
 	 * Adds functionality to all child nodes
 	 * 
-	 * @param root of the soundboard button
+	 * @param buttonRoot - root element of the Soundboard button
 	 */
-	private void configureButton(Pane buttonRoot) {
+	private void configureButton(Pane buttonRoot, int sampleIndex) {
 		buttonRoot.getChildren().forEach(e -> {
 			String temp = e.getClass().getSimpleName();
 			switch (temp) {
 			case "Button":
-				System.out.println("button");
+				configurePlayButton((Button) e, sampleIndex);
 				break;
 			case "Text":
-				System.out.println("text");
+				configureRenameOnClick((Text) e, sampleIndex);
 				break;
 			case "MenuButton":
-				System.out.println("menu button");
+				configureMenuButton((MenuButton) e, sampleIndex);
 				break;
 			}
 		});
 	}
 
 	/**
-	 * TODO localization Configures the button for playing samples
+	 * Configures button to play sample with given index on click
 	 * 
-	 * @param button
+	 * @param button - button to be configured
+	 * @param index  - index of the sample
 	 */
-	private void configurePlayButton(Button button) {
+	private void configurePlayButton(Button button, int index) {
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				playButton(index);
+			}
+		});
+	}
+
+	/**
+	 * Configures text element to handle renaming functionality
+	 * 
+	 * @param text  - text element
+	 * @param index - index of the {@link Soundboard.Sample}
+	 */
+	private void configureRenameOnClick(Text text, int index) {
+		text.setText(controller.getSampleName(index));
+		text.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				renameButton(index);
+			}
+
+		});
 
 	}
 
 	/**
-	 * TODO localization Configures the text for renaming functionality
+	 * Configures all MenuItems contained by MenuButton
 	 * 
-	 * @param text
+	 * @param menuButton - parent element for MenuItems
+	 * @param index      - index of the {@link Sample}
 	 */
-	private void configureRenameOnClick(Text button) {
+	private void configureMenuButton(MenuButton menuButton, int index) {
+		List<MenuItem> list = menuButton.getItems();
+		list.forEach(e -> {
+			String eName = e.getText();
+			switch (eName) {
+			case "Rename":
+				e.setOnAction(new EventHandler<ActionEvent>() {
 
+					@Override
+					public void handle(ActionEvent event) {
+						renameButton(index);
+					}
+
+				});
+				break;
+			case "Change sound":
+				e.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						editButton(index);
+					}
+
+				});
+				break;
+			case "Delete":
+				e.setOnAction(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						deleteButton(index);
+					}
+
+				});
+				break;
+			}
+		});
 	}
 
 	/**
-	 * TODO localization Configures the menu button
+	 * Checks if the string is empty
 	 * 
-	 * @param button
+	 * @param input - input in String format
+	 * @return Returns <b>true</b> if the string is empty, otherwise returns
+	 *         <b>false</b>
 	 */
-	private void configureMenuButton(MenuButton button) {
-
+	public Boolean checkEmpty(String input) {
+		input = input.trim();
+		return input.isEmpty();
 	}
 
 	// *********************VIEW MANIPULATION METHODS*********************//
@@ -240,46 +317,42 @@ public class SoundboardViewController implements Initializable {
 	 * Clears all children from given container By default sets create buttons index
 	 * in {@link #buttonMap} to its length.
 	 * 
-	 * @param container - parent element for the button
+	 * @param container   - parent element for the button
+	 * @param sampleIndex - index of the sample related to the button
+	 * @param type        - either <u>NEW or EXISTING</u>. Defines if button should
+	 *                    be loaded as new from <b>fxml</b> or loaded from existing
+	 *                    list of buttons.
 	 * @return if successful, returns created buttons root, otherwise returns null
 	 */
-	private Pane addSoundboardButton(Pane container, int sampleIndex) {
-		clearContainer(container);
-		buttonLoader = new FXMLLoader();
-		buttonLoader.setLocation(MainApplication.class.getResource("/SoundBoardButton.fxml"));
-		try {
-			AnchorPane root = buttonLoader.load();
-			container.getChildren().add(root);
-			configureButton(root);
-			return root;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
+	private Pane addSoundboardButton(Pane container, int sampleIndex, OP_TYPE type) {
+		switch (type) {
+		case NEW:
+			clearContainer(container);
+			buttonLoader = new FXMLLoader();
+			buttonLoader.setLocation(MainApplication.class.getResource("/SoundBoardButton.fxml"));
+			try {
+				AnchorPane root = buttonLoader.load();
+				container.getChildren().add(root);
+				configureButton(root, sampleIndex);
+				buttonList.add(root);
+				return root;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		case EXISTING:
+			clearContainer(container);
+			try {
+				Node root = buttonList.get(sampleIndex);
+				container.getChildren().add(root);
+				configureButton((Pane) root, sampleIndex);
+				return (Pane) root;
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
-	}
-
-	/**
-	 * Adds an existing Soundboard button from the {@link #buttonMap} with given
-	 * index <br>
-	 * Clears all children from given container
-	 * 
-	 * @param container - parent element
-	 * @param index     - index of the button
-	 * @return if successful, returns added buttons root element, otherwise returns
-	 *         null.
-	 */
-	private Pane adSoundboardButton(Pane container, int index) {
-		clearContainer(container);
-		try {
-			Node root = buttonMap.get(index);
-			container.getChildren().add(root);
-			configureButton((Pane) root);
-			return (Pane) root;
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			return null;
-		}
-
+		return null;
 	}
 
 	/**
@@ -292,6 +365,21 @@ public class SoundboardViewController implements Initializable {
 		if (!container.getChildren().isEmpty()) {
 			container.getChildren().clear();
 		}
+	}
+
+	/**
+	 * Refreshes
+	 * 
+	 * @param container - root element of the button
+	 */
+	private void refreshContainerText(Pane container, int index) {
+		List<Node> nList = container.getChildren();
+		nList.forEach(e -> {
+			if (e.getClass().getSimpleName().equals("Text")) {
+				Text text = (Text) e;
+				text.setText(controller.getSampleName(index));
+			}
+		});
 	}
 	// *****************************BUTTON
 	// FUNCTIONALITY*************************************//
@@ -307,14 +395,14 @@ public class SoundboardViewController implements Initializable {
 		File newFile = openFileExplorer();
 		if (newFile != null) {
 			// The next container pane
-			Pane currentContainer = containerMap.get(buttonMap.size());
+			Pane currentContainer = containerMap.get(buttonList.size());
 			clearContainer(currentContainer);
 			int sampleIndex = controller.addSample(newFile.getAbsolutePath());
-			Pane newButton = addSoundboardButton(currentContainer, sampleIndex);
+			Pane newButton = addSoundboardButton(currentContainer, sampleIndex, OP_TYPE.NEW);
 
 			if (newButton != null) {
-				//checks if a next container exists
-				Pane nextContainer = containerMap.get(buttonMap.size());
+				// checks if a next container exists
+				Pane nextContainer = containerMap.get(buttonList.size());
 				if (nextContainer != null) {
 					addNewSoundButton(nextContainer);
 				}
@@ -329,39 +417,116 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Functionality for play button
+	 * Functionality for the play button
 	 * 
-	 * @param index of the sample
+	 * @param index - index of the <b>Sample</b>
+	 * @see {@link Sample}
 	 */
 	private void playButton(int index) {
-
+		controller.playSample(index);
 	}
 
 	/**
-	 * Functionality for edit button
+	 * Functionality for the edit button
+	 * 
+	 * @param index - index of the <b>Sample</b>
+	 * @see {@link Sample}
 	 */
-	private void editButton() {
-
+	private void editButton(int index) {
+		File newFile = openFileExplorer();
+		if (newFile != null) {
+			controller.editSample(index, newFile.getAbsolutePath(), INPUT_TYPE.FILEPATH);
+		}
 	}
 
 	/**
-	 * Functionality for rename Button
+	 * Creates a new TextField and brings it to the front. <br>
+	 * The created TextField will take its input upon {@link KeyCode#ENTER} or focus
+	 * loss. Checks if the input is valid and changes sample name.
+	 * 
+	 * @param index - index of the <b>Sample</b>
+	 * @see {@link Sample}
 	 */
-	private void renameButton() {
+	private void renameButton(int index) {
+		try {
+			Pane buttonRoot = (Pane) buttonList.get(index);
+			TextField iField = new TextField();
+			iField.setText(controller.getSampleName(index));
+			ChangeListener listener = new ChangeListener() {
 
+				@Override
+				public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+					if (!iField.isFocused()) {
+						String iText = iField.getText();
+						// Process input
+						if (!controller.compareSamples(index, iText, INPUT_TYPE.SAMPLE_NAME) && !checkEmpty(iText)) {
+							controller.editSample(index, iText, INPUT_TYPE.SAMPLE_NAME);
+							refreshContainerText(buttonRoot, index);
+						}
+						buttonRoot.getChildren().remove(buttonRoot.getChildren().indexOf(iField));
+					}
+
+				}
+
+			};
+			iField.focusedProperty().addListener(listener);
+			iField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+				@Override
+				public void handle(KeyEvent event) {
+					if (event.getCode() == KeyCode.ENTER) {
+						String iText = iField.getText();
+
+						if (!controller.compareSamples(index, iText, INPUT_TYPE.SAMPLE_NAME) && !checkEmpty(iText)) {
+							controller.editSample(index, iText, INPUT_TYPE.SAMPLE_NAME);
+							refreshContainerText(buttonRoot, index);
+						}
+						iField.focusedProperty().removeListener(listener);
+						buttonRoot.getChildren().remove(buttonRoot.getChildren().indexOf(iField));
+					}
+				}
+
+			});
+			buttonRoot.getChildren().add(iField);
+			iField.forward();
+			iField.requestFocus();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * Functionality for delete button
+	 * Removes specified sample with given index<br>
+	 * Deletes last button on the screen then refreshes all button names
+	 * 
+	 * @param index - index of the sample
 	 */
-	private void deleteButton() {
+	private void deleteButton(int index) {
+		controller.removeSample(index);
+		clearContainer(containerMap.get(buttonList.size() - 1));
+		if (buttonList.size() < 20) {
+			clearContainer(containerMap.get(buttonList.size()));
+			addNewSoundButton(containerMap.get(buttonList.size() - 1));
+		}
+		for (int i = index; i < buttonList.size() - 1; i++) {
+			refreshContainerText((Pane) buttonList.get(i), i);
+		}
+		buttonList.remove(index);
+
+		// remove specified sample from soundboard -> delete last button from container
+		// -> refresh affected button texts
 
 	}
 
 	/**
-	 * Functionality for clear all button
+	 * Clears everything and recreates storage variables
 	 */
 	private void clearAllButton() {
-
+		containerMap.forEach((i,e) ->{
+			clearContainer(e);	
+		});
+		createStorageVariables();
+		addNewSoundButton(containerMap.get(0));
+		controller.clearSampleArray();
 	}
 }

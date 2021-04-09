@@ -97,7 +97,7 @@ public class Soundboard {
 		}
 		return false;
 	}
-	
+
 	public boolean checkSampleArray(Sample sample) {
 		return sampleArray.contains(sample);
 	}
@@ -117,6 +117,7 @@ public class Soundboard {
 
 	/**
 	 * Adds a sample to {@link #sampleArray}
+	 * 
 	 * @param path - file path as String
 	 * @return index of the sample
 	 * @see Sample
@@ -126,8 +127,10 @@ public class Soundboard {
 		sampleArray.add(newSample);
 		return sampleArray.indexOf(newSample);
 	}
+
 	/**
 	 * Adds a sample to {@link #sampleArray}
+	 * 
 	 * @param sample - sample to be added
 	 * @return index of the sample
 	 * @see Sample
@@ -136,8 +139,10 @@ public class Soundboard {
 		sampleArray.add(sample);
 		return sampleArray.indexOf(sample);
 	}
+
 	/**
 	 * Adds a sample to {@link #sampleArray}
+	 * 
 	 * @param file - audio file
 	 * @return index of the sample
 	 * @see Sample
@@ -148,27 +153,46 @@ public class Soundboard {
 		return sampleArray.indexOf(newSample);
 	}
 
-	public void editSample(String path, int index) {
-		sampleArray.get(index).setSamplePath(path);
+	public Boolean setSampleFilepath(String path, int index) {
+		try {
+			sampleArray.get(index).setSamplePath(path);
+			return true;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public String getSampleFilepath(int index) {
+		return sampleArray.get(index).getSamplePath();
 	}
 
 	public String getSampleName(int index) {
 		return sampleArray.get(index).getName();
 	}
 
-	public void setSampleName(int index, String name) {
-		sampleArray.get(index).setName(name);
+	public Boolean setSampleName(String name, int index) {
+		try {
+			sampleArray.get(index).setName(name);
+			return true;
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
 	 * Removes sample with a given index value from the sample array
-	 * @return if sample index is given, returns sample; else returns boolean if given sample is removed
+	 * 
+	 * @return if sample index is given, returns sample; else returns boolean if
+	 *         given sample is removed
 	 * @param sampleIndex
 	 */
 	public Sample removeSample(int sampleIndex) {
 		return sampleArray.remove(sampleIndex);
 		// update button positions
 	}
+
 	public boolean removeSample(Sample sample) {
 		return sampleArray.remove(sample);
 	}
@@ -179,20 +203,28 @@ public class Soundboard {
 	 * @param sampleIndex
 	 */
 	public void playSample(int sampleIndex) {
-		player.playAudio(sampleArray.get(sampleIndex).getSample());
+		try {
+			player.playAudio(sampleArray.get(sampleIndex).getSample());
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
-	 * @author Kevin Akkoyun Stops the sample output and closes audio
+	 * Stops the sample output and closes audio
+	 * 
+	 * @author Kevin Akkoyun
 	 */
 	public void stopSample() {
-		if (player != null || !player.isAlive()) {
+		if (isPlaying()) {
 			player.closeAudio();
 		}
 	}
 
 	/**
-	 * @author Kevin Akkoyun Function to determine if player is active
+	 * Method to check if player is active
+	 * 
+	 * @author Kevin Akkoyun
 	 * @return returns true if player is active; otherwise returns false if player
 	 *         is null or not playing
 	 */
@@ -205,7 +237,9 @@ public class Soundboard {
 	}
 
 	/**
-	 * @author Kevin Akkoyun Shortens sampleArray until its size is 20
+	 * Shortens sampleArray until its size is 20
+	 * 
+	 * @author Kevin Akkoyun
 	 */
 	public void validateSampleArray() {
 		while (sampleArray.size() > 20) {
@@ -214,8 +248,10 @@ public class Soundboard {
 	}
 
 	/**
-	 * @author Kevin Akkoyun Saves sample data to a text file uses ; to separate
-	 *         sample name and path.
+	 * Saves sample data to a text file<br>
+	 * Uses <b>;</b> to separate sample name and path.
+	 * 
+	 * @author Kevin Akkoyun
 	 */
 	public void saveSampleData() {
 
@@ -235,9 +271,11 @@ public class Soundboard {
 	}
 
 	/**
-	 * @author Kevin Akkoyun Reads sample data from text file and adds valid lines
-	 *         to sample array Checks if sampleArray is oversized and reduces it to
-	 *         20 if needed
+	 * 
+	 * Reads sample data from text file and adds valid lines to sample array <br>
+	 * Checks if sampleArray is oversized and reduces it to 20 if needed
+	 * 
+	 * @author Kevin Akkoyun
 	 */
 	public void readSampleData() {
 		try {
@@ -259,8 +297,10 @@ public class Soundboard {
 	}
 
 	/**
-	 * @author Kevin Akkoyun Clears sampleData and sampleArray Writes blank to
-	 *         sampledata.txt
+	 * Clears sampleData and sampleArray <br>
+	 * Writes blank to sampledata.txt
+	 * 
+	 * @author Kevin Akkoyun
 	 */
 	public void clearSampleData() {
 		try {
@@ -273,9 +313,11 @@ public class Soundboard {
 			e.printStackTrace();
 		}
 	}
+
 	public void setListener(LineListener listener) {
 		player.setOnClose(listener);
 	}
+
 	public void removeListener(LineListener listener) {
 		player.removeListeners(listener);
 	}
