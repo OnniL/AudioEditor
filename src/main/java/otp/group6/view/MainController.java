@@ -49,8 +49,6 @@ import otp.group6.controller.Controller;
 
 /**
  * Main controller for the view
- * 
- * @author Kevin Akkoyun
  * @version 0.1
  */
 public class MainController implements Initializable {
@@ -70,7 +68,7 @@ public class MainController implements Initializable {
 	 * Method that is called when the program is exit
 	 */
 	public void exitRoutine() {
-		//boardController.saveSamples();
+		boardController.saveSampleData();
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////

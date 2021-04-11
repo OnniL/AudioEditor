@@ -21,8 +21,6 @@ import javafx.stage.WindowEvent;
 import otp.group6.*;
 
 /**
- * 
- * @author Kevin Akkoyun
  * @version 0.1
  */
 public class MainApplication extends Application {

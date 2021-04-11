@@ -44,10 +44,10 @@ public class SoundboardController {
 	}
 
 	/**
-	 * Uses {@link Soundboard} to play sample with given index. <br>
+	 * Uses {@link Soundboard} to play Sample with given index. <br>
 	 * If audio is already playing, calls <b>Soundboard</b> to stop sample.
 	 * 
-	 * @param index - index of the sample
+	 * @param index - index of the Sample
 	 */
 	public void playSample(int index) {
 		if (soundboard.isPlaying()) {
@@ -56,6 +56,16 @@ public class SoundboardController {
 			soundboard.playSample(index);
 		}
 
+	}
+	/**
+	 * Uses {@link Soundboard} to play Sample with given index. <br>
+	 * Plays audio <b>instantly</b>, closing already playing sample in the process
+	 * .
+	 * @param index - index of the Sample
+	 */
+	public void playSampleInstantly(int index) {
+		soundboard.stopSample();
+		soundboard.playSample(index);
 	}
 
 	// ######################################### Soundboard data manipulation
@@ -130,5 +140,17 @@ public class SoundboardController {
 	 */
 	public void clearSampleArray() {
 		soundboard.clearSampleData();
+	}
+	/**
+	 * Writes all {@link Soundboard#sampleArray} contents to sampledata.txt
+	 */
+	public void saveSampleData() {
+		soundboard.saveSampleData();
+	}
+	/**
+	 * Reads all data from sampledata.txt and inserts valid samples to {@link Soundboard#sampleArray}
+	 */
+	public int initializeSoundboard() {
+		return soundboard.readSampleData();
 	}
 }

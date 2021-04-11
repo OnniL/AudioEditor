@@ -1,3 +1,0 @@
-New Sound(1);/home/kevin/projektit/audioeditor/src/audio/testiaani.wav
-New Sound(1);/home/kevin/projektit/audioeditor/src/audio/jumalauta.wav
-New Sound(2);/home/kevin/projektit/audioeditor/src/audio/jumalauta.wav

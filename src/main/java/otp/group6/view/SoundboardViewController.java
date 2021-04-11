@@ -6,10 +6,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import otp.group6.AudioEditor.*;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,10 +22,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -39,11 +42,9 @@ import otp.group6.controller.SoundboardController;
 import otp.group6.controller.SoundboardController.INPUT_TYPE;
 
 /**
- * Controller for soundboard view
+ * Controller class for the Soundboard view
  * 
- * @author Kevin Akkoyun TODO nappien toiminnot. Tallennus + tiedoston luku +
- *         play - pause nimien vaihto (kontrollerissa)
- *
+ * @author Kevin Akkoyun 
  */
 public class SoundboardViewController implements Initializable {
 
@@ -66,11 +67,21 @@ public class SoundboardViewController implements Initializable {
 
 	// Keeps track of all containers
 	private HashMap<Integer, Pane> containerMap = null;
+
+	// Localization name variables
+	private String CSOUND_BTN, DELETE_BTN, RENAME_BTN, CONFIRM_BTN, CANCEL_BTN, WARNING_MSG, WARNING_TITLE, CLEAR_BTN;
+
+	// FXML variables
 	/**
-	 * FXML variables
+	 * Main GridPane that contains every single soundboard button
 	 */
 	@FXML
-	private GridPane mainGrid; // Main GridPane that contains every single soundboard button
+	private GridPane mainGrid;
+
+	@FXML
+	private Button clearAll;
+
+	private Button lastButton;
 
 	/**
 	 * Fetches an instance of SoundboardController
@@ -89,13 +100,6 @@ public class SoundboardViewController implements Initializable {
 	// *********************UTILITY METHODS*******************************//
 
 	/**
-	 * TODO implements saving + loading
-	 */
-	public void loadSavedSamples() {
-		addNewSoundButton(containerMap.get(0));
-	}
-
-	/**
 	 * Initializes storage variables that contain runtime view components
 	 */
 	public void createStorageVariables() {
@@ -105,6 +109,35 @@ public class SoundboardViewController implements Initializable {
 		if (containerMap == null) {
 			containerMap = new HashMap<Integer, Pane>();
 			getContainers();
+		}
+	}
+
+	/**
+	 * Gets appropriate localization for button names. TODO
+	 */
+	public void getLocalization() {
+
+	}
+
+	/**
+	 * Controller method for saving Sample data
+	 */
+	public void saveSampleData() {
+		controller.saveSampleData();
+	}
+
+	/**
+	 * Loads samples with {@link SoundboardController} from sampledata.txt <br>
+	 * Creates buttons equal to the amount of Samples loaded. <br>
+	 * <b>WARNING</b> size of {@link Soundboard#sampleArray} cannot exceed <b>20</b>
+	 */
+	public void loadSavedSamples() {
+		int sampleAmount = controller.initializeSoundboard();
+		for (int i = 0; i < sampleAmount; i++) {
+			addSoundboardButton(containerMap.get(i), i, OP_TYPE.NEW);
+		}
+		if (sampleAmount < 20) {
+			addNewSoundButton(containerMap.get(sampleAmount));
 		}
 	}
 
@@ -201,12 +234,22 @@ public class SoundboardViewController implements Initializable {
 	 * @param index  - index of the sample
 	 */
 	private void configurePlayButton(Button button, int index) {
-		button.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				playButton(index);
-			}
-		});
+		try {
+			Pane imgRoot = (Pane) button.getGraphic();
+			ImageView playImg = (ImageView) imgRoot.getChildren().get(0);
+			ImageView stopImg = (ImageView) imgRoot.getChildren().get(1);
+			button.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent event) {
+					playButton(index, button);
+					// playImg.setVisible(false);
+					// stopImg.setVisible(true);
+					// TODO järkevä vaihto - oma metodi?
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -248,6 +291,7 @@ public class SoundboardViewController implements Initializable {
 					}
 
 				});
+				e.setText(RENAME_BTN);
 				break;
 			case "Change sound":
 				e.setOnAction(new EventHandler<ActionEvent>() {
@@ -258,6 +302,7 @@ public class SoundboardViewController implements Initializable {
 					}
 
 				});
+				e.setText(CSOUND_BTN);
 				break;
 			case "Delete":
 				e.setOnAction(new EventHandler<ActionEvent>() {
@@ -268,9 +313,14 @@ public class SoundboardViewController implements Initializable {
 					}
 
 				});
+				e.setText(DELETE_BTN);
 				break;
 			}
 		});
+	}
+
+	private void configureClearAllButton() {
+		clearAll.setText(CLEAR_BTN);
 	}
 
 	/**
@@ -422,8 +472,25 @@ public class SoundboardViewController implements Initializable {
 	 * @param index - index of the <b>Sample</b>
 	 * @see {@link Sample}
 	 */
+	@SuppressWarnings("unused")
 	private void playButton(int index) {
 		controller.playSample(index);
+	}
+
+	/**
+	 * Functionality for the play button. <br>
+	 * Compares current and last pressed button to determine operation
+	 * 
+	 * @param index  - index of the <b>Sample</b>
+	 * @param button - current button
+	 */
+	private void playButton(int index, Button button) {
+		if (button == lastButton) {
+			controller.playSample(index);
+		} else {
+			controller.playSampleInstantly(index);
+			lastButton = button;
+		}
 	}
 
 	/**
@@ -447,11 +514,13 @@ public class SoundboardViewController implements Initializable {
 	 * @param index - index of the <b>Sample</b>
 	 * @see {@link Sample}
 	 */
+	@SuppressWarnings("unchecked")
 	private void renameButton(int index) {
 		try {
 			Pane buttonRoot = (Pane) buttonList.get(index);
 			TextField iField = new TextField();
 			iField.setText(controller.getSampleName(index));
+			@SuppressWarnings("rawtypes")
 			ChangeListener listener = new ChangeListener() {
 
 				@Override
@@ -521,12 +590,42 @@ public class SoundboardViewController implements Initializable {
 	/**
 	 * Clears everything and recreates storage variables
 	 */
+	@FXML
 	private void clearAllButton() {
-		containerMap.forEach((i,e) ->{
-			clearContainer(e);	
-		});
-		createStorageVariables();
-		addNewSoundButton(containerMap.get(0));
-		controller.clearSampleArray();
+		if (alertCheck(WARNING_MSG)) {
+			containerMap.forEach((i, e) -> {
+				clearContainer(e);
+			});
+			createStorageVariables();
+			addNewSoundButton(containerMap.get(0));
+			controller.clearSampleArray();
+		}
 	}
+
+	/**
+	 * Creates an alert to confirm if the user wants to complete certain action <br>
+	 * 
+	 * @param msg - warning message to be displayed.
+	 * @return returns the selected choice, either <b>true</b> or <b>false</b>
+	 */
+	public boolean alertCheck(String msg) {
+		Alert alert = new Alert(Alert.AlertType.NONE);
+		alert.setContentText(msg);
+
+		ButtonType type = new ButtonType(CONFIRM_BTN, ButtonData.OK_DONE);
+		ButtonType ntype = new ButtonType(CANCEL_BTN, ButtonData.CANCEL_CLOSE);
+
+		alert.getButtonTypes().add(type);
+		alert.getButtonTypes().add(ntype);
+
+		alert.setTitle(WARNING_TITLE);
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get().getButtonData() == ButtonData.OK_DONE) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 }

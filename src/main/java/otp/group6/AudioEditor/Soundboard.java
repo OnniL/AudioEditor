@@ -82,7 +82,10 @@ public class Soundboard {
 	private String sampleData = "";
 
 	private SoundboardPlayer player;
-
+	/**
+	 * an <b>ArrayList</b> that contains all Sample data <br>
+	 * @see {@link Sample}
+	 */
 	private ArrayList<Sample> sampleArray = new ArrayList<Sample>();
 
 	/**
@@ -276,24 +279,30 @@ public class Soundboard {
 	 * Checks if sampleArray is oversized and reduces it to 20 if needed
 	 * 
 	 * @author Kevin Akkoyun
+	 * @return Returns the size of {@link #sampleArray}
 	 */
-	public void readSampleData() {
+	public int readSampleData() {
 		try {
 			File targetFile = new File("sampledata.txt");
 			Scanner fileReader = new Scanner(targetFile);
 
 			while (fileReader.hasNextLine()) {
-				String temp = fileReader.nextLine();
-				String[] sampleParts = temp.split(";");
-				File tester = new File(sampleParts[1]);
-				if (tester.exists()) {
-					sampleArray.add(new Sample(sampleParts[0], sampleParts[1]));
+				try {
+					String temp = fileReader.nextLine();
+					String[] sampleParts = temp.split(";");
+					File tester = new File(sampleParts[1]);
+					if (tester.exists()) {
+						sampleArray.add(new Sample(sampleParts[0], sampleParts[1]));
+					}
+					validateSampleArray();
+				}catch(Exception e) {
+					e.printStackTrace();
 				}
-				validateSampleArray();
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return sampleArray.size();
 	}
 
 	/**
