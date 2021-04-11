@@ -1,9 +1,15 @@
 package otp.group6.AudioEditor;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
@@ -36,7 +42,7 @@ public class Soundboard {
 		 */
 		public Sample(String filepath) {
 			this.filepath = filepath;
-			this.name = "New Sound(" + sampleArray.size() + ")";
+			this.name = DEFAULT_NAME + "(" + sampleArray.size() + ")";
 		}
 
 		public Sample(String name, String filepath) {
@@ -78,6 +84,10 @@ public class Soundboard {
 			return file;
 		}
 	}
+	/**
+	 * Localization name variable
+	 */
+	private String DEFAULT_NAME;
 
 	private String sampleData = "";
 
@@ -116,6 +126,12 @@ public class Soundboard {
 
 	public Soundboard() {
 		player = new SoundboardPlayer();
+		try {
+			ResourceBundle bundle = ResourceBundle.getBundle("properties/Soundboard", new Locale("fi","FI"));
+			DEFAULT_NAME = bundle.getString("DEFAULT_NAME");
+		}catch(MissingResourceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

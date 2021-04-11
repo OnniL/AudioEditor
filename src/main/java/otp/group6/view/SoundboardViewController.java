@@ -6,10 +6,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineEvent.Type;
+import javax.sound.sampled.LineListener;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -92,13 +97,29 @@ public class SoundboardViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		getLocalization(new Locale("fi","FI"));
 		createStorageVariables();
 		getViewResources();
 		loadSavedSamples();
+		devTest();
 	}
 
 	// *********************UTILITY METHODS*******************************//
+	public void devTest() {
+		controller.setListener(new LineListener() {
 
+			@Override
+			public void update(LineEvent arg0) {
+				if(arg0.getType() == Type.STOP) {
+					switchIconVisibility(lastButton,true);
+				}else if(arg0.getType() == Type.START) {
+					switchIconVisibility(lastButton,false);
+				}
+				
+			}
+			
+		});
+	}
 	/**
 	 * Initializes storage variables that contain runtime view components
 	 */
@@ -113,10 +134,18 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Gets appropriate localization for button names. TODO
+	 * Gets app localization from .properties
 	 */
-	public void getLocalization() {
-
+	public void getLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/Soundboard",locale);
+		CSOUND_BTN = bundle.getString("CSOUND_BTN");
+		DELETE_BTN = bundle.getString("DELETE_BTN");	
+		RENAME_BTN = bundle.getString("RENAME_BTN");
+		CONFIRM_BTN = bundle.getString("CONFIRM_BTN");
+		CANCEL_BTN = bundle.getString("CANCEL_BTN");
+		WARNING_MSG = bundle.getString("WARNING_MSG");
+		WARNING_TITLE = bundle.getString("WARNING_TITLE");
+		CLEAR_BTN = bundle.getString("CLEAR_BTN");
 	}
 
 	/**
@@ -139,6 +168,7 @@ public class SoundboardViewController implements Initializable {
 		if (sampleAmount < 20) {
 			addNewSoundButton(containerMap.get(sampleAmount));
 		}
+		configureClearAllButton();
 	}
 
 	/**
@@ -234,22 +264,12 @@ public class SoundboardViewController implements Initializable {
 	 * @param index  - index of the sample
 	 */
 	private void configurePlayButton(Button button, int index) {
-		try {
-			Pane imgRoot = (Pane) button.getGraphic();
-			ImageView playImg = (ImageView) imgRoot.getChildren().get(0);
-			ImageView stopImg = (ImageView) imgRoot.getChildren().get(1);
 			button.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					playButton(index, button);
-					// playImg.setVisible(false);
-					// stopImg.setVisible(true);
-					// TODO järkevä vaihto - oma metodi?
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -608,7 +628,7 @@ public class SoundboardViewController implements Initializable {
 	 * @param msg - warning message to be displayed.
 	 * @return returns the selected choice, either <b>true</b> or <b>false</b>
 	 */
-	public boolean alertCheck(String msg) {
+	private boolean alertCheck(String msg) {
 		Alert alert = new Alert(Alert.AlertType.NONE);
 		alert.setContentText(msg);
 
@@ -627,5 +647,18 @@ public class SoundboardViewController implements Initializable {
 			return false;
 		}
 	}
-
+	/**
+	 * Method that switches the visibility of button icons
+	 * if <b>true</b> is given, sets the visibility of "play" icon to true and "stop" to false<br>
+	 * if <b>false</b> is given, the operation is reverse
+	 * @param button - Soundboard <b>play</b> - button
+	 * @param bool - Wether or not to display the play icon
+	 */
+	private void switchIconVisibility(Button button, boolean bool) {
+		Pane imgRoot = (Pane) button.getGraphic();
+		ImageView playImg = (ImageView) imgRoot.getChildren().get(0);
+		ImageView stopImg = (ImageView) imgRoot.getChildren().get(1);
+		playImg.setVisible(bool);
+		stopImg.setVisible(!bool);
+	}
 }

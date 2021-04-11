@@ -2,6 +2,8 @@ package otp.group6.controller;
 
 import java.io.File;
 
+import javax.sound.sampled.LineListener;
+
 import otp.group6.AudioEditor.Soundboard;
 import otp.group6.AudioEditor.Soundboard.Sample;
 
@@ -152,5 +154,8 @@ public class SoundboardController {
 	 */
 	public int initializeSoundboard() {
 		return soundboard.readSampleData();
+	}
+	public void setListener(LineListener listener) {
+		soundboard.setListener(listener);
 	}
 }
