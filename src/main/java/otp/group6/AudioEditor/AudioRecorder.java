@@ -233,7 +233,7 @@ public class AudioRecorder extends Thread {
 	 * @param path
 	 */
 	public void saveAudioFile(String path) {
-		File source = new File("src/audio/default.wav");
+		File source = new File("src/audio/recorder_default.wav");
 		File dest = new File(path);
 
 		try (InputStream fis = new FileInputStream(source); OutputStream fos = new FileOutputStream(dest)) {
@@ -283,6 +283,14 @@ public class AudioRecorder extends Thread {
 	 */
 	public void setAudioFileDuration (float audioFileDuration) {
 		this.audioFileDuration = audioFileDuration;
+	}
+	
+	/**
+	 * Method to get audio file's duration
+	 * @return audioFileDuration
+	 */
+	public float getAudioFileDuration() {
+		return audioFileDuration;
 	}
 	
 	/**
