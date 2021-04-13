@@ -44,7 +44,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import otp.group6.AudioEditor.AudioFileHandler;
+import otp.group6.audioeditor.AudioFileHandler;
 import otp.group6.controller.Controller;
 
 /**

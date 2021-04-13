@@ -40,9 +40,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import otp.group6.AudioEditor.AudioFileHandler;
-import otp.group6.AudioEditor.Soundboard;
-import otp.group6.AudioEditor.Soundboard.Sample;
+import otp.group6.audioeditor.AudioFileHandler;
+import otp.group6.audioeditor.Soundboard;
+import otp.group6.audioeditor.Soundboard.Sample;
 import otp.group6.controller.SoundboardController;
 import otp.group6.controller.SoundboardController.INPUT_TYPE;
 
@@ -385,7 +385,7 @@ public class SoundboardViewController implements Initializable {
 	 * Adds a new Soundboard button loaded from an FXML template to given container.
 	 * <br>
 	 * Clears all children from given container By default sets create buttons index
-	 * in {@link #buttonMap} to its length.
+	 * in {@link #buttonList} to its length.
 	 * 
 	 * @param container   - parent element for the button
 	 * @param sampleIndex - index of the sample related to the button

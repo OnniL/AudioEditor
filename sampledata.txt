@@ -1,0 +1,10 @@
+Uusi Ääni(0);src/audio/jumalauta.wav
+Uusi Ääni(1);src/audio/jumalauta.wav
+Uusi Ääni(2);src/audio/jumalauta.wav
+Uusi Ääni(3);src/audio/jumalauta.wav
+Uusi Ääni(4);src/audio/jumalauta.wav
+Uusi Ääni(5);src/audio/jumalauta.wav
+Uusi Ääni(6);src/audio/jumalauta.wav
+Uusi Ääni(7);src/audio/jumalauta.wav
+Uusi Ääni(8);src/audio/jumalauta.wav
+Uusi Ääni(9);src/audio/jumalauta.wav

@@ -5,11 +5,11 @@ import java.sql.SQLException;
 
 import javax.sound.sampled.LineListener;
 
-import otp.group6.AudioEditor.AudioCloudDAO;
-import otp.group6.AudioEditor.AudioCloudDAO.MixerSetting;
-import otp.group6.AudioEditor.AudioManipulator;
-import otp.group6.AudioEditor.AudioRecorder;
-import otp.group6.AudioEditor.Soundboard;
+import otp.group6.audioeditor.AudioCloudDAO;
+import otp.group6.audioeditor.AudioManipulator;
+import otp.group6.audioeditor.AudioRecorder;
+import otp.group6.audioeditor.Soundboard;
+import otp.group6.audioeditor.AudioCloudDAO.MixerSetting;
 import otp.group6.view.MainController;
 
 /**

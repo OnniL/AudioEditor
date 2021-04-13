@@ -33,7 +33,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import otp.group6.AudioEditor.AudioCloudDAO.MixerSetting;
+import otp.group6.audioeditor.AudioCloudDAO.MixerSetting;
 import otp.group6.controller.Controller;
 
 /**

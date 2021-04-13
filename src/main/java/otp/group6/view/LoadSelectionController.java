@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import otp.group6.AudioEditor.AudioFileHandler;
+import otp.group6.audioeditor.AudioFileHandler;
 import otp.group6.controller.Controller;
 
 /**
