@@ -4,6 +4,7 @@ import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -100,33 +101,39 @@ public class SaveMixerSettingsController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Properties määrittää näille arvon, kun se on oleamssa
-		sMSPitchLabel.setText("Korkeus");
-		sMSEchoLLabel.setText("Kaiun pituus");
-		sMSEchoDLabel.setText("Kaiun hajonta?");
-		sMSGainLabel.setText("Äänenvoimakkuus");
-		sMSFlangerLabel.setText("Flangerin pituus");
-		sMSWetnessLabel.setText("Märkyys?");
-		sMSLFOLabel.setText("LFO taajuus");
-		sMSLowLabel.setText("Alipäästö");
-		sMSMixCreatorLabel.setText("Mixin tekijä");
-		sMSMixNameLabel.setText("Mixin nimi*");
-		sMSMixNTextField.setPromptText("Vaadittu");
-		sMSRequiredLable.setText("* Merkityt ovat pakollisia");
-		sMSDescLabel.setText("Kuvaus");
-		sMSSaveButton.setText("Tallenna asetukset");
-		sMSCancelButton.setText("Peruuta");
-		sMSmixNameField.setText("Ole ystävällinen ja anna asetukselle nimi");
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		sMSPitchLabel.setText(bundle.getString("sMSPitchLabel"));
+		sMSEchoLLabel.setText(bundle.getString("sMSEchoLLabel"));
+		sMSEchoDLabel.setText(bundle.getString("sMSEchoDLabel"));
+		sMSGainLabel.setText(bundle.getString("sMSGainLabel"));
+		sMSFlangerLabel.setText(bundle.getString("sMSFlangerLabel"));
+		sMSWetnessLabel.setText(bundle.getString("sMSWetnessLabel"));
+		sMSLFOLabel.setText(bundle.getString("sMSLFOLabel"));
+		sMSLowLabel.setText(bundle.getString("sMSLowLabel"));
+		sMSMixCreatorLabel.setText(bundle.getString("sMSMixCreatorLabel"));
+		sMSMixNameLabel.setText(bundle.getString("sMSMixNameLabel"));
+		sMSMixNTextField.setPromptText(bundle.getString("sMSMixNTextField"));
+		sMSRequiredLable.setText(bundle.getString("sMSRequiredLable"));
+		sMSDescLabel.setText(bundle.getString("sMSDescLabel"));
+		sMSSaveButton.setText(bundle.getString("sMSSaveButton"));
+		sMSCancelButton.setText(bundle.getString("sMSCancelButton"));
+		sMSmixNameField.setText(bundle.getString("sMSmixNameField"));
 		sMSMixNameLabel.requestFocus();
-		sMSsaveAlert1Title="Onnistui!";
-		sMSsaveAlert1Header="Mixer-asetukset tallennettu!";
-		sMSsaveAlert1Content="Asetukset tallennettu tietokantaan onnistuneesti";
-		sMSsaveAlert2Title="Virhe!";
-		sMSsaveAlert2Header="Jotain meni vikaan asetuksia tallentaessa, koita uudelleen";
-		sMSsaveAlert2Content="Jos virhe toistuu ota yhteyttä ylläpitoon";
-		sMSsaveAlert3Title="Virhe!";
-		sMSsaveAlert3Header="Asetukselle on annettava jokin nimi!";
-		sMSsaveAlert3Content="Ole hyvä ja anna nimi :)";
+		sMSsaveAlert1Title=bundle.getString("sMSsaveAlert1Title");
+		sMSsaveAlert1Header=bundle.getString("sMSsaveAlert1Header");
+		sMSsaveAlert1Content=bundle.getString("sMSsaveAlert1Content");
+		sMSsaveAlert2Title=bundle.getString("sMSsaveAlert2Title");
+		sMSsaveAlert2Header=bundle.getString("sMSsaveAlert2Header");
+		sMSsaveAlert2Content=bundle.getString("sMSsaveAlert2Content");
+		sMSsaveAlert3Title=bundle.getString("sMSsaveAlert3Title");
+		sMSsaveAlert3Header=bundle.getString("sMSsaveAlert3Header");
+		sMSsaveAlert3Content=bundle.getString("sMSsaveAlert3Content");
 	}
 
 	/**

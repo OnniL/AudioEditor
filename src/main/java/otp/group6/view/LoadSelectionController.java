@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
@@ -48,13 +49,18 @@ public class LoadSelectionController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//TODO nämä properties tiedostosta haettavaksi
-		lSBcancel.setText("Peruuta");
-		lSBX.setText("X");
-		lSTitle.setText("Lataa asetukset");
-		lSmaintext.setText("Mistä haluaisit ladata asetukset?");
-		lSBlocal.setText("Tiedostot");
-		lSBcloud.setText("Pilvipalvelu");
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		lSBcancel.setText(bundle.getString("lSBcancel"));
+		lSBX.setText(bundle.getString("lSBX"));
+		lSTitle.setText(bundle.getString("lSTitle"));
+		lSmaintext.setText(bundle.getString("lSmaintext"));
+		lSBlocal.setText(bundle.getString("lSBlocal"));
+		lSBcloud.setText(bundle.getString("lSBcloud"));
 	}
 
 	/**

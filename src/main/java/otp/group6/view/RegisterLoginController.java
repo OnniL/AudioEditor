@@ -2,6 +2,7 @@ package otp.group6.view;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,22 +70,29 @@ public class RegisterLoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//TODO nämä sitten properties mukaan haettaviksi.
-		rLWelcomeLabel.setText("Tervetuloa!");
-		rLPleaseLabel.setText("Kirjaudu tai rekisteröidy");
-		rLUsernameLabel.setText("Käyttäjätunnus");
-		rLUserTextField.setPromptText("Syötä tunnus");
-		rLPasswdLabel.setText("Salasana");
-		rLShowPwToggle.setText("SILMÄ");
-		rLRegisterButton.setText("Rekisteröidy");
-		rLLorLabel.setText("TAI");
-		rLLoginButton.setText("Kirjaudu");
-		rLForgotLabel.setText("Unohditko salasanasi? Ota yhteyttä:");
-		rLCloseButton.setText("X");
-		rLpwtooltip.setText("Salasanan pitää sisältää 8-20 merkkiä,\nvähintään yksi iso kirjain ja vähintään yksi numero");
-		rLwuntooltip.setText("Käyttäjänimeä ei voi asettaa.\nVarmista ettei nimessä ole yhtään tyhjää merkkiä tai valitse kokonaan toinen nimi");
-		rLlogintip.setText("Käyttäjätunnus tai salasana virheellinen!\nOle ystävällinen ja koita uudelleen :)");
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+
 	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		rLWelcomeLabel.setText(bundle.getString("rLWelcomeLabel"));
+		rLPleaseLabel.setText(bundle.getString("rLPleaseLabel"));
+		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));
+		rLUserTextField.setPromptText(bundle.getString("rLUserTextField"));
+		rLPasswdLabel.setText(bundle.getString("rLPasswdLabel"));
+		rLShowPwToggle.setText(bundle.getString("rLShowPwToggle"));
+		rLRegisterButton.setText(bundle.getString("rLRegisterButton"));
+		rLLorLabel.setText(bundle.getString("rLLorLabel"));
+		rLLoginButton.setText(bundle.getString("rLLoginButton"));
+		rLForgotLabel.setText(bundle.getString("rLForgotLabel"));
+		rLCloseButton.setText(bundle.getString("rLCloseButton"));
+		rLpwtooltip.setText(bundle.getString("rLpwtooltip"));
+		rLwuntooltip.setText(bundle.getString("rLwuntooltip"));
+		rLlogintip.setText(bundle.getString("rLlogintip"));
+	}
+	
 	
 	/**
 	 * Method for user to see their password on toggleButton click

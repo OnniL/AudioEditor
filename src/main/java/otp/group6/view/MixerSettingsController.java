@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -159,30 +160,35 @@ public class MixerSettingsController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		//TODO haetaan properties tiedostosta, kun se on olemassa
-		mSTabCloud.setText("Pilvi");
-		mSTabFavorites.setText("Suosikit");
-		mSSearchField.setPromptText("Hae asetuksia...");
-		mSRadioCreator.setText("Tekijän mukaan");
-		mSRadioName.setText("Nimen mukaan");
-		mSRadioDescription.setText("Kuvauksen mukaan");
-		mSSearchButton.setText("Hae");
-		mSUseSettingCloud.setText("Käytä asetusta");
-		mSCancelButtonCloud.setText("Peruuta");
-		mSUseSettingFav.setText("Käytä asetusta");
-		mSCancelButtonFav.setText("Peruuta");
-		mSRemoveFav.setText("Poista suosikeista");
-		mSDeleteMix.setText("Poista asetus pilvipalvelusta");
-		mSGeneralOKBT="Kyllä";
-		mSGeneralCancelBT="Peruuta";
-		mSSaveAlertTitle="Virhe!";
-		mSSaveAlertHeader="Jotain meni vikaan!";
-		mSSaveAlertContent="Jos tämä toistuu, ota yhteyttä ylläpitoon :)";
-		mSDeleteAlert1Title="Poistetaan mixer-asetus?";
-		mSDeleteAlert1Header="Olet poistamassa mixer-asetusta.\nPoistaminen on pysyvä ja tiedostoa ei voida palauttaa";
-		mSDeleteAlert1Content="Oletko varma, että haluat poistaa tämän mikser-asetuksen?";
-		mSDelteAlert2Title="Onnistui!";
-		mSDeleteAlert2Header="Mixer-asetus poistettu.";
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		mSTabCloud.setText(bundle.getString("mSTabCloud"));
+		mSTabFavorites.setText(bundle.getString("mSTabFavorites"));
+		mSSearchField.setPromptText(bundle.getString("mSSearchField"));
+		mSRadioCreator.setText(bundle.getString("mSRadioCreator"));
+		mSRadioName.setText(bundle.getString("mSRadioName"));
+		mSRadioDescription.setText(bundle.getString("mSRadioDescription"));
+		mSSearchButton.setText(bundle.getString("mSSearchButton"));
+		mSUseSettingCloud.setText(bundle.getString("mSUseSettingCloud"));
+		mSCancelButtonCloud.setText(bundle.getString("mSCancelButtonCloud"));
+		mSUseSettingFav.setText(bundle.getString("mSUseSettingFav"));
+		mSCancelButtonFav.setText(bundle.getString("mSCancelButtonFav"));
+		mSRemoveFav.setText(bundle.getString("mSRemoveFav"));
+		mSDeleteMix.setText(bundle.getString("mSDeleteMix"));
+		mSGeneralOKBT=bundle.getString("mSGeneralOKBT");
+		mSGeneralCancelBT=bundle.getString("mSGeneralCancelBT");
+		mSSaveAlertTitle=bundle.getString("mSSaveAlertTitle");
+		mSSaveAlertHeader=bundle.getString("mSSaveAlertHeader");
+		mSSaveAlertContent=bundle.getString("mSSaveAlertContent");
+		mSDeleteAlert1Title=bundle.getString("mSDeleteAlert1Title");
+		mSDeleteAlert1Header=bundle.getString("mSDeleteAlert1Header");
+		mSDeleteAlert1Content=bundle.getString("mSDeleteAlert1Content");
+		mSDelteAlert2Title=bundle.getString("mSDelteAlert2Title");
+		mSDeleteAlert2Header=bundle.getString("mSDeleteAlert2Header");
 	}
 
 	/**

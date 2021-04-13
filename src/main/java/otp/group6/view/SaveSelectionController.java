@@ -1,6 +1,7 @@
 package otp.group6.view;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -40,13 +41,18 @@ public class SaveSelectionController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		sSHeaderLabel.setText("Tallenna asetukset");
-		sSTextLable.setText("Minne haluat tallentaa asetukset");
-		sSLocalButton.setText("Tiedostot");
-		sSCloudButton.setText("Pilvipalvelu");
-		sSCancelButton.setText("Peruuta");
-		sSXButton.setText("X");
-		
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		sSHeaderLabel.setText(bundle.getString("sSHeaderLabel"));
+		sSTextLable.setText(bundle.getString("sSTextLable"));
+		sSLocalButton.setText(bundle.getString("sSLocalButton"));
+		sSCloudButton.setText(bundle.getString("sSCloudButton"));
+		sSCancelButton.setText(bundle.getString("sSCancelButton"));
+		sSXButton.setText(bundle.getString("sSXButton"));
 	}
 	
 	/**

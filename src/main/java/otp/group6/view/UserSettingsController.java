@@ -1,6 +1,7 @@
 package otp.group6.view;
 
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -87,32 +88,37 @@ public class UserSettingsController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pwReminder();
-		//TODO Nämä properties tiedostosta haettavaksi
-		uSHeaderLabel.setText("Käyttäjäasetukset");
-		uSXButton.setText("X");
-		uSChangePWLabel.setText("Vaihda salasana");
-		uSOldPWLabel.setText("Vanha salasana");
-		uSShowPW1Toggle.setText("SILMÄ");
-		uSNewPWLabel.setText("Uusi salasana");
-		uSShowPW2Toggle.setText("SILMÄ");
-		uSChangeButton.setText("Vaihda");
-		uSUserDeleLabel.setText("Poista käyttäjätunnus");
-		uSDeleteUserButton.setText("Poista");
-		uSCancelButton.setText("Peruuta");
-		uSpwtooltip.setText("Salasanan pitää sisältää 8-20 merkkiä,\nvähintään yksi iso kirjain ja vähintään yksi numero");
-		uSGeneralOKBT="Kyllä";
-		uSGeneralCancelBT="Ei";
-		uSDeleteAlert1Title="Poistatko tunnuksen?";
-		uSDeleteAlert1Header="Olet poistamassa käyttäjätunnusta pysyvästi.\nTunnuksen poiston jälkeen mitään tietoja ei pystytä palauttamaan.";
-		uSDeleteAlert1Content="Oletko varma, että haluat poistaa käyttäjätunnuksen?";
-		uSDeleteAlert2Title="Onnistui!";
-		uSDeleteAlert2Header="Käyttäjätunnus poistettu";
-		uSDeleteAlert2Content="Kiitos, kun käytit ohjelmaamme!";
-		uSChangePWAlert1Header="Salasanan vaihto onnistui!";
-		uSChangePWAlert2Title="Virhe!";
-		uSChangePWAlert2Header="Jotain meni vikaan, ole hyvä ja koita uudelleen";
-		uSChangePWAlert2Content="Jos virhe toistuu ota yhteyttä ylläpitoon";
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
 
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
+		uSXButton.setText(bundle.getString("uSXButton"));
+		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
+		uSOldPWLabel.setText(bundle.getString("uSOldPWLabel"));
+		uSShowPW1Toggle.setText(bundle.getString("uSShowPW1Toggle"));
+		uSNewPWLabel.setText(bundle.getString("uSNewPWLabel"));
+		uSShowPW2Toggle.setText(bundle.getString("uSShowPW2Toggle"));
+		uSChangeButton.setText(bundle.getString("uSChangeButton"));
+		uSUserDeleLabel.setText(bundle.getString("uSUserDeleLabel"));
+		uSDeleteUserButton.setText(bundle.getString("uSDeleteUserButton"));
+		uSCancelButton.setText(bundle.getString("uSCancelButton"));
+		uSpwtooltip.setText(bundle.getString("uSpwtooltip"));
+		uSGeneralOKBT=bundle.getString("uSGeneralOKBT");
+		uSGeneralCancelBT=bundle.getString("uSGeneralCancelBT");
+		uSDeleteAlert1Title=bundle.getString("uSDeleteAlert2Title");
+		uSDeleteAlert1Header=bundle.getString("uSDeleteAlert1Header");
+		uSDeleteAlert1Content=bundle.getString("uSDeleteAlert1Content");
+		uSDeleteAlert2Title=bundle.getString("uSDeleteAlert2Title");
+		uSDeleteAlert2Header=bundle.getString("uSDeleteAlert2Header");
+		uSDeleteAlert2Content=bundle.getString("uSDeleteAlert2Content");
+		uSChangePWAlert1Header=bundle.getString("uSChangePWAlert1Header");
+		uSChangePWAlert2Title=bundle.getString("uSChangePWAlert2Title");
+		uSChangePWAlert2Header=bundle.getString("uSChangePWAlert2Header");
+		uSChangePWAlert2Content=bundle.getString("uSChangePWAlert2Content");
 	}
 	
 	@FXML
