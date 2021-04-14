@@ -100,7 +100,7 @@ public class SoundboardViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		getLocalization(new Locale("fi", "FI"));
+		setLocalization(resources);
 		createStorageVariables();
 		getViewResources();
 		loadSavedSamples();
@@ -118,9 +118,7 @@ public class SoundboardViewController implements Initializable {
 				} else if (arg0.getType() == Type.START) {
 					switchIconVisibility(lastButton, false);
 				}
-
 			}
-
 		});
 	}
 
@@ -138,10 +136,9 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Gets app localization from .properties
+	 * TODO javadoc
 	 */
-	public void getLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	public void setLocalization(ResourceBundle bundle) {
 		CSOUND_BTN = bundle.getString("CSOUND_BTN");
 		DELETE_BTN = bundle.getString("DELETE_BTN");
 		RENAME_BTN = bundle.getString("RENAME_BTN");
@@ -150,6 +147,7 @@ public class SoundboardViewController implements Initializable {
 		WARNING_MSG = bundle.getString("WARNING_MSG");
 		WARNING_TITLE = bundle.getString("WARNING_TITLE");
 		CLEAR_BTN = bundle.getString("CLEAR_BTN");
+		controller.setSampleDefaultName(bundle.getString("DEFAULT_NAME"));
 	}
 
 	/**

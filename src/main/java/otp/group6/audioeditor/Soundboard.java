@@ -120,7 +120,7 @@ public class Soundboard {
 	/**
 	 * Localization name variable
 	 */
-	private String DEFAULT_NAME;
+	private String DEFAULT_NAME = "New Sample";
 	/**
 	 * Sample data string for saving
 	 */
@@ -169,16 +169,18 @@ public class Soundboard {
 	}
 
 	/**
-	 * Initializes {@link Soundboard} and defines localization
+	 * Initializes {@link Soundboard}
 	 */
 	public Soundboard() {
 		player = new SoundboardPlayer();
-		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", new Locale("fi", "FI"));
-			DEFAULT_NAME = bundle.getString("DEFAULT_NAME");
-		} catch (MissingResourceException e) {
-			e.printStackTrace();
-		}
+	}
+	
+	/**
+	 * Sets the <b>default</b> Sample name
+	 * @param dName - name in <b>String</b> format
+	 */
+	public void setDefaultSampleName(String dName) {
+		DEFAULT_NAME = dName;
 	}
 
 	/**

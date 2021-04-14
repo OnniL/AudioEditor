@@ -78,6 +78,8 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		bundle = resources;
+		System.out.println(bundle.toString());
 		loadSoundboard();
 		sharedMain = mainContainer;
 	}
@@ -927,24 +929,7 @@ public class MainController implements Initializable {
 
 	private void initializeMixerLocalization() {
 
-		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
-		Properties properties = new Properties();
-
 		try {
-			properties.load(new FileInputStream(appConfigPath));
-			String language = properties.getProperty("language");
-			String country = properties.getProperty("country");
-			curLocale = new Locale(language, country);
-			Locale.setDefault(curLocale);
-		} catch (Exception e) {
-			// TODO: KIELIASETUKSIA EI LÖYTYNYT käytä oletusta
-			e.printStackTrace();
-		}
-
-		// TÄSSÄ TEHÄÄN OLETUSKIELIJUTUT
-
-		try {
-			bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
 
 			mixerTab.setText(bundle.getString("mixerTab"));
 
@@ -1440,10 +1425,12 @@ public class MainController implements Initializable {
 	 * Loads soundboard from fxml and sets boardController as soundboards controller
 	 * @author Kevin Akkoyun
 	 */
+	@SuppressWarnings("static-access")
 	public void loadSoundboard() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApplication.class.getResource("/SoundboardView.fxml"));
+			loader.setResources(bundle);
 			AnchorPane temp = (AnchorPane) loader.load();
 			boardController = loader.getController();
 			soundboardRoot.getChildren().add(temp);
