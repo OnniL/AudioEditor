@@ -1,12 +1,15 @@
 package otp.group6.view;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +39,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
@@ -43,6 +47,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
@@ -67,7 +72,14 @@ import otp.group6.controller.Controller;
  * @version 0.1
  */
 public class MainController implements Initializable {
+
 	Controller controller;
+	@FXML
+	private Tab soundboardTab;
+	@FXML
+	private Tab mixerTab;
+	@FXML
+	private Tab recorderTab;
 
 	public MainController() {
 		controller = new Controller(this);
@@ -79,9 +91,43 @@ public class MainController implements Initializable {
 		checkSavedSamples();
 		soundboardInit();
 		applyBackgroundColor();
+		//initializeMixer();
 	}
-
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Text/label elements
+	@FXML
+	private Label labelSelectFile;
+	@FXML
+	private Label labelOr;
+	@FXML
+	private Label labelRecordFile;
+	@FXML
+	private Label labelSelectedFile;
+	@FXML
+	private Label labelTryMixer;
+	@FXML
+	private Label labelPitch;
+	@FXML
+	private Label labelEcho;
+	@FXML
+	private Label labelDecay;
+	@FXML
+	private Label labelEchoLength;
+	@FXML
+	private Label labelLowPass;
+	@FXML
+	private Label labelFlanger;
+	@FXML
+	private Label labelWetness;
+	@FXML
+	private Label labelFlangerLength;
+	@FXML
+	private Label labelLfo;
+	@FXML
+	private Label labelGain;
+	@FXML
+	private Text textAudioFileDuration;
+
 	// Sliders
 	@FXML
 	private Slider sliderPitch;
@@ -120,12 +166,6 @@ public class MainController implements Initializable {
 	@FXML
 	private TextField textFieldLowPass;
 
-	// Text/label elements
-	@FXML
-	private Label textSelectedFile;
-	@FXML
-	private Text textAudioFileDuration;
-
 	// Buttons
 	@FXML
 	private Button buttonPlay;
@@ -151,6 +191,8 @@ public class MainController implements Initializable {
 	private Button buttonMixerFileOpener;
 	@FXML
 	private Button buttonMixerResetSliders;
+	@FXML
+	private Button buttonSaveMixedFile;
 
 	// Toggle buttons
 	@FXML
@@ -167,10 +209,13 @@ public class MainController implements Initializable {
 	private ToggleButton toggleButtonFlanger;
 	@FXML
 	private ToggleButton toggleButtonLowPass;
+	
+	@FXML
+	private ButtonBar buttonBarResetSaveLoad;
 
 	// Panes
 	@FXML
-	private GridPane paneMixerSliders;
+	private AnchorPane paneMixerSliders;
 	@FXML
 	private AnchorPane paneMixerAudioPlayer;
 	@FXML
@@ -178,17 +223,20 @@ public class MainController implements Initializable {
 	@FXML
 	private AnchorPane panePitch;
 	@FXML
-	private AnchorPane paneDecay;
-	@FXML
-	private AnchorPane paneEchoLength;
-	@FXML
-	private AnchorPane paneWetness;
-	@FXML
-	private AnchorPane paneFlangerLength;
-	@FXML
-	private AnchorPane paneLfo;
+	private AnchorPane paneEcho;
 	@FXML
 	private AnchorPane paneLowPass;
+	@FXML
+	private AnchorPane paneFlanger;
+	@FXML
+	private AnchorPane paneGain;
+
+	// Tooltips for info icons
+	private Tooltip tooltipPitch;
+	private Tooltip tooltipGain;
+	private Tooltip tooltipEcho;
+	private Tooltip tooltipFlanger;
+	private Tooltip tooltipLowPass;
 
 	// Muuttujat tiedoston kokonaiskestolle ja toistetulle ajalle
 	private String audioFileDurationString = "0:00";
@@ -202,8 +250,9 @@ public class MainController implements Initializable {
 	 */
 	public void initializeMixer() {
 		initializeSlidersAndTextFields();
-		setTooltips();
+		initializeTooltips();
 		initializeRecorderListener();
+		initializeMixerLocalization();
 	}
 
 	// Methods for buttons
@@ -327,7 +376,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			textSelectedFile.setText("Selected file:\n" + file.getName());
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") +" "+ file.getName());
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -335,22 +384,26 @@ public class MainController implements Initializable {
 		} catch (Exception e) {
 		}
 	}
-	
+
 	@FXML
 	public void handleMixerRecordButton() {
 		if (toggleButtonMixerStartRecording.isSelected() == true) {
 			controller.audioManipulatorStartRecord();
 			paneMixerAudioPlayer.setDisable(true);
 			paneMixerSliders.setDisable(true);
-			toggleButtonMixerStartRecording.setText("Stop recording");
+			buttonMixerFileOpener.setDisable(true);
+			toggleButtonTestFilter.setDisable(true);
+			toggleButtonMixerStartRecording.setText(bundle.getString("mixerStopRecordButton"));
 		} else {
 			controller.audioManipulatorStopRecord();
 			paneMixerAudioPlayer.setDisable(false);
 			paneMixerSliders.setDisable(false);
-			toggleButtonMixerStartRecording.setText("Start recording");
+			buttonMixerFileOpener.setDisable(false);
+			toggleButtonTestFilter.setDisable(false);
+			toggleButtonMixerStartRecording.setText(bundle.getString("mixerStartRecordButton"));
 		}
 	}
-	
+
 	public void audioManipulatorOpenRecordedFile() {
 		try {
 			File file = new File("src/audio/mixer_default.wav").getAbsoluteFile();
@@ -369,7 +422,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			textSelectedFile.setText("Selected file:\nYour recording");
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") +" "+ file.getName());
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -377,91 +430,84 @@ public class MainController implements Initializable {
 		} catch (Exception e) {
 		}
 	}
-	
-	
+
 	// Methods for toggle buttons
 
-		public void handleToggleButtonPitch() {
-			if (toggleButtonPitch.isSelected()) {
-				controller.audioManipulatorUsePitchProcessor(true);
-				sliderPitch.setDisable(false);
-				textFieldPitch.setDisable(false);
-			} else if (!toggleButtonPitch.isSelected()) {
-				controller.audioManipulatorUsePitchProcessor(false);
-				sliderPitch.setDisable(true);
-				textFieldPitch.setDisable(true);
-			}
+	public void handleToggleButtonPitch() {
+		if (toggleButtonPitch.isSelected()) {
+			controller.audioManipulatorUsePitchProcessor(true);
+			sliderPitch.setDisable(false);
+			textFieldPitch.setDisable(false);
+		} else if (!toggleButtonPitch.isSelected()) {
+			controller.audioManipulatorUsePitchProcessor(false);
+			sliderPitch.setDisable(true);
+			textFieldPitch.setDisable(true);
+		}
+	}
+
+	public void handleToggleButtonEcho() {
+		if (toggleButtonEcho.isSelected() == true) {
+			controller.audioManipulatorUseDelayProcessor(true);
+			sliderEchoLength.setDisable(false);
+			sliderDecay.setDisable(false);
+			textFieldEchoLength.setDisable(false);
+			textFieldDecay.setDisable(false);
+		} else {
+			controller.audioManipulatorUseDelayProcessor(false);
+			sliderEchoLength.setDisable(true);
+			sliderDecay.setDisable(true);
+			textFieldEchoLength.setDisable(true);
+			textFieldDecay.setDisable(true);
 		}
 
-		public void handleToggleButtonEcho() {
-			if (toggleButtonEcho.isSelected() == true) {
-				controller.audioManipulatorUseDelayProcessor(true);
-				sliderEchoLength.setDisable(false);
-				sliderDecay.setDisable(false);
-				textFieldEchoLength.setDisable(false);
-				textFieldDecay.setDisable(false);
-			} else {
-				controller.audioManipulatorUseDelayProcessor(false);
-				sliderEchoLength.setDisable(true);
-				sliderDecay.setDisable(true);
-				textFieldEchoLength.setDisable(true);
-				textFieldDecay.setDisable(true);
-			}
-			
+	}
 
+	public void handleToggleButtonGain() {
+		if (toggleButtonGain.isSelected() == true) {
+			controller.audioManipulatorUseGainProcessor(true);
+			sliderGain.setDisable(false);
+			textFieldGain.setDisable(false);
+		} else {
+			controller.audioManipulatorUseGainProcessor(false);
+			sliderGain.setDisable(true);
+			textFieldGain.setDisable(true);
 		}
 
-		public void handleToggleButtonGain() {
-			if (toggleButtonGain.isSelected() == true) {
-				controller.audioManipulatorUseGainProcessor(true);
-				sliderGain.setDisable(false);
-				textFieldGain.setDisable(false);
-			} else {
-				controller.audioManipulatorUseGainProcessor(false);
-				sliderGain.setDisable(true);
-				textFieldGain.setDisable(true);
-			}
-			
+	}
 
+	public void handleToggleButtonFlanger() {
+		if (toggleButtonFlanger.isSelected() == true) {
+			controller.audioManipulatorUseFlangerProcessor(true);
+			sliderWetness.setDisable(false);
+			sliderFlangerLength.setDisable(false);
+			sliderLfoFrequency.setDisable(false);
+			textFieldWetness.setDisable(false);
+			textFieldFlangerLength.setDisable(false);
+			textFieldLfo.setDisable(false);
+		} else {
+			controller.audioManipulatorUseFlangerProcessor(false);
+			sliderWetness.setDisable(true);
+			sliderFlangerLength.setDisable(true);
+			sliderLfoFrequency.setDisable(true);
+			textFieldWetness.setDisable(true);
+			textFieldFlangerLength.setDisable(true);
+			textFieldLfo.setDisable(true);
 		}
 
-		public void handleToggleButtonFlanger() {
-			if (toggleButtonFlanger.isSelected() == true) {
-				controller.audioManipulatorUseFlangerProcessor(true);
-				sliderWetness.setDisable(false);
-				sliderFlangerLength.setDisable(false);
-				sliderLfoFrequency.setDisable(false);
-				textFieldWetness.setDisable(false);
-				textFieldFlangerLength.setDisable(false);
-				textFieldLfo.setDisable(false);
-			} else {
-				controller.audioManipulatorUseFlangerProcessor(false);
-				sliderWetness.setDisable(true);
-				sliderFlangerLength.setDisable(true);
-				sliderLfoFrequency.setDisable(true);
-				textFieldWetness.setDisable(true);
-				textFieldFlangerLength.setDisable(true);
-				textFieldLfo.setDisable(true);
-			}
-			
+	}
 
+	public void handleToggleButtonLowPass() {
+		if (toggleButtonLowPass.isSelected() == true) {
+			controller.audioManipulatorUseLowPassProcessor(true);
+			sliderLowPass.setDisable(false);
+			textFieldLowPass.setDisable(false);
+		} else {
+			controller.audioManipulatorUseLowPassProcessor(false);
+			sliderLowPass.setDisable(true);
+			textFieldLowPass.setDisable(true);
 		}
 
-		public void handleToggleButtonLowPass() {
-			if (toggleButtonLowPass.isSelected() == true) {
-				controller.audioManipulatorUseLowPassProcessor(true);
-				sliderLowPass.setDisable(false);
-				textFieldLowPass.setDisable(false);
-			} else {
-				controller.audioManipulatorUseLowPassProcessor(false);
-				sliderLowPass.setDisable(true);
-				textFieldLowPass.setDisable(true);
-			}
-			
-		}
-	
-
-
+	}
 
 	// Methods for getting TextField input values
 
@@ -621,7 +667,7 @@ public class MainController implements Initializable {
 		paneMixerMainControls.setDisable(false);
 		paneLowPass.setDisable(false);
 	}
-	
+
 	@FXML
 	public void handleAudioFileDurationSliderClick() {
 		controller.timerCancel();
@@ -633,8 +679,6 @@ public class MainController implements Initializable {
 		audioFileProcessedTimeString = secondsToMinutesAndSeconds(sliderAudioFileDuration.getValue());
 		textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 	}
-
-	
 
 	@FXML
 	public void audioManipulatorResetAllSliders() {
@@ -693,6 +737,7 @@ public class MainController implements Initializable {
 	public void enableMixerSlidersAndAudioPlayer() {
 		paneMixerAudioPlayer.setDisable(false);
 		paneMixerSliders.setDisable(false);
+		buttonBarResetSaveLoad.setDisable(false);
 	}
 
 	public void setDisableMixerSliders(boolean trueOrFalse) {
@@ -856,25 +901,84 @@ public class MainController implements Initializable {
 	 * 
 	 * Sets a tooltip to every info button
 	 */
-	private void setTooltips() {
-		final Tooltip tooltipPitch = new Tooltip();
-		tooltipPitch.setText("Pitch muuttaa kappaleen sävelkorkeutta");
-
-		final Tooltip tooltipGain = new Tooltip();
-		tooltipGain.setText("Gain muuttaa kappaleen äänenvoimakkuutta");
-
-		final Tooltip tooltipEcho = new Tooltip();
-		tooltipEcho.setText("Echoon kuuluu decay ja length");
-
-		final Tooltip tooltipFlanger = new Tooltip();
-		tooltipFlanger.setText("Flangeriin kuuluu wetness, length ja lfo");
-
-		final Tooltip tooltipLowPass = new Tooltip();
-		tooltipLowPass.setText("Low Pass on ihan :) ominaisuus");
-
+	private void initializeTooltips() {
+		tooltipPitch = new Tooltip();
 		buttonInfoPitch.setTooltip(tooltipPitch);
+
+		tooltipGain = new Tooltip();
 		buttonInfoGain.setTooltip(tooltipGain);
+
+		tooltipEcho = new Tooltip();
+		buttonInfoEcho.setTooltip(tooltipEcho);
+
+		tooltipFlanger = new Tooltip();
+		buttonInfoFlanger.setTooltip(tooltipFlanger);
+
+		tooltipLowPass = new Tooltip();
 		buttonInfoLowPass.setTooltip(tooltipLowPass);
+	}
+
+	Locale curLocale;
+	ResourceBundle bundle;
+
+	private void initializeMixerLocalization() {
+
+		String appConfigPath = "src/main/resources/AudioEditor.properties";
+		Properties properties = new Properties();
+
+		try {
+			properties.load(new FileInputStream(appConfigPath));
+			String language = properties.getProperty("language");
+			String country = properties.getProperty("country");
+			curLocale = new Locale(language, country);
+			Locale.setDefault(curLocale);
+		} catch (Exception e) {
+			// TODO: KIELIASETUKSIA EI LÖYTYNYT käytä oletusta
+			e.printStackTrace();
+		}
+
+		// TÄSSÄ TEHÄÄN OLETUSKIELIJUTUT
+
+		try {
+			bundle = ResourceBundle.getBundle("TextResources", curLocale);
+
+			mixerTab.setText(bundle.getString("mixerTab"));
+
+			labelSelectFile.setText(bundle.getString("mixerSelectFileText"));
+			labelOr.setText(bundle.getString("mixerOrText"));
+			labelRecordFile.setText(bundle.getString("mixerRecordFileText"));
+			labelSelectedFile.setText(bundle.getString("mixerFileNotSelectedText"));
+			labelTryMixer.setText(bundle.getString("mixerTryMixerText"));
+
+			labelPitch.setText(bundle.getString("mixerPitchText"));
+			labelEcho.setText(bundle.getString("mixerEchoText"));
+			labelDecay.setText(bundle.getString("mixerDecayText"));
+			labelEchoLength.setText(bundle.getString("mixerEchoLengthText"));
+			labelLowPass.setText(bundle.getString("mixerLowPassText"));
+			labelFlanger.setText(bundle.getString("mixerFlangerText"));
+			labelWetness.setText(bundle.getString("mixerWetnessText"));
+			labelFlangerLength.setText(bundle.getString("mixerFlangerLengthText"));
+			labelLfo.setText(bundle.getString("mixerLfoText"));
+			labelGain.setText(bundle.getString("mixerGainText"));
+
+			buttonMixerFileOpener.setText(bundle.getString("mixerFileButton"));
+			toggleButtonMixerStartRecording.setText(bundle.getString("mixerStartRecordButton"));
+			toggleButtonTestFilter.setText(bundle.getString("mixerTryMixerText"));
+			buttonMixerResetSliders.setText(bundle.getString("mixerResetSlidersButton"));
+			buttonSaveSettings.setText(bundle.getString("mixerSaveSettingsButton"));
+			buttonLoadSettings.setText(bundle.getString("mixerLoadSettingsButton"));
+			buttonSaveMixedFile.setText(bundle.getString("mixerSaveFileButton"));
+
+			tooltipPitch.setText(bundle.getString("mixerPitchTooltip"));
+			tooltipGain.setText(bundle.getString("mixerGainTooltip"));
+			tooltipEcho.setText(bundle.getString("mixerEchoTooltip"));
+			tooltipFlanger.setText(bundle.getString("mixerFlangerTooltip"));
+			tooltipLowPass.setText(bundle.getString("mixerLowPassTooltip"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	//// MIXER METHODS END HERE
@@ -1047,7 +1151,7 @@ public class MainController implements Initializable {
 	//// RECORDER METHODS END
 	//// HERE////////////////////////////////////////////////////////////////
 	// Used in play button methods
-	public static Button lastButton,currentButton;
+	public static Button lastButton, currentButton;
 
 	/**
 	 * FXML element variables
@@ -1060,6 +1164,7 @@ public class MainController implements Initializable {
 	GridPane buttonGrid;
 	@FXML
 	Button clearButton;
+
 	/**
 	 * Used to edit existing sample in the sample array Opens File explorer and
 	 * edits sample with given index to contain selected wav file Checks file
@@ -1200,8 +1305,10 @@ public class MainController implements Initializable {
 
 		});
 	}
+
 	/**
 	 * Kooi atm al dente eli spagettia - TODO REWORK
+	 * 
 	 * @param button
 	 * @param index
 	 */
@@ -1217,46 +1324,48 @@ public class MainController implements Initializable {
 		}
 		lastButton = button;
 	}
+
 	public void soundboardInit() {
 		controller.setListener(new LineListener() {
 
 			@Override
 			public void update(LineEvent event) {
-				if(event.getType() == Type.STOP) {
+				if (event.getType() == Type.STOP) {
 					Platform.runLater(new Runnable() {
 
 						@Override
 						public void run() {
 							resetAllButtonNames();
-							if(controller.isPlaying()) {
+							if (controller.isPlaying()) {
 								currentButton.setText("Stop");
 							}
 						}
-						
+
 					});
 				}
 			}
-			
+
 		});
 	}
+
 	/**
-	 * ATM raviolia eli TODO REWORK
-	 * jos se toimii nii se toimii - älä valita
+	 * ATM raviolia eli TODO REWORK jos se toimii nii se toimii - älä valita
 	 */
 	public void resetAllButtonNames() {
-		ObservableList<Node> tempList =(ObservableList<Node>) buttonGrid.getChildren();
+		ObservableList<Node> tempList = (ObservableList<Node>) buttonGrid.getChildren();
 		ArrayList<AnchorPane> apList = new ArrayList<AnchorPane>();
 		int index = controller.getSampleArrayLength();
 		tempList.forEach(root -> {
 			apList.add((AnchorPane) root);
 		});
-		for(int i = 0; i < index ;i++) {
+		for (int i = 0; i < index; i++) {
 			AnchorPane apRoot = apList.get(i);
 			AnchorPane btnRoot = (AnchorPane) apRoot.getChildren().get(0);
 			Button btnTemp = (Button) btnRoot.getChildren().get(0);
 			btnTemp.setText("Play");
 		}
 	}
+
 	/**
 	 * Method for renaming soundboard buttons
 	 * 
@@ -1361,7 +1470,7 @@ public class MainController implements Initializable {
 			gridRoot.getChildren().add(newSoundButton);
 		}
 	}
-	
+
 	@FXML
 	public void removeAllCheck() {
 		Alert alert = new Alert(Alert.AlertType.NONE);
@@ -1401,7 +1510,7 @@ public class MainController implements Initializable {
 		}
 	}
 
-	/**			
+	/**
 	 * @author Kevin Akkoyun
 	 */
 	public void checkSavedSamples() {
@@ -1416,16 +1525,15 @@ public class MainController implements Initializable {
 	public void saveSamples() {
 		controller.saveSampleData();
 	}
-	
-	public void applyBackgroundColor(){
+
+	public void applyBackgroundColor() {
 		int length = controller.getSampleArrayLength();
 		for (int i = 0; i < length; i++) {
 			AnchorPane gridRoot = (AnchorPane) buttonGrid.getChildren().get(i);
 			AnchorPane root = (AnchorPane) gridRoot.getChildren().get(0);
-			if(i % 2 != 0) {
+			if (i % 2 != 0) {
 				root.setStyle("-fx-background-color: lightgray;");
-			}
-			else {
+			} else {
 				root.setStyle("-fx-background-color: lightblue;");
 			}
 		}
@@ -1508,7 +1616,7 @@ public class MainController implements Initializable {
 	 * Opens a new scene where the mixer settings can be saved to the database
 	 */
 	public void openMixerSave() {
-		
+
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveMixerSettings.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
@@ -1682,7 +1790,7 @@ public class MainController implements Initializable {
 			setlogUserOut();
 		});
 		userMenuButton.setText(controller.loggedIn());
-		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;"); //MUOTOILU CSSSSSÄÄÄÄN
+		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;"); // MUOTOILU CSSSSSÄÄÄÄN
 		userMenuButton.getItems().addAll(menu1, menu2);
 		loggedinuser.setVisible(true);
 		loggedinuser.setText("Logged in as: ");
