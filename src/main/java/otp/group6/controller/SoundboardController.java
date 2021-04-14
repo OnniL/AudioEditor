@@ -6,19 +6,16 @@ import otp.group6.audioeditor.Soundboard;
 import otp.group6.audioeditor.Soundboard.Sample;
 
 /**
- * Controller for soundboard features
+ * Controller for {@link Soundboard} features
  * 
  * @author Kevin Akkoyun
- * @Version 1.1 - in progress TODO
+ * @Version 1.1
  *
  */
 public class SoundboardController {
 
 	/**
 	 * Used to determine the type of the string input
-	 * 
-	 * @author Kevin Akkoyun
-	 *
 	 */
 	public enum INPUT_TYPE {
 		FILEPATH, SAMPLE_NAME
@@ -69,9 +66,6 @@ public class SoundboardController {
 		soundboard.stopSample();
 		soundboard.playSample(index);
 	}
-
-	// ######################################### Soundboard data manipulation
-	// ##################################################
 
 	/**
 	 * Controller method for adding samples to the {@link Soundboard}
@@ -165,6 +159,11 @@ public class SoundboardController {
 		return soundboard.readSampleData();
 	}
 
+	/**
+	 * Sets a {@link LineListener} to {@link Soundboard}
+	 * 
+	 * @param listener - a <b>LineListener</b> object
+	 */
 	public void setListener(LineListener listener) {
 		soundboard.setListener(listener);
 	}

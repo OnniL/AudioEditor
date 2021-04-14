@@ -49,7 +49,7 @@ import otp.group6.controller.SoundboardController.INPUT_TYPE;
 /**
  * Controller class for the Soundboard view
  * 
- * @author Kevin Akkoyun 
+ * @author Kevin Akkoyun
  */
 public class SoundboardViewController implements Initializable {
 
@@ -63,6 +63,9 @@ public class SoundboardViewController implements Initializable {
 		NEW, EXISTING
 	}
 
+	/**
+	 * Controller object for executing
+	 */
 	private SoundboardController controller;
 
 	private FXMLLoader newSoundLoader = null, buttonLoader = null;
@@ -89,7 +92,7 @@ public class SoundboardViewController implements Initializable {
 	private Button lastButton;
 
 	/**
-	 * Fetches an instance of SoundboardController
+	 * Fetches an instance of {@link SoundboardController}
 	 */
 	public SoundboardViewController() {
 		controller = SoundboardController.getInstance();
@@ -97,29 +100,30 @@ public class SoundboardViewController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		getLocalization(new Locale("fi","FI"));
+		getLocalization(new Locale("fi", "FI"));
 		createStorageVariables();
 		getViewResources();
 		loadSavedSamples();
-		devTest();
+		setIconChanger();
 	}
 
 	// *********************UTILITY METHODS*******************************//
-	public void devTest() {
+	public void setIconChanger() {
 		controller.setListener(new LineListener() {
 
 			@Override
 			public void update(LineEvent arg0) {
-				if(arg0.getType() == Type.STOP) {
-					switchIconVisibility(lastButton,true);
-				}else if(arg0.getType() == Type.START) {
-					switchIconVisibility(lastButton,false);
+				if (arg0.getType() == Type.STOP) {
+					switchIconVisibility(lastButton, true);
+				} else if (arg0.getType() == Type.START) {
+					switchIconVisibility(lastButton, false);
 				}
-				
+
 			}
-			
+
 		});
 	}
+
 	/**
 	 * Initializes storage variables that contain runtime view components
 	 */
@@ -137,9 +141,9 @@ public class SoundboardViewController implements Initializable {
 	 * Gets app localization from .properties
 	 */
 	public void getLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources",locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		CSOUND_BTN = bundle.getString("CSOUND_BTN");
-		DELETE_BTN = bundle.getString("DELETE_BTN");	
+		DELETE_BTN = bundle.getString("DELETE_BTN");
 		RENAME_BTN = bundle.getString("RENAME_BTN");
 		CONFIRM_BTN = bundle.getString("CONFIRM_BTN");
 		CANCEL_BTN = bundle.getString("CANCEL_BTN");
@@ -264,12 +268,12 @@ public class SoundboardViewController implements Initializable {
 	 * @param index  - index of the sample
 	 */
 	private void configurePlayButton(Button button, int index) {
-			button.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent event) {
-					playButton(index, button);
-				}
-			});
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				playButton(index, button);
+			}
+		});
 	}
 
 	/**
@@ -339,6 +343,9 @@ public class SoundboardViewController implements Initializable {
 		});
 	}
 
+	/**
+	 * Configures <b>Clear all</b> button
+	 */
 	private void configureClearAllButton() {
 		clearAll.setText(CLEAR_BTN);
 	}
@@ -647,12 +654,14 @@ public class SoundboardViewController implements Initializable {
 			return false;
 		}
 	}
+
 	/**
-	 * Method that switches the visibility of button icons
-	 * if <b>true</b> is given, sets the visibility of "play" icon to true and "stop" to false<br>
+	 * Method that switches the visibility of button icons if <b>true</b> is given,
+	 * sets the visibility of "play" icon to true and "stop" to false<br>
 	 * if <b>false</b> is given, the operation is reverse
+	 * 
 	 * @param button - Soundboard <b>play</b> - button
-	 * @param bool - Wether or not to display the play icon
+	 * @param bool   - Wether or not to display the play icon
 	 */
 	private void switchIconVisibility(Button button, boolean bool) {
 		Pane imgRoot = (Pane) button.getGraphic();

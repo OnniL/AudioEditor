@@ -11,6 +11,9 @@ import java.io.IOException;
  *
  */
 public class SoundboardPlayer {
+	/**
+	 * a {@link Clip} object for audio playback
+	 */
 	private Clip clip;
 	
 	public SoundboardPlayer() {
@@ -35,19 +38,31 @@ public class SoundboardPlayer {
 		}
 	}
 	/**
-	 * Closes clip if open
+	 * Closes {@link #clip} if its open
 	 */
 	public void closeAudio() {
 		if (clip.isOpen()) {
 			clip.close();
 		}
 	}
-	public boolean isAlive() {
+	/**
+	 * Checks if the clip is active
+	 * @return Returns <b>true</b> if {@link #clip} is active
+	 */
+	public boolean isActive() {
 		return clip.isActive();
 	}
-	public void setOnClose(LineListener listener) {
+	/**
+	 * Adds a {@link LineListener} to the {@link #clip}
+	 * @param listener - <b>LineListener</b>
+	 */
+	public void setListener(LineListener listener) {
 		clip.addLineListener(listener);
 	}
+	/**
+	 * Removes a {@link LineListener} from the {@link #clip}
+	 * @param listener - <b>LineListener</b>
+	 */
 	public void removeListeners(LineListener listener) {
 		clip.removeLineListener(listener);
 	}
