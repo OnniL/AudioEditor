@@ -172,20 +172,21 @@ public class AudioCloudDAO {
 	private Connection databaseConnection;
 	private User userclass = new User();
 
-	private boolean hasconnected=true;
-	
+	private boolean hasconnected = true;
+
 	/**
 	 * Connection to the database
 	 */
 	public AudioCloudDAO() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:2280/audiocloud", "yleinen", "J0k3OnR0");
-			
+			databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:2280/audiocloud", "yleinen",
+					"J0k3OnR0");
+
 		} catch (Exception e) {
 			setHasconnected(false);
 			System.err.println("Virhe tietokantayhteyden muodostamisessa. " + e);
-			//System.exit(-1);
+			// System.exit(-1);
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error!");
 			alert.setHeaderText("Can not connect to the database!");
@@ -286,8 +287,8 @@ public class AudioCloudDAO {
 
 			String pw = rset.getString("password");
 			String salt = rset.getString("salt");
-			
-			if (p==null) {
+
+			if (p == null) {
 				return "Incorrect user or pw";
 			} else {
 				boolean pwMatch = PasswordUtils.verifyUserPassword(p, pw, salt);
@@ -299,7 +300,7 @@ public class AudioCloudDAO {
 					return "Incorrect user or pw";
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -563,11 +564,12 @@ public class AudioCloudDAO {
 	}
 
 	/**
+	 * TODO määritä millä tavalla poistetaan! ID? TAPAA EI VIELÄ TOTEUTETTU
 	 * 
 	 * Mehtod deletes mixer settings from the database
 	 * 
 	 * @param name is the specific user name
-	 * @param id is the mixer setting id that will be deleted
+	 * @param id   is the mixer setting id that will be deleted
 	 * @return true or false according to the success of the method.
 	 */
 	public boolean deleteMix(String name, int id) {
@@ -578,7 +580,7 @@ public class AudioCloudDAO {
 				statement.setString(1, name);
 				statement.setInt(2, id);
 				int affected = statement.executeUpdate();
-				if (affected<1) {
+				if (affected < 1) {
 					return false;
 				}
 				return true;
