@@ -290,7 +290,7 @@ public class Soundboard {
 	 * 
 	 * Reads sample data from text file and adds valid lines to sample array <br>
 	 * Checks if sampleArray is <b>oversized</b> and reduces it to 20 if needed
-	 * 
+	 * TODO FIX ERROR WHEN DATA DOES NOT EXIST
 	 * @author Kevin Akkoyun
 	 * @return Returns the size of {@link #sampleArray}
 	 */
