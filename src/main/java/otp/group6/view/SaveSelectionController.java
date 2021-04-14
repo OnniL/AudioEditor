@@ -1,8 +1,14 @@
 package otp.group6.view;
 
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import otp.group6.controller.Controller;
@@ -14,15 +20,41 @@ import otp.group6.controller.Controller;
  * @author Joonas Soininen
  *
  */
-public class SaveSelectionController {
+public class SaveSelectionController implements Initializable{
 	Controller controller;
 	MainController mc;
 
 	@FXML
-	private Button closeButton;
+	private Label sSHeaderLabel;
+	@FXML
+	private Label sSTextLable;
+	@FXML
+	private Button sSLocalButton;
+	@FXML
+	private Button sSCloudButton;
+	@FXML
+	private Button sSCancelButton;
+	@FXML
+	private Button sSXButton;
 	@FXML
 	AnchorPane mainContainer;
 
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		sSHeaderLabel.setText(bundle.getString("sSHeaderLabel"));
+		sSTextLable.setText(bundle.getString("sSTextLable"));
+		sSLocalButton.setText(bundle.getString("sSLocalButton"));
+		sSCloudButton.setText(bundle.getString("sSCloudButton"));
+		sSCancelButton.setText(bundle.getString("sSCancelButton"));
+		sSXButton.setText(bundle.getString("sSXButton"));
+	}
+	
 	/**
 	 * Method to get mainController
 	 * 
@@ -40,7 +72,7 @@ public class SaveSelectionController {
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) sSCancelButton.getScene().getWindow();
 		stage.close();
 	}
 
@@ -52,15 +84,15 @@ public class SaveSelectionController {
 		if (controller.isConnected()) {
 			if (!(controller.loggedIn() == " ")) {
 				mc.openMixerSave();
-				Stage stage = (Stage) closeButton.getScene().getWindow();
+				Stage stage = (Stage) sSCancelButton.getScene().getWindow();
 				stage.close();
 			} else {
 				mc.openLoginRegister();
-				Stage stage = (Stage) closeButton.getScene().getWindow();
+				Stage stage = (Stage) sSCancelButton.getScene().getWindow();
 				stage.close();
 			}	
 		} else  {
-			Stage stage = (Stage) closeButton.getScene().getWindow();
+			Stage stage = (Stage) sSCancelButton.getScene().getWindow();
 			stage.close();
 		}
 		
@@ -71,8 +103,9 @@ public class SaveSelectionController {
 	 */
 	public void saveLocal() {
 		mc.saveMixerSettingsLocally();
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) sSCancelButton.getScene().getWindow();
 		stage.close();
 	}
+
 
 }

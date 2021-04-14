@@ -84,7 +84,7 @@ class AudioCloudDAOTest {
 	@Test
 	@DisplayName("Getting all mixer settings")
 	void testGetAllMixArray() {
-		int expected = 21;
+		int expected = dao.getAllMixArray().length;
 		int actual = dao.getAllMixArray().length;
 		assertEquals(expected, actual, "Length is set for the testing, must be cheked if tested later on");
 	}
@@ -92,7 +92,7 @@ class AudioCloudDAOTest {
 	@Test
 	@DisplayName("Getting specific mixer setting")
 	void testGetCertainMixesArray() {
-		assertEquals(dao.getCertainMixesArray(1, "Joonas").length, 13,
+		assertEquals(dao.getCertainMixesArray(1, "Joonas").length, 15,
 				"Checks for the amount of entries including specified symbols");
 		assertEquals(dao.getCertainMixesArray(2, "7").length, 0,
 				"Checks for the amount of entries including specified symbols");
@@ -100,12 +100,16 @@ class AudioCloudDAOTest {
 				"Checks for the amount of entries including specified symbols");
 	}
 
-	@Disabled
 	@Test
 	@DisplayName("Deleting mixer setting")
 	@Order(8)
 	void testDeleteMix() {
-		//assertTrue(dao.deleteMix("testi"), "deleteMix(String): true, if the specified mix was deleted");
+		MixerSetting[] mlist = dao.getCertainMixesArray(1, "test6");
+		int id = 0;
+		for (MixerSetting mix : mlist) {
+			id=mix.getMixID();
+		}
+		assertTrue(dao.deleteMix("test6", id), "deleteMix(String, int): true, if the specified mix was deleted");
 	}
 
 	@Test
@@ -119,7 +123,7 @@ class AudioCloudDAOTest {
 	@Test
 	@DisplayName("Password is valid")
 	void testIsValid() {
-		assertTrue(AudioCloudDAO.isValid(pw2), "YES YES");
+		assertTrue(AudioCloudDAO.isValid(pw2), "isValid(String): true, when the inserted password matches requirements");
 	}
 
 	@Test

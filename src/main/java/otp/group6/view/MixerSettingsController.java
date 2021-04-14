@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -27,8 +28,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -46,15 +49,49 @@ import otp.group6.controller.Controller;
 public class MixerSettingsController implements Initializable {
 	Controller controller;
 	MainController mc;
-
-	public MixerSettingsController() {
-
-	}
-
+	
 	@FXML
 	AnchorPane mainContainer;
 	@FXML
-	private Button closeButton;
+	private Tab mSTabCloud;
+	@FXML
+	private Tab mSTabFavorites;
+	@FXML
+	private TextField mSSearchField;
+	@FXML
+	private RadioButton mSRadioCreator;
+	@FXML
+	private RadioButton mSRadioName;
+	@FXML
+	private RadioButton mSRadioDescription;
+	@FXML
+	private Button mSSearchButton;
+	@FXML
+	private Button mSUseSettingCloud;
+	@FXML
+	private Button mSCancelButtonCloud;
+	@FXML
+	private Button mSUseSettingFav;
+	@FXML
+	private Button mSCancelButtonFav;
+	@FXML
+	private Button mSRemoveFav;
+	@FXML
+	private Button mSDeleteMix;
+
+	private String mSGeneralOKBT;
+	private String mSGeneralCancelBT;
+	private String mSSaveAlertTitle;
+	private String mSSaveAlertHeader;
+	private String mSSaveAlertContent;
+	private String mSDeleteAlert1Title;
+	private String mSDeleteAlert1Header;
+	private String mSDeleteAlert1Content;
+	private String mSDelteAlert2Title;
+	private String mSDeleteAlert2Header;
+
+
+
 	@FXML
 	private ListView<String> favoritesListView;
 	@FXML
@@ -71,19 +108,7 @@ public class MixerSettingsController implements Initializable {
 	@FXML
 	private ObservableList<HBoxCell> myObservableList = FXCollections.observableArrayList();;
 
-	@FXML
-	private TextField searchField;
-	@FXML
-	private RadioButton radioCreator;
-	@FXML
-	private RadioButton radioName;
-	@FXML
-	private RadioButton radioDescription;
-	@FXML
-	private Button removeFav;
-	@FXML
-	private Button deleteMixButton;
-	
+
 	/**
 	 * Inner class to handle buttons on the ListView.
 	 * 
@@ -121,7 +146,6 @@ public class MixerSettingsController implements Initializable {
 				try {
 					favoriteButton(button.getId(), labelText);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				button.setDisable(true);
@@ -130,10 +154,45 @@ public class MixerSettingsController implements Initializable {
 			this.getChildren().addAll(label, button);
 		}
 	}
+	
+	/**
+	 * Method initializes this classes necessary things
+	 */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		mSTabCloud.setText(bundle.getString("mSTabCloud"));
+		mSTabFavorites.setText(bundle.getString("mSTabFavorites"));
+		mSSearchField.setPromptText(bundle.getString("mSSearchField"));
+		mSRadioCreator.setText(bundle.getString("mSRadioCreator"));
+		mSRadioName.setText(bundle.getString("mSRadioName"));
+		mSRadioDescription.setText(bundle.getString("mSRadioDescription"));
+		mSSearchButton.setText(bundle.getString("mSSearchButton"));
+		mSUseSettingCloud.setText(bundle.getString("mSUseSettingCloud"));
+		mSCancelButtonCloud.setText(bundle.getString("mSCancelButtonCloud"));
+		mSUseSettingFav.setText(bundle.getString("mSUseSettingFav"));
+		mSCancelButtonFav.setText(bundle.getString("mSCancelButtonFav"));
+		mSRemoveFav.setText(bundle.getString("mSRemoveFav"));
+		mSDeleteMix.setText(bundle.getString("mSDeleteMix"));
+		mSGeneralOKBT=bundle.getString("mSGeneralOKBT");
+		mSGeneralCancelBT=bundle.getString("mSGeneralCancelBT");
+		mSSaveAlertTitle=bundle.getString("mSSaveAlertTitle");
+		mSSaveAlertHeader=bundle.getString("mSSaveAlertHeader");
+		mSSaveAlertContent=bundle.getString("mSSaveAlertContent");
+		mSDeleteAlert1Title=bundle.getString("mSDeleteAlert1Title");
+		mSDeleteAlert1Header=bundle.getString("mSDeleteAlert1Header");
+		mSDeleteAlert1Content=bundle.getString("mSDeleteAlert1Content");
+		mSDelteAlert2Title=bundle.getString("mSDelteAlert2Title");
+		mSDeleteAlert2Header=bundle.getString("mSDeleteAlert2Header");
+	}
 
 	/**
-	 * TODO Metodi suosikkien tallentamiseen tietokantaan puuttuu TODO Metodi
-	 * suosikin poistamiseen puuttuu
+	 * TODO Metodi suosikkien tallentamiseen tietokantaan puuttuu
 	 */
 
 	/**
@@ -187,9 +246,9 @@ public class MixerSettingsController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error!");
-			alert.setHeaderText("Something went wrong!");
-			alert.setContentText("If this keeps happening, contact support! :)");
+			alert.setTitle(mSSaveAlertTitle);
+			alert.setHeaderText(mSSaveAlertHeader);
+			alert.setContentText(mSSaveAlertContent);
 			alert.showAndWait();
 		}
 		//Manual save method
@@ -214,7 +273,6 @@ public class MixerSettingsController implements Initializable {
 				alert.setHeaderText("Setting saved succesfully!");
 				alert.showAndWait();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error!");
@@ -267,11 +325,10 @@ public class MixerSettingsController implements Initializable {
 						setMixerIndetification(identification);
 						//String selectedItem = mixListView.getSelectionModel().getSelectedItem(); //POISTETTAVA
 						System.out.println(index); //POISTETTAVA
-						removeFav.setDisable(false);
+						mSRemoveFav.setDisable(false);
 					});
 			getMixes();
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		fin.close();
@@ -286,7 +343,7 @@ public class MixerSettingsController implements Initializable {
 		save();
 		mixerSettings.clear();
 		read();
-		removeFav.setDisable(true);
+		mSRemoveFav.setDisable(true);
 	}
 
 	/**
@@ -359,7 +416,7 @@ public class MixerSettingsController implements Initializable {
 			// flangerLenght + " " + wetness + " "+ lfoFrequency + " " + lowPass); //
 			// POistettava
 			mc.setSliderValues(pitch, echo, decay, gain, flangerLenght, wetness, lfoFrequency, lowPass);
-			Stage stage = (Stage) closeButton.getScene().getWindow();
+			Stage stage = (Stage) mSCancelButtonCloud.getScene().getWindow();
 			stage.close();
 		}
 
@@ -372,8 +429,8 @@ public class MixerSettingsController implements Initializable {
 	@FXML
 	public void searchMix() {
 		controller.intializeDatabaseConnection();
-		if (radioCreator.isSelected()) {
-			MixerSetting[] setlist = controller.getCertainMixesArray(1, searchField.getText());
+		if (mSRadioCreator.isSelected()) {
+			MixerSetting[] setlist = controller.getCertainMixesArray(1, mSSearchField.getText());
 			ObservableList<Object> mixerID = FXCollections.observableArrayList(); //List to save specific mixer id
 			ObservableList<Object> mixCretor = FXCollections.observableArrayList(); //List to save specific mixer creator name
 			List<HBoxCell> list = new ArrayList<>();
@@ -398,8 +455,8 @@ public class MixerSettingsController implements Initializable {
 						setMixerCreatorName(name);
 						checkUp();
 					});
-		} else if (radioName.isSelected()) {
-			MixerSetting[] setlist = controller.getCertainMixesArray(2, searchField.getText());
+		} else if (mSRadioName.isSelected()) {
+			MixerSetting[] setlist = controller.getCertainMixesArray(2, mSSearchField.getText());
 			ObservableList<Object> mixerID = FXCollections.observableArrayList(); //List to save specific mixer id
 			ObservableList<Object> mixCretor = FXCollections.observableArrayList(); //List to save specific mixer creator name
 			List<HBoxCell> list = new ArrayList<>();
@@ -424,8 +481,8 @@ public class MixerSettingsController implements Initializable {
 						setMixerCreatorName(name);
 						checkUp();
 					});
-		} else if (radioDescription.isSelected()) {
-			MixerSetting[] setlist = controller.getCertainMixesArray(3, searchField.getText());
+		} else if (mSRadioDescription.isSelected()) {
+			MixerSetting[] setlist = controller.getCertainMixesArray(3, mSSearchField.getText());
 			ObservableList<Object> mixerID = FXCollections.observableArrayList(); //List to save specific mixer id
 			ObservableList<Object> mixCretor = FXCollections.observableArrayList(); //List to save specific mixer creator name
 			List<HBoxCell> list = new ArrayList<>();
@@ -460,11 +517,11 @@ public class MixerSettingsController implements Initializable {
 	public void checkUp() {
 	
 		if (controller.loggedIn().equals(getMixerCreatorName())) {
-			deleteMixButton.setVisible(true);
-			deleteMixButton.setDisable(false);
+			mSDeleteMix.setVisible(true);
+			mSDeleteMix.setDisable(false);
 		} else {
-			deleteMixButton.setDisable(true);
-			deleteMixButton.setVisible(false);
+			mSDeleteMix.setDisable(true);
+			mSDeleteMix.setVisible(false);
 		}
 	}
 	
@@ -474,17 +531,19 @@ public class MixerSettingsController implements Initializable {
 	 */
 	@FXML
 	public void deleteMix() throws IOException {		
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Delete mixzer setting?");
-		alert.setHeaderText(
-				"You are about to permanently delete a mixer settingt!\nMixer setting will be permanentyl deleted and cannot be returned.");
-		alert.setContentText("Are you sure you want to delete this mixer setting?");
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == ButtonType.OK) {
+		Alert alert1 = new Alert(AlertType.CONFIRMATION);
+		alert1.setTitle(mSDeleteAlert1Title);
+		alert1.setHeaderText(mSDeleteAlert1Header);
+		alert1.setContentText(mSDeleteAlert1Content); 
+		ButtonType ok = new ButtonType(mSGeneralOKBT, ButtonData.OK_DONE);
+		ButtonType cancel = new ButtonType(mSGeneralCancelBT, ButtonData.CANCEL_CLOSE);
+		alert1.getButtonTypes().setAll(ok, cancel);
+		Optional<ButtonType> result = alert1.showAndWait();
+		if (result.get() == ok) {
 			controller.deleteMix(getMixerCreatorName(), getMixerIndetification());
-			Alert alert2 = new Alert(AlertType.INFORMATION);
-			alert2.setTitle("Information");
-			alert2.setHeaderText("Mixer setting deleted succesfully");
+			Alert alert2 = new Alert(AlertType.INFORMATION); 
+			alert2.setTitle(mSDelteAlert2Title);
+			alert2.setHeaderText(mSDeleteAlert2Header);
 			alert2.showAndWait();
 			if (localList.contains(String.valueOf(getMixerIndetification()))) {
 				localList.remove(localList.lastIndexOf(String.valueOf(getMixerIndetification())));
@@ -494,14 +553,14 @@ public class MixerSettingsController implements Initializable {
 			mixerSettings.clear();
 			//favoritesListView.getItems().clear();
 			read();
-			removeFav.setDisable(true);
-			deleteMixButton.setDisable(true);
-			deleteMixButton.setVisible(false);
+			mSRemoveFav.setDisable(true);
+			mSDeleteMix.setDisable(true);
+			mSDeleteMix.setVisible(false);
 		} else {
 			Alert alert3 = new Alert(AlertType.ERROR);
-			alert3.setTitle("Error!");
-			alert3.setHeaderText("Something went wrong saving mixer settings, please try again");
-			alert3.setContentText("If this error continues, please contact support");
+			alert3.setTitle(mSSaveAlertTitle);
+			alert3.setHeaderText(mSSaveAlertHeader);
+			alert3.setContentText(mSSaveAlertContent);
 			alert3.showAndWait();
 		}
 	}
@@ -528,16 +587,8 @@ public class MixerSettingsController implements Initializable {
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) mSCancelButtonCloud.getScene().getWindow();
 		stage.close();
-	}
-
-	/**
-	 * Method initializes this classes necessary things
-	 */
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-
 	}
 
 	/**

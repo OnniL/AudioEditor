@@ -286,16 +286,20 @@ public class AudioCloudDAO {
 
 			String pw = rset.getString("password");
 			String salt = rset.getString("salt");
-
-			boolean pwMatch = PasswordUtils.verifyUserPassword(p, pw, salt);
-
-			if (pwMatch) {
-				userclass.setUser((rset.getString("username")));
-				return "Welcome " + rset.getString("username");
-			} else {
+			
+			if (p==null) {
 				return "Incorrect user or pw";
-			}
+			} else {
+				boolean pwMatch = PasswordUtils.verifyUserPassword(p, pw, salt);
 
+				if (pwMatch) {
+					userclass.setUser((rset.getString("username")));
+					return "Welcome " + rset.getString("username");
+				} else {
+					return "Incorrect user or pw";
+				}
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -573,7 +577,10 @@ public class AudioCloudDAO {
 					.prepareStatement("DELETE FROM mixerSETTINGSTEST WHERE mixCreator = ? AND id = ?")) {
 				statement.setString(1, name);
 				statement.setInt(2, id);
-				statement.executeUpdate();
+				int affected = statement.executeUpdate();
+				if (affected<1) {
+					return false;
+				}
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();

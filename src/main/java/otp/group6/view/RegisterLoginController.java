@@ -2,6 +2,7 @@ package otp.group6.view;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -31,56 +33,95 @@ public class RegisterLoginController implements Initializable {
 	public RegisterLoginController() {
 
 	}
+	@FXML
+	private Label rLWelcomeLabel;
+	@FXML
+	private Label rLPleaseLabel;
+	@FXML
+	private Label rLUsernameLabel;
+	@FXML
+	private TextField rLUserTextField;
+	@FXML
+	private Label rLPasswdLabel;
+	@FXML
+	private TextField rLPasswdField;
+	@FXML
+	private TextField rLPasswdTextField;
+	@FXML
+	private ToggleButton rLShowPwToggle;
+	@FXML
+	private Button rLRegisterButton;
+	@FXML
+	private Label rLLorLabel;
+	@FXML
+	private Button rLLoginButton;
+	@FXML
+	private Label rLForgotLabel;
+	@FXML
+	private Button rLCloseButton;
 
-	@FXML
-	private TextField username;
-	@FXML
-	private TextField password;
-	@FXML
-	private TextField visiblePW;
-	@FXML
-	private Button closeButton;
-	@FXML
-	private Button loginButton;
-	@FXML
-	private ToggleButton showPW;
 	private String lastPW;
+	
+	final Tooltip rLpwtooltip = new Tooltip();
 
-	final Tooltip pwtooltip = new Tooltip("Password must contain 8-20 characters.\n"
-			+ "Must contain one uppercase letter\n" + "Must contain at least one number");
+	final Tooltip rLwuntooltip = new Tooltip();
 
-	final Tooltip wuntooltip = new Tooltip("Can not set this username\nMake sure there are no white spaces or \nselect another one");
+	final Tooltip rLlogintip = new Tooltip();
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
 
-	final Tooltip logintip = new Tooltip("Username or password incorrect!\n Please try again :)");
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		rLWelcomeLabel.setText(bundle.getString("rLWelcomeLabel"));
+		rLPleaseLabel.setText(bundle.getString("rLPleaseLabel"));
+		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));
+		rLUserTextField.setPromptText(bundle.getString("rLUserTextField"));
+		rLPasswdLabel.setText(bundle.getString("rLPasswdLabel"));
+		rLShowPwToggle.setText(bundle.getString("rLShowPwToggle"));
+		rLRegisterButton.setText(bundle.getString("rLRegisterButton"));
+		rLLorLabel.setText(bundle.getString("rLLorLabel"));
+		rLLoginButton.setText(bundle.getString("rLLoginButton"));
+		rLForgotLabel.setText(bundle.getString("rLForgotLabel"));
+		rLCloseButton.setText(bundle.getString("rLCloseButton"));
+		rLpwtooltip.setText(bundle.getString("rLpwtooltip"));
+		rLwuntooltip.setText(bundle.getString("rLwuntooltip"));
+		rLlogintip.setText(bundle.getString("rLlogintip"));
+	}
+	
 	
 	/**
-	 * Method for user to see their password on hover
+	 * Method for user to see their password on toggleButton click
 	 */
 	@FXML
 	public void showPW() {
-		if (showPW.isSelected()) {
-			password.setVisible(false);
-			visiblePW.setVisible(true);
-			visiblePW.setEditable(true);
-			visiblePW.setText(password.getText());
+		if (rLShowPwToggle.isSelected()) {
+			rLPasswdField.setVisible(false);
+			rLPasswdTextField.setVisible(true);
+			rLPasswdTextField.setEditable(true);
+			rLPasswdTextField.setText(rLPasswdField.getText());
 			
-		} else if (!showPW.isSelected()) {
-			visiblePW.setVisible(false);
-			password.setText(visiblePW.getText());
-			password.setVisible(true);
+		} else if (!rLShowPwToggle.isSelected()) {
+			rLPasswdTextField.setVisible(false);
+			rLPasswdField.setText(rLPasswdTextField.getText());
+			rLPasswdField.setVisible(true);
 		}
 
 	}
 	
 	/**
-	 * Method to hide the password when exiting the hover
+	 * Method to set either the PasswordText or TextField text as the password
 	 */
 	@FXML
 	public void setFinalPW() {
-		if (showPW.isSelected()) {
-			setLastPW(visiblePW.getText());
+		if (rLShowPwToggle.isSelected()) {
+			setLastPW(rLPasswdTextField.getText());
 		} else {
-			setLastPW(password.getText());	
+			setLastPW(rLPasswdField.getText());	
 		}		
 	}
 	
@@ -91,7 +132,7 @@ public class RegisterLoginController implements Initializable {
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) rLCloseButton.getScene().getWindow();
 		stage.close();
 	}
 
@@ -105,7 +146,7 @@ public class RegisterLoginController implements Initializable {
 		this.controller = mc.getController();
 		controller.intializeDatabaseConnection();
 		pwReminder();
-		username.requestFocus();
+		rLUserTextField.requestFocus();
 	}
 
 	/**
@@ -114,20 +155,20 @@ public class RegisterLoginController implements Initializable {
 	 */
 	@FXML
 	public void pwReminder() {
-		pwtooltip.setWrapText(true);
-		pwtooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
+		rLpwtooltip.setWrapText(true);
+		rLpwtooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
 
-		password.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		rLPasswdField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (newValue) {
-					pwtooltip.show(password, //
+					rLpwtooltip.show(rLPasswdField, //
 							// popup tooltip on the right, you can adjust these values for different
 							// positions
-							password.getScene().getWindow().getX() + password.getLayoutX() + password.getWidth() + 0, //
-							password.getScene().getWindow().getY() + password.getLayoutY() + password.getHeight());
+							rLPasswdField.getScene().getWindow().getX() + rLPasswdField.getLayoutX() + rLPasswdField.getWidth() + 0, //
+							rLPasswdField.getScene().getWindow().getY() + rLPasswdField.getLayoutY() + rLPasswdField.getHeight());
 				} else {
-					pwtooltip.hide();
+					rLpwtooltip.hide();
 				}
 			}
 		});
@@ -143,47 +184,47 @@ public class RegisterLoginController implements Initializable {
 		// System.out.println(username.getText().toString().length());// Poistettava
 		// System.out.println(password.getText());// Poistettava
 
-		if ((unisValid(username.getText()))&&!(controller.chekcforUser(username.getText()))) {
+		if ((unisValid(rLUserTextField.getText()))&&!(controller.chekcforUser(rLUserTextField.getText()))) {
 			// System.out.println("VAPAA"); // Poistettava
-			username.setStyle("-fx-text-fill: green; -fx-font-size: 16px;");
-			wuntooltip.hide();
+			rLUserTextField.setStyle("-fx-text-fill: green; -fx-font-size: 16px;");
+			rLwuntooltip.hide();
 			if (pwIsValid(getLastPW())) {
-				controller.createUser(username.getText(), getLastPW());
+				controller.createUser(rLUserTextField.getText(), getLastPW());
 				loginUser();
 			} else {
 				// System.out.println("UUS PASSU"); // Poistettava
-				password.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-				visiblePW.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+				rLPasswdField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+				rLPasswdTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
 				// password.setStyle("-fx-control-inner-background:#000000; -fx-font-family:
 				// Consolas; -fx-highlight-fill: #00ff00; -fx-highlight-text-fill: #000000;
 				// -fx-text-fill: #00ff00; ");
-				wuntooltip.hide();
-				password.requestFocus();
-				visiblePW.requestFocus();
+				rLwuntooltip.hide();
+				rLPasswdField.requestFocus();
+				rLPasswdTextField.requestFocus();
 			}
 
 		} else {
-			username.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-			wuntooltip.setWrapText(true);
-			wuntooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
+			rLUserTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+			rLwuntooltip.setWrapText(true);
+			rLwuntooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
 			// System.out.println("Varattu!"); // Poistettava
-			username.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			rLUserTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					if (newValue) {
-						wuntooltip.show(username, //
+						rLwuntooltip.show(rLUserTextField, //
 								// popup tooltip on the right, you can adjust these values for different
 								// positions
-								username.getScene().getWindow().getX() + username.getLayoutX() + username.getWidth()
+								rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
 										+ 35, //
-								username.getScene().getWindow().getY() + username.getLayoutY() + username.getHeight());
+								rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY() + rLUserTextField.getHeight());
 
 					} else {
-						wuntooltip.hide();
+						rLwuntooltip.hide();
 					}
 				}
 			});
-			username.requestFocus();
+			rLUserTextField.requestFocus();
 		}
 
 	}
@@ -192,56 +233,56 @@ public class RegisterLoginController implements Initializable {
 	 * Method logs user in to access the database save function
 	 */
 	public void loginUser() {
-		logintip.setWrapText(true);
-		logintip.setTextOverrun(OverrunStyle.ELLIPSIS);
-		if (controller.loginUser(username.getText(), getLastPW()) == "No user") {
-			username.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-			password.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-			visiblePW.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-			username.focusedProperty().addListener(new ChangeListener<Boolean>() {
+		rLlogintip.setWrapText(true);
+		rLlogintip.setTextOverrun(OverrunStyle.ELLIPSIS);
+		if (controller.loginUser(rLUserTextField.getText(), getLastPW()) == "No user") {
+			rLUserTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+			rLPasswdField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+			rLPasswdTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+			rLUserTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					if (newValue) {
-						logintip.show(username, //
+						rLlogintip.show(rLUserTextField, //
 								// popup tooltip on the right, you can adjust these values for different
 								// positions
-								username.getScene().getWindow().getX() + username.getLayoutX() + username.getWidth()
+								rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
 										+ 35, //
-								username.getScene().getWindow().getY() + username.getLayoutY() + username.getHeight());
+								rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY() + rLUserTextField.getHeight());
 
 					} else {
-						logintip.hide();
+						rLlogintip.hide();
 					}
 				}
 			});
-			username.requestFocus();
+			rLUserTextField.requestFocus();
 		} else {
-			if (controller.loginUser(username.getText(), getLastPW()) == "Incorrect user or pw") {
-				username.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-				password.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-				visiblePW.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
-				username.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			if (controller.loginUser(rLUserTextField.getText(), getLastPW()) == "Incorrect user or pw") {
+				rLUserTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+				rLPasswdField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+				rLPasswdTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+				rLUserTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 					@Override
 					public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
 							Boolean newValue) {
 						if (newValue) {
-							logintip.show(username, //
+							rLlogintip.show(rLUserTextField, //
 									// popup tooltip on the right, you can adjust these values for different
 									// positions
-									username.getScene().getWindow().getX() + username.getLayoutX() + username.getWidth()
+									rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
 											+ 35, //
-									username.getScene().getWindow().getY() + username.getLayoutY()
-											+ username.getHeight());
+									rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY()
+											+ rLUserTextField.getHeight());
 
 						} else {
-							logintip.hide();
+							rLlogintip.hide();
 						}
 					}
 				});
-				username.requestFocus();
+				rLUserTextField.requestFocus();
 			} else {
-				controller.loginUser(username.getText(), getLastPW());
-				Stage stage = (Stage) closeButton.getScene().getWindow();
+				controller.loginUser(rLUserTextField.getText(), getLastPW());
+				Stage stage = (Stage) rLCloseButton.getScene().getWindow();
 				stage.close();
 				// mc.openMixerSave();
 				mc.setlogUserIn();
@@ -273,18 +314,11 @@ public class RegisterLoginController implements Initializable {
 		return matcher.matches();
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-
-		
-	}
-
-	public String getLastPW() {
+	private String getLastPW() {
 		return lastPW;
 	}
 
-	public void setLastPW(String lastPW) {
+	private void setLastPW(String lastPW) {
 		this.lastPW = lastPW;
 	}
 

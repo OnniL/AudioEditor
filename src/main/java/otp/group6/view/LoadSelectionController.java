@@ -2,12 +2,17 @@ package otp.group6.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import otp.group6.audioeditor.AudioFileHandler;
@@ -20,7 +25,7 @@ import otp.group6.controller.Controller;
  * @author Joonas Soininen
  *
  */
-public class LoadSelectionController {
+public class LoadSelectionController implements Initializable{
 	Controller controller;
 	MainController mc;
 
@@ -28,9 +33,35 @@ public class LoadSelectionController {
 	AnchorPane mainContainer;
 
 	@FXML
-	private Button closeButton;
-
+	private Button lSBcancel;
+	@FXML
+	private Button lSBX;
+	@FXML
+	private Label lSTitle;
+	@FXML
+	private Label lSmaintext;
+	@FXML
+	private Button lSBlocal;
+	@FXML
+	private Button lSBcloud;
+	
 	private List<String> lines = new ArrayList<String>();
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Vaihda localen määritelmä!
+		setLocalization(new Locale("en","US"));
+	}
+	
+	private void setLocalization(Locale locale) {
+		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		lSBcancel.setText(bundle.getString("lSBcancel"));
+		lSBX.setText(bundle.getString("lSBX"));
+		lSTitle.setText(bundle.getString("lSTitle"));
+		lSmaintext.setText(bundle.getString("lSmaintext"));
+		lSBlocal.setText(bundle.getString("lSBlocal"));
+		lSBcloud.setText(bundle.getString("lSBcloud"));
+	}
 
 	/**
 	 * Method to get mainController
@@ -49,13 +80,16 @@ public class LoadSelectionController {
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) lSBcancel.getScene().getWindow();
 		stage.close();
 	}
 
+	/**
+	 * Method to open mixer settings from the database
+	 */
 	public void loadFromCloud() {
 		mc.openMixerSettings();
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) lSBcancel.getScene().getWindow();
 		stage.close();
 	}
 
@@ -81,7 +115,9 @@ public class LoadSelectionController {
 
 			e.printStackTrace();
 		}
-		Stage stage = (Stage) closeButton.getScene().getWindow();
+		Stage stage = (Stage) lSBcancel.getScene().getWindow();
 		stage.close();
 	}
+
+
 }
