@@ -137,7 +137,7 @@ public class SoundboardViewController implements Initializable {
 	 * Gets app localization from .properties
 	 */
 	public void getLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/Soundboard",locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources",locale);
 		CSOUND_BTN = bundle.getString("CSOUND_BTN");
 		DELETE_BTN = bundle.getString("DELETE_BTN");	
 		RENAME_BTN = bundle.getString("RENAME_BTN");

@@ -107,7 +107,7 @@ public class SaveMixerSettingsController implements Initializable{
 	}
 	
 	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		sMSPitchLabel.setText(bundle.getString("sMSPitchLabel"));
 		sMSEchoLLabel.setText(bundle.getString("sMSEchoLLabel"));
 		sMSEchoDLabel.setText(bundle.getString("sMSEchoDLabel"));

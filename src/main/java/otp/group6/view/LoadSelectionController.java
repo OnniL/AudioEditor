@@ -54,7 +54,7 @@ public class LoadSelectionController implements Initializable{
 	}
 	
 	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		lSBcancel.setText(bundle.getString("lSBcancel"));
 		lSBX.setText(bundle.getString("lSBX"));
 		lSTitle.setText(bundle.getString("lSTitle"));

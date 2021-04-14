@@ -67,6 +67,9 @@ import otp.group6.controller.Controller;
 public class MainController implements Initializable {
 
 	Controller controller;
+	@FXML
+	private Tab mixerTab;
+	
 	SoundboardViewController boardController;
 
 	public MainController() {
@@ -924,7 +927,7 @@ public class MainController implements Initializable {
 
 	private void initializeMixerLocalization() {
 
-		String appConfigPath = "src/main/resources/AudioEditor.properties";
+		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
 		Properties properties = new Properties();
 
 		try {
@@ -941,7 +944,7 @@ public class MainController implements Initializable {
 		// TÄSSÄ TEHÄÄN OLETUSKIELIJUTUT
 
 		try {
-			bundle = ResourceBundle.getBundle("TextResources", curLocale);
+			bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
 
 			mixerTab.setText(bundle.getString("mixerTab"));
 

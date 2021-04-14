@@ -94,7 +94,7 @@ public class UserSettingsController implements Initializable{
 	}
 	
 	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
 		uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));

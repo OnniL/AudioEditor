@@ -76,7 +76,7 @@ public class RegisterLoginController implements Initializable {
 	}
 	
 	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		rLWelcomeLabel.setText(bundle.getString("rLWelcomeLabel"));
 		rLPleaseLabel.setText(bundle.getString("rLPleaseLabel"));
 		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));

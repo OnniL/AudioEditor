@@ -122,7 +122,7 @@ public class Soundboard {
 	public Soundboard() {
 		player = new SoundboardPlayer();
 		try {
-			ResourceBundle bundle = ResourceBundle.getBundle("properties/Soundboard", new Locale("fi","FI"));
+			ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", new Locale("fi","FI"));
 			DEFAULT_NAME = bundle.getString("DEFAULT_NAME");
 		}catch(MissingResourceException e) {
 			e.printStackTrace();

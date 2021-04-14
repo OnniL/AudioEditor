@@ -46,7 +46,7 @@ public class SaveSelectionController implements Initializable{
 	}
 	
 	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("ApplicationResources", locale);
+		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
 		sSHeaderLabel.setText(bundle.getString("sSHeaderLabel"));
 		sSTextLable.setText(bundle.getString("sSTextLable"));
 		sSLocalButton.setText(bundle.getString("sSLocalButton"));
