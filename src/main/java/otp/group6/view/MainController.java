@@ -1184,6 +1184,7 @@ public class MainController implements Initializable {
 		if (controller.isConnected()) {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RegisterLoginView.fxml"));
+				fxmlLoader.setResources(bundle);
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				RegisterLoginController rlc = fxmlLoader.getController();
@@ -1208,6 +1209,7 @@ public class MainController implements Initializable {
 		if (controller.isConnected()) {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MixerSettingsView.fxml"));
+				fxmlLoader.setResources(bundle);
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				MixerSettingsController msc = fxmlLoader.getController();
@@ -1235,6 +1237,7 @@ public class MainController implements Initializable {
 
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveMixerSettings.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			SaveMixerSettingsController smsc = fxmlLoader.getController();
 			smsc.setMainController(this);
@@ -1259,6 +1262,7 @@ public class MainController implements Initializable {
 	public void openSaveSelection() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveSelectionView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			SaveSelectionController ssc = fxmlLoader.getController();
@@ -1281,6 +1285,7 @@ public class MainController implements Initializable {
 	public void openLoadSelection() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/LoadSelectionView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			LoadSelectionController lsc = fxmlLoader.getController();
@@ -1302,6 +1307,7 @@ public class MainController implements Initializable {
 	public void openUserSettings() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/UserSettingsView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			UserSettingsController usc = fxmlLoader.getController();

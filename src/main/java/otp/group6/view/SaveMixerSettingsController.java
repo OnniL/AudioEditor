@@ -102,12 +102,10 @@ public class SaveMixerSettingsController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
-
+		setLocalization(arg1);
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	private void setLocalization(ResourceBundle bundle) {
 		sMSPitchLabel.setText(bundle.getString("sMSPitchLabel"));
 		sMSEchoLLabel.setText(bundle.getString("sMSEchoLLabel"));
 		sMSEchoDLabel.setText(bundle.getString("sMSEchoDLabel"));
