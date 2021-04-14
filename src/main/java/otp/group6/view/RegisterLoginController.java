@@ -70,13 +70,10 @@ public class RegisterLoginController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
-
+		setLocalization(arg1);
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	private void setLocalization(ResourceBundle bundle) {
 		rLWelcomeLabel.setText(bundle.getString("rLWelcomeLabel"));
 		rLPleaseLabel.setText(bundle.getString("rLPleaseLabel"));
 		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));

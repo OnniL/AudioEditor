@@ -160,12 +160,10 @@ public class MixerSettingsController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
+		setLocalization(arg1);
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	private void setLocalization(ResourceBundle bundle) {
 		mSTabCloud.setText(bundle.getString("mSTabCloud"));
 		mSTabFavorites.setText(bundle.getString("mSTabFavorites"));
 		mSSearchField.setPromptText(bundle.getString("mSSearchField"));

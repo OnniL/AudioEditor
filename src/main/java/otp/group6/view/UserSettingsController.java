@@ -88,13 +88,11 @@ public class UserSettingsController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pwReminder();
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
+		setLocalization(arg1);
 
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	private void setLocalization(ResourceBundle bundle) {
 		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
 		uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
