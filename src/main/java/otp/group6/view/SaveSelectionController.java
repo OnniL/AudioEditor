@@ -1,9 +1,7 @@
 package otp.group6.view;
 
 import java.net.URL;
-import java.util.Locale;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,11 +37,18 @@ public class SaveSelectionController implements Initializable{
 	@FXML
 	AnchorPane mainContainer;
 
+	/**
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setLocalization(arg1);
 	}
 	
+	/**
+	 * Method sets all visible texts and button labels to chosen language.
+	 * @param bundle transfers the localization data to the method so the right language is set
+	 */
 	private void setLocalization(ResourceBundle bundle) {
 		sSHeaderLabel.setText(bundle.getString("sSHeaderLabel"));
 		sSTextLable.setText(bundle.getString("sSTextLable"));
