@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import otp.group6.controller.Controller;
 
+/**
+ * 
+ * @author Onni Lukkarila
+ *
+ */
 public class AudioRecorderTest {
 
 	

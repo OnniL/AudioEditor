@@ -29,8 +29,8 @@ import otp.group6.controller.Controller;
 /**
  * Provides tools for basic audio recording and playback of that recorded file
  * 
- * @authors Onni Lukkarila, Kevin Akkoyun, Joonas Soininen
- * @version 0.1
+ * @authors Onni Lukkarila
+ * @version 0.2
  *
  */
 
@@ -72,18 +72,35 @@ public class AudioRecorder extends Thread {
 
 	}
 
+	/**
+	 * Getter for audioformat
+	 * @return AudioFormat object
+	 */
 	public AudioFormat getFormat() {
 		return format;
 	}
 
+	/**
+	 * Setter for audioformat
+	 * @param format
+	 */
 	public void setFormat(AudioFormat format) {
 		this.format = format;
 	}
 
+	/**
+	 * Getter for the targetfile
+	 * @return File object
+	 */
 	public File getTargetFile() {
 		return targetFile;
 	}
 
+	
+	/**
+	 * Setter for targetfile
+	 * @param targetFile
+	 */
 	public void setTargetFile(File targetFile) {
 		this.targetFile = targetFile;
 	}
