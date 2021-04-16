@@ -68,10 +68,11 @@ class SoundboardTest {
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
-	@Disabled
+	
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
+	@Disabled
 	final void testSaveSampleData() {
 		for (int i = 0; i < 10; i++) {
 			soundboard.addSample("src/audio/jumalauta.wav");
