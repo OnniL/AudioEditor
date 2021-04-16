@@ -20,7 +20,7 @@ import otp.group6.audioeditor.Soundboard.Sample;
  * @author Kevin Akkoyun
  *
  */
-
+@Disabled
 class SoundboardTest {
 	private Soundboard soundboard = new Soundboard();
 
