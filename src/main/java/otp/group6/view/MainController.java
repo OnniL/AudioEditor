@@ -996,6 +996,11 @@ public class MainController implements Initializable {
 
 	// RECORDER METHODS START HERE/////////////////////////////////////
 
+	
+	/**
+	 * @author Onni Lukkarila
+	 */
+	
 	@FXML
 	private Button recorderButtonPlay;
 	@FXML
