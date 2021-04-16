@@ -47,6 +47,7 @@ public class MainApplication extends Application {
 		});
 	}
 
+	boolean testi = false;
 	/**
 	 * Initializes the root layout.
 	 */
@@ -56,13 +57,13 @@ public class MainApplication extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApplication.class.getResource("/MainView.fxml"));
 			loader.setResources(getLocalization());
+
 			rootLayout = (AnchorPane) loader.load();
 
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			mainController = loader.getController();
-			mainController.initializeMixer();
 
 		} catch (IOException e) {
 			e.printStackTrace();

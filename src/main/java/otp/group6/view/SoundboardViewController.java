@@ -139,15 +139,15 @@ public class SoundboardViewController implements Initializable {
 	 * TODO javadoc
 	 */
 	public void setLocalization(ResourceBundle bundle) {
-		CSOUND_BTN = bundle.getString("CSOUND_BTN");
-		DELETE_BTN = bundle.getString("DELETE_BTN");
-		RENAME_BTN = bundle.getString("RENAME_BTN");
-		CONFIRM_BTN = bundle.getString("CONFIRM_BTN");
-		CANCEL_BTN = bundle.getString("CANCEL_BTN");
-		WARNING_MSG = bundle.getString("WARNING_MSG");
-		WARNING_TITLE = bundle.getString("WARNING_TITLE");
-		CLEAR_BTN = bundle.getString("CLEAR_BTN");
-		controller.setSampleDefaultName(bundle.getString("DEFAULT_NAME"));
+		CSOUND_BTN = bundle.getString("sBCSound_btn");
+		DELETE_BTN = bundle.getString("sBDelete_btn");
+		RENAME_BTN = bundle.getString("sBRename_btn");
+		CONFIRM_BTN = bundle.getString("sBConfirm_btn");
+		CANCEL_BTN = bundle.getString("sBCancel_btn");
+		WARNING_MSG = bundle.getString("sBWarning_msg");
+		WARNING_TITLE = bundle.getString("sBWarning_title");
+		CLEAR_BTN = bundle.getString("sBClear_btn");
+		controller.setSampleDefaultName(bundle.getString("sBDefault_name"));
 	}
 
 	/**

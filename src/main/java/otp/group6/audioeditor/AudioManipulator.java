@@ -91,6 +91,7 @@ public class AudioManipulator {
 	private boolean isFlangerWanted = true;
 	private boolean isLowPassWanted = true;
 
+	@SuppressWarnings("unused")
 	private boolean isSaved = true;
 
 	// Konstruktori
