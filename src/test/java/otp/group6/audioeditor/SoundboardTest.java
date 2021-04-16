@@ -9,6 +9,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Disabled;
 
 import otp.group6.audioeditor.Soundboard.Sample;
 
@@ -67,7 +68,7 @@ class SoundboardTest {
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
-
+	@Disabled
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
