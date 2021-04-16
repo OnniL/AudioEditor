@@ -978,6 +978,13 @@ public class MainController implements Initializable {
 			tooltipEcho.setText(bundle.getString("mixerEchoTooltip"));
 			tooltipFlanger.setText(bundle.getString("mixerFlangerTooltip"));
 			tooltipLowPass.setText(bundle.getString("mixerLowPassTooltip"));
+			
+			
+			 
+			 
+			 
+			 
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1150,6 +1157,35 @@ public class MainController implements Initializable {
 		recorderButtonPlay.setDisable(false);
 		recorderButtonPause.setDisable(true);
 		recorderButtonStop.setDisable(true);
+	}
+	
+	
+	private void initializeRecorderLocalization() {
+
+		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
+		Properties properties = new Properties();
+
+		try {
+			properties.load(new FileInputStream(appConfigPath));
+			String language = properties.getProperty("language");
+			String country = properties.getProperty("country");
+			curLocale = new Locale(language, country);
+			Locale.setDefault(curLocale);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
+
+			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
+			recorderButtonPause.setText(bundle.getString("recorderPause"));
+			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
+			recorderButtonStop.setText(bundle.getString("recorderStop"));
+			recorderButtonSave.setText(bundle.getString("recorderSave"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	//// RECORDER METHODS END
