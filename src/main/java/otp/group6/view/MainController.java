@@ -6,12 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
-
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Optional;
-import java.util.Properties;
-
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,11 +29,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -48,9 +39,10 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -62,15 +54,19 @@ import otp.group6.controller.Controller;
 
 /**
  * Main controller for the view
+ * 
  * @version 0.1
  */
 public class MainController implements Initializable {
 
 	Controller controller;
+	Locale curLocale;
+	ResourceBundle bundle;
+	SoundboardViewController boardController;
+
 	@FXML
 	private Tab mixerTab;
-	
-	SoundboardViewController boardController;
+	public static AnchorPane sharedMain;
 
 	public MainController() {
 		controller = new Controller(this);
@@ -78,15 +74,20 @@ public class MainController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		bundle = resources;
 		loadSoundboard();
+		initializeMixer();
+		initializeRecorderLocalization();
 		sharedMain = mainContainer;
 	}
+
 	/**
 	 * Method that is called when the program is exit
 	 */
 	public void exitRoutine() {
 		boardController.saveSampleData();
 	}
+
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Text/label elements
 	@FXML
@@ -203,7 +204,7 @@ public class MainController implements Initializable {
 	private ToggleButton toggleButtonFlanger;
 	@FXML
 	private ToggleButton toggleButtonLowPass;
-	
+
 	@FXML
 	private ButtonBar buttonBarResetSaveLoad;
 
@@ -234,9 +235,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private AnchorPane mainContainer;
-	
-	public static AnchorPane sharedMain;
-	
+
 	@FXML
 	AnchorPane soundboardRoot;
 	// Muuttujat tiedoston kokonaiskestolle ja toistetulle ajalle
@@ -245,10 +244,10 @@ public class MainController implements Initializable {
 
 	// TODO HOX TÄMÄN LOKALISOINTI
 	private DecimalFormat decimalFormat = new DecimalFormat("#0.00"); // kaikki luvut kahden desimaalin tarkkuuteen
-	
-	//public static AnchorPane getMainContainer() {
-		//return mainContainer;
-	//}
+
+	// public static AnchorPane getMainContainer() {
+	// return mainContainer;
+	// }
 	/*
 	 * 
 	 */
@@ -256,7 +255,7 @@ public class MainController implements Initializable {
 		initializeSlidersAndTextFields();
 		initializeTooltips();
 		initializeRecorderListener();
-		initializeMixerLocalization();
+		setLanguageToMixer();
 	}
 
 	// Methods for buttons
@@ -364,9 +363,9 @@ public class MainController implements Initializable {
 				controller.audioManipulatorOpenFile(file);
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error");
-				alert.setHeaderText("Wrong audio format");
-				alert.setContentText("Please select only WAV files");
+				alert.setTitle(bundle.getString("mixerErrorTitle"));
+				alert.setHeaderText(bundle.getString("mixerErrorReasonWrongFormat"));
+				alert.setContentText(bundle.getString("mixerErrorContentWrongFormat"));
 				alert.showAndWait();
 			}
 			// Length of the audio file in seconds (file.length / (format.frameSize *
@@ -380,7 +379,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") +" "+ file.getName());
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + file.getName());
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -426,7 +425,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") +" "+ file.getName());
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + file.getName());
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -922,30 +921,9 @@ public class MainController implements Initializable {
 		buttonInfoLowPass.setTooltip(tooltipLowPass);
 	}
 
-	Locale curLocale;
-	ResourceBundle bundle;
 
-	private void initializeMixerLocalization() {
-
-		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
-		Properties properties = new Properties();
-
+	private void setLanguageToMixer() {
 		try {
-			properties.load(new FileInputStream(appConfigPath));
-			String language = properties.getProperty("language");
-			String country = properties.getProperty("country");
-			curLocale = new Locale(language, country);
-			Locale.setDefault(curLocale);
-		} catch (Exception e) {
-			// TODO: KIELIASETUKSIA EI LÖYTYNYT käytä oletusta
-			e.printStackTrace();
-		}
-
-		// TÄSSÄ TEHÄÄN OLETUSKIELIJUTUT
-
-		try {
-			bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
-
 			mixerTab.setText(bundle.getString("mixerTab"));
 
 			labelSelectFile.setText(bundle.getString("mixerSelectFileText"));
@@ -985,6 +963,15 @@ public class MainController implements Initializable {
 			 
 			 
 			
+
+			
+			  Image imagePlay = new Image(new FileInputStream("./src/main/assets/images/playbutton.png")); 
+			  ImageView viewPlay = new ImageView(imagePlay); buttonPlay.setGraphic(viewPlay);			  
+			 // buttonPause.setGraphic(); 
+			  //buttonStop.setGraphic();
+			  
+			  
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1167,22 +1154,8 @@ public class MainController implements Initializable {
 	
 	private void initializeRecorderLocalization() {
 
-		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
-		Properties properties = new Properties();
-
 		try {
-			properties.load(new FileInputStream(appConfigPath));
-			String language = properties.getProperty("language");
-			String country = properties.getProperty("country");
-			curLocale = new Locale(language, country);
-			Locale.setDefault(curLocale);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
-
+			
 			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
 			recorderButtonPause.setText(bundle.getString("recorderPause"));
 			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
@@ -1225,6 +1198,7 @@ public class MainController implements Initializable {
 		if (controller.isConnected()) {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/RegisterLoginView.fxml"));
+				fxmlLoader.setResources(bundle);
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				RegisterLoginController rlc = fxmlLoader.getController();
@@ -1249,6 +1223,7 @@ public class MainController implements Initializable {
 		if (controller.isConnected()) {
 			try {
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/MixerSettingsView.fxml"));
+				fxmlLoader.setResources(bundle);
 				Parent root1 = (Parent) fxmlLoader.load();
 				Stage stage = new Stage();
 				MixerSettingsController msc = fxmlLoader.getController();
@@ -1276,6 +1251,7 @@ public class MainController implements Initializable {
 
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveMixerSettings.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			SaveMixerSettingsController smsc = fxmlLoader.getController();
 			smsc.setMainController(this);
@@ -1300,6 +1276,7 @@ public class MainController implements Initializable {
 	public void openSaveSelection() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/SaveSelectionView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			SaveSelectionController ssc = fxmlLoader.getController();
@@ -1322,6 +1299,7 @@ public class MainController implements Initializable {
 	public void openLoadSelection() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/LoadSelectionView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			LoadSelectionController lsc = fxmlLoader.getController();
@@ -1343,6 +1321,7 @@ public class MainController implements Initializable {
 	public void openUserSettings() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/UserSettingsView.fxml"));
+			fxmlLoader.setResources(bundle);
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage stage = new Stage();
 			UserSettingsController usc = fxmlLoader.getController();
@@ -1473,12 +1452,15 @@ public class MainController implements Initializable {
 
 	/**
 	 * Loads soundboard from fxml and sets boardController as soundboards controller
+	 * 
 	 * @author Kevin Akkoyun
 	 */
+	@SuppressWarnings("static-access")
 	public void loadSoundboard() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApplication.class.getResource("/SoundboardView.fxml"));
+			loader.setResources(bundle);
 			AnchorPane temp = (AnchorPane) loader.load();
 			boardController = loader.getController();
 			soundboardRoot.getChildren().add(temp);

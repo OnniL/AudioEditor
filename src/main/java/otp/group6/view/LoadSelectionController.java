@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import javafx.event.ActionEvent;
@@ -47,14 +46,19 @@ public class LoadSelectionController implements Initializable{
 	
 	private List<String> lines = new ArrayList<String>();
 	
+	/**
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
+		setLocalization(arg1);
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	/**
+	 * Method sets all visible texts and button labels to chosen language.
+	 * @param bundle transfers the localization data to the method so the right language is set
+	 */
+	private void setLocalization(ResourceBundle bundle) {
 		lSBcancel.setText(bundle.getString("lSBcancel"));
 		lSBX.setText(bundle.getString("lSBX"));
 		lSTitle.setText(bundle.getString("lSTitle"));
@@ -76,7 +80,7 @@ public class LoadSelectionController implements Initializable{
 	/**
 	 * Method to close opened scenes
 	 * 
-	 * @param event
+	 * @param event 
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {

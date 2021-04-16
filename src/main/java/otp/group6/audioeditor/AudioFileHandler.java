@@ -16,7 +16,7 @@ import java.io.File;
 public class AudioFileHandler {
 
 	// Constructor
-	public void AudioFileHandler() {
+	public AudioFileHandler() {
 
 	}
 

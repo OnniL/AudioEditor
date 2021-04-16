@@ -1,8 +1,9 @@
 package otp.group6.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +18,8 @@ import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import otp.group6.controller.Controller;
 
@@ -59,6 +62,14 @@ public class RegisterLoginController implements Initializable {
 	private Label rLForgotLabel;
 	@FXML
 	private Button rLCloseButton;
+	
+	private Image imageShow;
+	
+	private Image imageHide;
+	
+	private FileInputStream imageinputshow;
+	
+	private FileInputStream imageinputhide;
 
 	private String lastPW;
 	
@@ -68,21 +79,25 @@ public class RegisterLoginController implements Initializable {
 
 	final Tooltip rLlogintip = new Tooltip();
 	
+	/**
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
-
+		setLocalization(arg1);
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	/**
+	 * Method sets all visible texts and button labels to chosen language. Sets specific images to specific buttons.
+	 * @param bundle transfers the localization data to the method so the right language is set
+	 */
+	private void setLocalization(ResourceBundle bundle) {
 		rLWelcomeLabel.setText(bundle.getString("rLWelcomeLabel"));
 		rLPleaseLabel.setText(bundle.getString("rLPleaseLabel"));
 		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));
 		rLUserTextField.setPromptText(bundle.getString("rLUserTextField"));
 		rLPasswdLabel.setText(bundle.getString("rLPasswdLabel"));
-		rLShowPwToggle.setText(bundle.getString("rLShowPwToggle"));
+		//rLShowPwToggle.setText(bundle.getString("rLShowPwToggle"));
 		rLRegisterButton.setText(bundle.getString("rLRegisterButton"));
 		rLLorLabel.setText(bundle.getString("rLLorLabel"));
 		rLLoginButton.setText(bundle.getString("rLLoginButton"));
@@ -91,6 +106,19 @@ public class RegisterLoginController implements Initializable {
 		rLpwtooltip.setText(bundle.getString("rLpwtooltip"));
 		rLwuntooltip.setText(bundle.getString("rLwuntooltip"));
 		rLlogintip.setText(bundle.getString("rLlogintip"));
+		
+		try {
+			imageinputshow = new FileInputStream("src/main/resources/images/showPW.jpg");
+			imageinputhide = new FileInputStream("src/main/resources/images/hidePW.jpg");
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		imageShow = new Image(imageinputshow,20,20, true, true);
+		imageHide = new Image(imageinputhide,20,20, true, true);
+		rLShowPwToggle.setGraphic(new ImageView(imageHide));
+		rLShowPwToggle.setText("");
 	}
 	
 	
@@ -104,11 +132,15 @@ public class RegisterLoginController implements Initializable {
 			rLPasswdTextField.setVisible(true);
 			rLPasswdTextField.setEditable(true);
 			rLPasswdTextField.setText(rLPasswdField.getText());
+			rLShowPwToggle.setGraphic(new ImageView(imageShow));
+			rLShowPwToggle.setText("");
 			
 		} else if (!rLShowPwToggle.isSelected()) {
 			rLPasswdTextField.setVisible(false);
 			rLPasswdField.setText(rLPasswdTextField.getText());
 			rLPasswdField.setVisible(true);
+			rLShowPwToggle.setGraphic(new ImageView(imageHide));
+			rLShowPwToggle.setText("");
 		}
 
 	}
@@ -309,15 +341,28 @@ public class RegisterLoginController implements Initializable {
 	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
 	private static final Pattern unPattern = Pattern.compile(USERNAME_PATTERN);
 	
+	/**
+	 * Method validates inputed user name, in this case checks for whitespace usage.
+	 * @param username users inputed user name.
+	 * @return true if user name meet the standards.
+	 */
 	public static boolean unisValid(final String username) {
 		Matcher matcher = unPattern.matcher(username);
 		return matcher.matches();
 	}
 
+	/**
+	 * Method to make sure the right password is returned to the database
+	 * @return last set password.
+	 */
 	private String getLastPW() {
 		return lastPW;
 	}
 
+	/**
+	 * Sets the right password to be sent to the database.
+	 * @param lastPW 
+	 */
 	private void setLastPW(String lastPW) {
 		this.lastPW = lastPW;
 	}

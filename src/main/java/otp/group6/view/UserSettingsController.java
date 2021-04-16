@@ -1,7 +1,8 @@
 package otp.group6.view;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -14,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
@@ -80,28 +83,39 @@ public class UserSettingsController implements Initializable{
 	private String uSChangePWAlert2Header;
 	private String uSChangePWAlert2Content;
 
-
+	private Image imageShow;
 	
+	private Image imageHide;
+	
+	private FileInputStream imageinputshow;
+	
+	private FileInputStream imageinputhide;	
 	
 	final Tooltip uSpwtooltip = new Tooltip();
 
+	/**
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it
+	 * and {@link #pwReminder()} is called to focus user to give certain type of password.
+	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		pwReminder();
-		// TODO Vaihda localen määritelmä!
-		setLocalization(new Locale("en","US"));
+		setLocalization(arg1);
 
 	}
 	
-	private void setLocalization(Locale locale) {
-		ResourceBundle bundle = ResourceBundle.getBundle("properties/ApplicationResources", locale);
+	/**
+	 * Method sets all visible texts and button labels to chosen language. Sets specific images to specific buttons.
+	 * @param bundle transfers the localization data to the method so the right language is set
+	 */
+	private void setLocalization(ResourceBundle bundle) {
 		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
 		uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
 		uSOldPWLabel.setText(bundle.getString("uSOldPWLabel"));
-		uSShowPW1Toggle.setText(bundle.getString("uSShowPW1Toggle"));
+		//uSShowPW1Toggle.setText(bundle.getString("uSShowPW1Toggle"));
 		uSNewPWLabel.setText(bundle.getString("uSNewPWLabel"));
-		uSShowPW2Toggle.setText(bundle.getString("uSShowPW2Toggle"));
+		//uSShowPW2Toggle.setText(bundle.getString("uSShowPW2Toggle"));
 		uSChangeButton.setText(bundle.getString("uSChangeButton"));
 		uSUserDeleLabel.setText(bundle.getString("uSUserDeleLabel"));
 		uSDeleteUserButton.setText(bundle.getString("uSDeleteUserButton"));
@@ -119,8 +133,25 @@ public class UserSettingsController implements Initializable{
 		uSChangePWAlert2Title=bundle.getString("uSChangePWAlert2Title");
 		uSChangePWAlert2Header=bundle.getString("uSChangePWAlert2Header");
 		uSChangePWAlert2Content=bundle.getString("uSChangePWAlert2Content");
+		try {
+			imageinputshow = new FileInputStream("src/main/resources/images/showPW.jpg");
+			imageinputhide = new FileInputStream("src/main/resources/images/hidePW.jpg");
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		imageShow = new Image(imageinputshow,20,20, true, true);
+		imageHide = new Image(imageinputhide,20,20, true, true);
+		uSShowPW1Toggle.setGraphic(new ImageView(imageHide));
+		uSShowPW1Toggle.setText("");
+		uSShowPW2Toggle.setGraphic(new ImageView(imageHide));
+		uSShowPW2Toggle.setText("");
 	}
 	
+	/*
+	 * Method to show and hide users password for spell cheking
+	 */
 	@FXML
 	public void showPW1() {		
 		if (uSShowPW1Toggle.isSelected()) {
@@ -128,14 +159,21 @@ public class UserSettingsController implements Initializable{
 			showOldPW.setVisible(true);
 			showOldPW.setEditable(true);
 			showOldPW.setText(password.getText());
+			uSShowPW1Toggle.setGraphic(new ImageView(imageShow));
+			uSShowPW1Toggle.setText("");
 		} else if (!uSShowPW1Toggle.isSelected()) {
 			password.setText(showOldPW.getText());
 			password.setVisible(true);			
 			showOldPW.setVisible(false);
+			uSShowPW1Toggle.setGraphic(new ImageView(imageHide));
+			uSShowPW1Toggle.setText("");
 		}
 
 	}
 	
+	/*
+	 * Method to show and hide users password for spell cheking
+	 */
 	@FXML
 	public void showPW2() {
 		if (uSShowPW2Toggle.isSelected()) {
@@ -143,10 +181,14 @@ public class UserSettingsController implements Initializable{
 			showNewPW.setVisible(true);
 			showNewPW.setEditable(true);
 			showNewPW.setText(npassword.getText());
+			uSShowPW2Toggle.setGraphic(new ImageView(imageShow));
+			uSShowPW2Toggle.setText("");
 		} else if (!uSShowPW2Toggle.isSelected()) {
 			npassword.setText(showNewPW.getText());
 			npassword.setVisible(true);
 			showNewPW.setVisible(false);
+			uSShowPW2Toggle.setGraphic(new ImageView(imageHide));
+			uSShowPW2Toggle.setText("");
 		}
 
 	}
@@ -264,6 +306,9 @@ public class UserSettingsController implements Initializable{
 		return matcher.matches();
 	}
 	
+	/**
+	 * Method to set the password to different variables depending on if the password is visible to the user or not.
+	 */
 	@FXML
 	private void setText() {
 		if (uSShowPW1Toggle.isSelected()) {
