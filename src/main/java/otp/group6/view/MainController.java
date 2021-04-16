@@ -66,6 +66,8 @@ public class MainController implements Initializable {
 
 	@FXML
 	private Tab mixerTab;
+	@FXML
+	private Tab recorderTab;
 	public static AnchorPane sharedMain;
 
 	public MainController() {
@@ -1155,7 +1157,7 @@ public class MainController implements Initializable {
 	private void initializeRecorderLocalization() {
 
 		try {
-			
+			recorderTab.setText(bundle.getString("recorderTab"));
 			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
 			recorderButtonPause.setText(bundle.getString("recorderPause"));
 			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
