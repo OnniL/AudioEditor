@@ -53,22 +53,17 @@ public class AudioRecorder extends Thread {
 	private Boolean isPressed = false;
 	private Timer timer;
 	private TimerTask task;
+	private DataLine.Info info;
 
 	public AudioRecorder(Controller controller) {
 		this.controller = controller;
 		this.setFormat(getDefaultAudioFormat());
 		// Sets default file
-		this.setTargetFile(new File("src/audio/default.wav").getAbsoluteFile());
+		this.setTargetFile(new File("src/audio/recorder_default.wav").getAbsoluteFile());
 		wsola = new WaveformSimilarityBasedOverlapAdd(Parameters.musicDefaults(1.0, format.getSampleRate()));
 		wsola.setDispatcher(adp);
 
-		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-
-		try {
-			line = (TargetDataLine) AudioSystem.getLine(info);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
+		info = new DataLine.Info(TargetDataLine.class, format);
 
 	}
 
@@ -111,7 +106,7 @@ public class AudioRecorder extends Thread {
 	public void recordAudio() {
 		try {
 			writer = new WaveformWriter(format, "src/audio/recorder_default.wav");
-
+			getLine();
 			line.open(format);
 			System.out.println(line.isOpen());
 			line.start();
@@ -307,10 +302,44 @@ public class AudioRecorder extends Thread {
 	 * Method to tell maincontroller that audio file has reached its end
 	 */
 	public void audioFileReachedEnd(){
-		controller.recorderAudioFileReachedEnd();
+		try{
+			controller.recorderAudioFileReachedEnd();
+		}
+		catch (Exception e){
+		}
 		playbackStartingPoint = 0;
 		secondsProcessed = 0;
 		isPlaying = false;
+	}
+	
+	/**
+	 * Getter for playbacks startingpoint
+	 * @return playbackStartingPoint
+	 */
+	public float getPlaybackStartingPoint() {
+		return playbackStartingPoint;
+	}
+
+	/**
+	 * Setter for playbacks startingpoint
+	 * @param playbackStartingPoint
+	 */
+	public void setPlaybackStartingPoint(float playbackStartingPoint) {
+		this.playbackStartingPoint = playbackStartingPoint;
+	}
+
+	
+	/**
+	 * Getter for getting correct dataline from system
+	 */
+	public void getLine() {
+		try {
+			line = (TargetDataLine) AudioSystem.getLine(info);
+			System.out.println(AudioSystem.getLine(info));
+			System.out.println(info);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

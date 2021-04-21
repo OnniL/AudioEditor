@@ -68,7 +68,7 @@ class SoundboardTest {
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
-	
+
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
