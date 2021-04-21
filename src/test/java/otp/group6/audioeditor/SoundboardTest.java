@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -67,10 +68,11 @@ class SoundboardTest {
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
-
+	
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
+	@Disabled
 	final void testSaveSampleData() {
 		for (int i = 0; i < 10; i++) {
 			soundboard.addSample("src/audio/jumalauta.wav");
