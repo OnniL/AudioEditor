@@ -79,6 +79,7 @@ public class MainController implements Initializable {
 		initializeMixer();
 		initializeRecorderLocalization();
 		sharedMain = mainContainer;
+		initializeMenuItems();
 	}
 
 	/**
@@ -1177,14 +1178,20 @@ public class MainController implements Initializable {
 	private Label loggedinuser;
 	@FXML
 	private MenuItem userSettings;
-	private MenuButton userMenuButton = new MenuButton();
-	private MenuItem menu1 = new MenuItem("User settings");
-	private MenuItem menu2 = new MenuItem("log out");
+	private MenuButton userMenuButton;
+	private MenuItem menu1;
+	private MenuItem menu2;
 	@FXML
 	private MenuItem loginoption;
 	@FXML
 	private Button closeButton;
-
+	
+	public void initializeMenuItems() {
+		userMenuButton = new MenuButton();
+		menu1 = new MenuItem(bundle.getString("mVmenu1")); //
+		menu2 = new MenuItem(bundle.getString("mVmenu2")); //
+	}
+	
 	/**
 	 * Method opens a new scene Login and Register form
 	 */
@@ -1424,7 +1431,7 @@ public class MainController implements Initializable {
 		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;"); // MUOTOILU CSSSSSÄÄÄÄN
 		userMenuButton.getItems().addAll(menu1, menu2);
 		loggedinuser.setVisible(true);
-		loggedinuser.setText("Logged in as: ");
+		loggedinuser.setText(bundle.getString("mVloggedin"));
 		loggedinuser.setGraphic(userMenuButton);
 		loggedinuser.setContentDisplay(ContentDisplay.RIGHT);
 		userSettings.setVisible(true);
