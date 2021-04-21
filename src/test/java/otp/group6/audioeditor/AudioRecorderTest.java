@@ -58,10 +58,19 @@ public class AudioRecorderTest {
 		assertEquals(2.7, recorder.getAudioFileDuration(), DELTA,  "Setting audio file's duration wasn't succesful");
 	}
 	
-	@Disabled
+	@Test
+	@DisplayName ("Test to test audioFileReachedEnd method")
+	@Order(4)
+	void testAudioFileReachedEnd() {
+		recorder.audioFileReachedEnd();
+		assertEquals(0.0, recorder.getPlaybackStartingPoint(), DELTA,  "audioFileReachedEnd() method didn't work");
+	}
+	
+	
+	//Disabled because Jenkins can't access a Dataline (works when running with a system with an audio device)
 	@Test
 	@DisplayName ("Test for saving recorded file")
-	@Order(4)
+	@Order(5)
 	void testSaveRecordedFile() {
 		recorder.recordAudio();
 		try {
@@ -73,5 +82,6 @@ public class AudioRecorderTest {
 		recorder.saveAudioFile("src/audio/testRecording.wav");
 		assertEquals(defaultAudioFile.length(), new File("src/audio/testRecording.wav").getAbsoluteFile().length(), "Saving of audio file wasn't succesful");
 	}
+	
 	
 }
