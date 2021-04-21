@@ -25,14 +25,14 @@ public class AudioRecorderTest {
 	File defaultAudioFile;
 	
 	
-	@Disabled
+	
 	@BeforeEach
 	public void setUp() {
 		recorder.setAudioFileDuration((float) 2.1);
 		defaultAudioFile = new File("src/audio/recorder_default.wav").getAbsoluteFile();
 	}
 	
-	@Disabled
+	
 	@Test
 	@DisplayName ("Test for getting the target file")
 	@Order(1)
@@ -41,7 +41,7 @@ public class AudioRecorderTest {
 		assertEquals(new File("src/audio/recorder_default.wav").getAbsoluteFile(), recorder.getTargetFile(), "Wrong target file");
 	}
 	
-	@Disabled
+	
 	@Test
 	@DisplayName ("Test for getting duration of audio file")
 	@Order(2)
@@ -49,7 +49,7 @@ public class AudioRecorderTest {
 		assertEquals(2.1, recorder.getAudioFileDuration(), DELTA,  "Setting audio file's duration wasn't succesful");
 	}
 	
-	@Disabled
+	
 	@Test
 	@DisplayName ("Test for setting duration of audio file")
 	@Order(3)

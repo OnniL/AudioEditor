@@ -53,22 +53,17 @@ public class AudioRecorder extends Thread {
 	private Boolean isPressed = false;
 	private Timer timer;
 	private TimerTask task;
+	private DataLine.Info info;
 
 	public AudioRecorder(Controller controller) {
 		this.controller = controller;
 		this.setFormat(getDefaultAudioFormat());
 		// Sets default file
-		this.setTargetFile(new File("src/audio/default.wav").getAbsoluteFile());
+		this.setTargetFile(new File("src/audio/recorder_default.wav").getAbsoluteFile());
 		wsola = new WaveformSimilarityBasedOverlapAdd(Parameters.musicDefaults(1.0, format.getSampleRate()));
 		wsola.setDispatcher(adp);
 
-		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-
-		try {
-			line = (TargetDataLine) AudioSystem.getLine(info);
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
+		info = new DataLine.Info(TargetDataLine.class, format);
 
 	}
 
@@ -111,7 +106,7 @@ public class AudioRecorder extends Thread {
 	public void recordAudio() {
 		try {
 			writer = new WaveformWriter(format, "src/audio/recorder_default.wav");
-
+			setLine();
 			line.open(format);
 			System.out.println(line.isOpen());
 			line.start();
@@ -311,6 +306,16 @@ public class AudioRecorder extends Thread {
 		playbackStartingPoint = 0;
 		secondsProcessed = 0;
 		isPlaying = false;
+	}
+	
+	public void setLine() {
+		try {
+			line = (TargetDataLine) AudioSystem.getLine(info);
+			System.out.println(AudioSystem.getLine(info));
+			System.out.println(info);
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
