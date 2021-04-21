@@ -1193,6 +1193,9 @@ public class MainController implements Initializable {
 	@FXML
 	private Button closeButton;
 	
+	/**
+	 * Method sets localization parameters for the variables.
+	 */
 	public void initializeMenuItems() {
 		userMenuButton = new MenuButton();
 		menu1 = new MenuItem(bundle.getString("mVmenu1")); //
@@ -1200,7 +1203,7 @@ public class MainController implements Initializable {
 	}
 	
 	/**
-	 * Method opens a new scene Login and Register form
+	 * Method opens a new stage of the login and register view.
 	 */
 	public void openLoginRegister() {
 		controller.intializeDatabaseConnection();
@@ -1225,7 +1228,7 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Method opens a new scene, the mixer settings from the database
+	 * Method opens a new stage of the mixer settings lists.
 	 */
 	public void openMixerSettings() {
 		controller.intializeDatabaseConnection();
@@ -1248,13 +1251,17 @@ public class MainController implements Initializable {
 		}
 
 	}
-
+	
+	/**
+	 * Method to get current controller object.
+	 * @return the current set controller or null
+	 */
 	public Controller getController() {
 		return this.controller;
 	}
 
 	/**
-	 * Opens a new scene where the mixer settings can be saved to the database
+	 * Method opens a new scene where the mixer settings can be saved to the database
 	 */
 	public void openMixerSave() {
 
@@ -1279,7 +1286,7 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens the save selection scene where user can decide to save settings locally
+	 * Method opens the save selection scene where user can decide to save settings locally
 	 * or to the database.
 	 */
 	public void openSaveSelection() {
@@ -1302,7 +1309,7 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens a new scene where user can select where to load mixer settings, locally
+	 * Method opens a new scene where user can select where to load mixer settings, locally
 	 * or from the database.
 	 */
 	public void openLoadSelection() {
@@ -1325,7 +1332,7 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens user settings view where password can be changed or the user deleted.
+	 * Method opens user settings view where password can be changed or the account deleted.
 	 */
 	public void openUserSettings() {
 		try {
@@ -1347,9 +1354,8 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Method to close open scenes
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {

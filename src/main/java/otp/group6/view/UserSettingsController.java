@@ -28,16 +28,23 @@ import javafx.stage.Stage;
 import otp.group6.controller.Controller;
 
 /**
- * Class is used to change users password or delete users account from our
- * database
+ * Class controls the UserSettingsView.fxml and it main function is to 
+ * make user able to change their password or to delete their account.
  * 
  * @author Joonas Soininen
  *
  */
 public class UserSettingsController implements Initializable{
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
+	/** Object of the Controller.java class */
+	Controller controller;
 
+	/**
+	 * Variables for the different JavaFX elements
+	 * uS in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	private Label uSHeaderLabel;
 	@FXML
@@ -82,20 +89,20 @@ public class UserSettingsController implements Initializable{
 	private String uSChangePWAlert2Title;
 	private String uSChangePWAlert2Header;
 	private String uSChangePWAlert2Content;
-
-	private Image imageShow;
-	
-	private Image imageHide;
-	
-	private FileInputStream imageinputshow;
-	
-	private FileInputStream imageinputhide;	
-	
 	final Tooltip uSpwtooltip = new Tooltip();
+	
+	/**
+	 *Variables for the images 
+	 */
+	private Image imageShow;	
+	private Image imageHide;	
+	private FileInputStream imageinputshow;	
+	private FileInputStream imageinputhide;
 
 	/**
-	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it
-	 * and {@link #pwReminder()} is called to focus user to give certain type of password.
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
+	 * Calls {@link #pwReminder()} to remind the user of the correct way to input the password.
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -113,9 +120,7 @@ public class UserSettingsController implements Initializable{
 		uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
 		uSOldPWLabel.setText(bundle.getString("uSOldPWLabel"));
-		//uSShowPW1Toggle.setText(bundle.getString("uSShowPW1Toggle"));
 		uSNewPWLabel.setText(bundle.getString("uSNewPWLabel"));
-		//uSShowPW2Toggle.setText(bundle.getString("uSShowPW2Toggle"));
 		uSChangeButton.setText(bundle.getString("uSChangeButton"));
 		uSUserDeleLabel.setText(bundle.getString("uSUserDeleLabel"));
 		uSDeleteUserButton.setText(bundle.getString("uSDeleteUserButton"));
@@ -138,7 +143,6 @@ public class UserSettingsController implements Initializable{
 			imageinputhide = new FileInputStream("src/main/resources/images/hidePW.jpg");
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		imageShow = new Image(imageinputshow,20,20, true, true);
@@ -149,8 +153,8 @@ public class UserSettingsController implements Initializable{
 		uSShowPW2Toggle.setText("");
 	}
 	
-	/*
-	 * Method to show and hide users password for spell cheking
+	/**
+	 * Method to show and hide users old password using the eye-icon
 	 */
 	@FXML
 	public void showPW1() {		
@@ -172,7 +176,7 @@ public class UserSettingsController implements Initializable{
 	}
 	
 	/*
-	 * Method to show and hide users password for spell cheking
+	 * Method to show and hide users new password using the eye-icon
 	 */
 	@FXML
 	public void showPW2() {
@@ -194,9 +198,9 @@ public class UserSettingsController implements Initializable{
 	}
 	
 	/**
-	 * Method to get mainController
-	 * 
-	 * @param mainController
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -205,9 +209,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method to close opened scenes
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -216,7 +219,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method deletes user from the database.
+	 * Method to delete the users account from the database and make sure user is logged out.
+	 * Alerts are used to give feedback to the user.
 	 */
 	@FXML
 	public void deleteUser() {
@@ -244,7 +248,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method for changing password
+	 * Method used to change the users password.
+	 * Alerts provide feedback for the user.
 	 */
 	@FXML
 	public void changePassword() {
@@ -254,8 +259,6 @@ public class UserSettingsController implements Initializable{
 			alert1.setTitle(uSDeleteAlert2Title);
 			alert1.setHeaderText(uSChangePWAlert1Header);
 			alert1.showAndWait();
-			//Stage stage = (Stage) uSCancelButton.getScene().getWindow();
-			//stage.close();
 		} else {
 			Alert alert2 = new Alert(AlertType.ERROR);
 			alert2.setTitle(uSChangePWAlert2Title);
@@ -267,8 +270,7 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method called to remind of correct password format. Only called form username
-	 * textfield.
+	 * Method reminds the user for the correct way of choosing a password.
 	 */
 	@FXML
 	public void pwReminder() {
@@ -290,8 +292,26 @@ public class UserSettingsController implements Initializable{
 				}
 			}
 		});
+		showNewPW.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue) {
+					uSpwtooltip.show(showNewPW, //
+							// popup tooltip on the right, you can adjust these values for different
+							// positions
+							showNewPW.getScene().getWindow().getX() + showNewPW.getLayoutX() + showNewPW.getWidth(), //
+							showNewPW.getScene().getWindow().getY() + showNewPW.getLayoutY() + showNewPW.getHeight()
+									+ 0);
+				} else {
+					uSpwtooltip.hide();
+				}
+			}
+		});
 	}
 
+	/**
+	 * Variables for the correct password pattern and a compiler for the password pattern
+	 */
 	private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
 	private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 

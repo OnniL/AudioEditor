@@ -13,83 +13,87 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="otp.group6.view.RegisterLoginController">
+<ScrollPane prefHeight="442.0" prefWidth="352.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="otp.group6.view.RegisterLoginController">
    <content>
-      <AnchorPane prefHeight="401.0" prefWidth="350.0">
+      <AnchorPane prefHeight="434.0" prefWidth="350.0">
          <children>
-            <Pane layoutY="37.0" pickOnBounds="false" prefHeight="328.0" prefWidth="350.0" AnchorPane.bottomAnchor="36.0" AnchorPane.topAnchor="37.0">
+            <Pane layoutY="49.0" pickOnBounds="false" prefHeight="467.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="49.0">
                <children>
-                  <Label fx:id="rLForgotLabel" layoutX="29.0" layoutY="266.0" prefHeight="20.0" prefWidth="290.0" text="Forgot your password? Contact:">
+                  <Label fx:id="rLForgotLabel" layoutX="14.0" layoutY="327.0" prefHeight="20.0" prefWidth="290.0" text="Forgot your password? Contact:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Hyperlink layoutX="29.0" layoutY="286.0" text="support@audio.editor">
+                  <Hyperlink layoutX="14.0" layoutY="347.0" text="support@audio.editor">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Hyperlink>
-                  <Label fx:id="rLWelcomeLabel" layoutX="14.0" layoutY="14.0" text="Welcome stranger!">
-                     <font>
-                        <Font size="33.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="rLPleaseLabel" layoutX="23.0" layoutY="56.0" text="Please login or register">
+                  <Label fx:id="rLPleaseLabel" layoutX="14.0" layoutY="39.0" text="Please login or register">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label fx:id="rLUsernameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="96.0" text="Username:">
+                  <Label fx:id="rLUsernameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="96.0" prefHeight="27.0" prefWidth="132.0" text="Username:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="rLUserTextField" layoutX="120.0" layoutY="91.0" onAction="#loginUser" promptText="Insert name">
+                  <TextField fx:id="rLUserTextField" layoutX="136.0" layoutY="91.0" onAction="#loginUser" promptText="Insert name">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Label fx:id="rLPasswdLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="43.0" layoutY="144.0" text="Password:">
+                  <Label fx:id="rLPasswdLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="144.0" prefHeight="25.0" prefWidth="132.0" text="Password:">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="rLPasswdField" layoutX="120.0" layoutY="138.0" onAction="#loginUser" onKeyTyped="#setFinalPW">
+                  <PasswordField fx:id="rLPasswdField" layoutX="136.0" layoutY="138.0" onAction="#loginUser" onKeyTyped="#setFinalPW">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </PasswordField>
-                  <TextField fx:id="rLPasswdTextField" editable="false" layoutX="120.0" layoutY="138.0" onAction="#loginUser" onKeyTyped="#setFinalPW" visible="false">
+                  <TextField fx:id="rLPasswdTextField" editable="false" layoutX="136.0" layoutY="138.0" onAction="#loginUser" onKeyTyped="#setFinalPW" visible="false">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <ButtonBar layoutX="10.0" layoutY="209.0" prefHeight="40.0" prefWidth="308.0">
+                  <ButtonBar layoutX="8.0" layoutY="281.0" prefHeight="40.0" prefWidth="334.0">
                      <buttons>
-                        <Button fx:id="rLRegisterButton" mnemonicParsing="false" onAction="#registerUser" prefHeight="39.0" prefWidth="98.0" text="Register">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
-                        <Label fx:id="rLLorLabel" text="      OR" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Button fx:id="rLLoginButton" mnemonicParsing="false" onAction="#loginUser" text="Login">
+                        <Button fx:id="rLRegisterButton" mnemonicParsing="false" onAction="#registerUser" prefHeight="39.0" prefWidth="371.0" text="Register">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
                      </buttons>
                   </ButtonBar>
-                  <ToggleButton fx:id="rLShowPwToggle" layoutX="278.0" layoutY="144.0" mnemonicParsing="false" onAction="#showPW" text="EYE" />
+                  <ToggleButton fx:id="rLShowPwToggle" layoutX="307.0" layoutY="144.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#showPW" prefHeight="25.0" prefWidth="25.0" text="EYE" />
+                  <Label fx:id="rLWelcomeLabel" layoutX="10.0" layoutY="-10.0" text="Welcome stranger!">
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="rLLorLabel" layoutX="149.0" layoutY="246.0" text="      OR" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ButtonBar layoutX="9.0" layoutY="194.0" prefHeight="40.0" prefWidth="334.0">
+                     <buttons>
+                        <Button fx:id="rLLoginButton" mnemonicParsing="false" onAction="#loginUser" prefHeight="39.0" prefWidth="334.0" text="Login">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                     </buttons>
+                  </ButtonBar>
                </children>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Pane>
-            <Button fx:id="rLCloseButton" layoutX="304.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="X" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+            <Button fx:id="rLCloseButton" layoutX="304.0" layoutY="14.0" maxHeight="35.0" maxWidth="35.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="35.0" prefWidth="35.0" text="X">
                <font>
                   <Font size="16.0" />
                </font>
