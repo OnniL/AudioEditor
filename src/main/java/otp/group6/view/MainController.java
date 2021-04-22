@@ -2,11 +2,14 @@ package otp.group6.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -87,6 +91,79 @@ public class MainController implements Initializable {
 	 */
 	public void exitRoutine() {
 		boardController.saveSampleData();
+	}
+
+	////////////////////////////
+	// MENU BAR
+
+	@FXML
+	private Menu menuSettings;
+	@FXML
+	private MenuItem menuItemPreferences;
+	// MenuItem userSettings (defined in different section)
+	// MenuItem loginoption (defined in different section)
+
+	@FXML
+	private Menu menuHelp;
+	@FXML
+	private MenuItem menuItemAbout;
+	@FXML
+	private MenuItem menuItemUserguide;
+	@FXML
+
+	private Menu menuLanguage;
+	@FXML
+	private MenuItem languageEnglish;
+	@FXML
+	private MenuItem languageFinnish;
+	
+	public void initializeMenuBarLocalization() {
+		//menuSettings.setText(bundle.getString(""));
+		//menuItemPreferences.setText(bundle.getString(""));
+		//userSettings.setText(bundle.getString(""));
+		//loginoption.setText(bundle.getString(""));
+		//menuHelp.setText(bundle.getString(""));
+		//menuItemAbout.setText(bundle.getString(""));
+		//menuItemUserguide.setText(bundle.getString(""));
+		//menuLanguage.setText(bundle.getString(""));
+	}
+
+	public void changeLanguage(ActionEvent event) {
+
+		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(new File(appConfigPath).getAbsoluteFile()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (event.getSource() == languageEnglish) {
+			System.out.println("vaihdetaan kieli enkuks");
+			curLocale = new Locale("en", "US");
+			properties.setProperty("language", "en");
+			properties.setProperty("country", "US");
+		} else if (event.getSource() == languageFinnish) {
+			System.out.println("vaihdetaan kieli suomeksi");
+			curLocale = new Locale("fi", "FI");
+
+			properties.setProperty("country", "FI");
+			properties.setProperty("language", "fi");
+		}
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(appConfigPath);
+			properties.store(fos, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
+		initializeMixerLocalization();
+		initializeRecorderLocalization();
+		// TODO Soundboardin kielen vaihto
+
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +333,7 @@ public class MainController implements Initializable {
 		initializeSlidersAndTextFields();
 		initializeTooltips();
 		initializeRecorderListener();
-		setLanguageToMixer();
+		initializeMixerLocalization();
 	}
 
 	// Methods for buttons
@@ -901,9 +978,7 @@ public class MainController implements Initializable {
 	}
 
 	/*
-	 * @author Roosa Laukkanen
-	 * 
-	 * Sets a tooltip to every info button
+	 * * Sets a tooltip to every info button
 	 */
 	private void initializeTooltips() {
 		tooltipPitch = new Tooltip();
@@ -922,8 +997,7 @@ public class MainController implements Initializable {
 		buttonInfoLowPass.setTooltip(tooltipLowPass);
 	}
 
-
-	private void setLanguageToMixer() {
+	private void initializeMixerLocalization() {
 		try {
 			mixerTab.setText(bundle.getString("mixerTab"));
 
@@ -957,22 +1031,6 @@ public class MainController implements Initializable {
 			tooltipEcho.setText(bundle.getString("mixerEchoTooltip"));
 			tooltipFlanger.setText(bundle.getString("mixerFlangerTooltip"));
 			tooltipLowPass.setText(bundle.getString("mixerLowPassTooltip"));
-			
-			
-			 
-			 
-			 
-			 
-			
-
-			
-			  Image imagePlay = new Image(new FileInputStream("./src/main/assets/images/playbutton.png")); 
-			  ImageView viewPlay = new ImageView(imagePlay); buttonPlay.setGraphic(viewPlay);			  
-			 // buttonPause.setGraphic(); 
-			  //buttonStop.setGraphic();
-			  
-			  
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1146,12 +1204,11 @@ public class MainController implements Initializable {
 		recorderButtonPause.setDisable(true);
 		recorderButtonStop.setDisable(true);
 	}
-	
-	
+
 	private void initializeRecorderLocalization() {
 
 		try {
-			
+
 			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
 			recorderButtonPause.setText(bundle.getString("recorderPause"));
 			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
@@ -1185,13 +1242,13 @@ public class MainController implements Initializable {
 	private MenuItem loginoption;
 	@FXML
 	private Button closeButton;
-	
+
 	public void initializeMenuItems() {
 		userMenuButton = new MenuButton();
 		menu1 = new MenuItem(bundle.getString("mVmenu1")); //
 		menu2 = new MenuItem(bundle.getString("mVmenu2")); //
 	}
-	
+
 	/**
 	 * Method opens a new scene Login and Register form
 	 */

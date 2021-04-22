@@ -30,7 +30,7 @@ import otp.group6.controller.Controller;
 
 /**
  * @author Roosa Laukkanen, Onni Lukkarila
- * @version 0.1
+ * 
  */
 
 public class AudioManipulator {
@@ -80,7 +80,7 @@ public class AudioManipulator {
 	private float ogLowPass = 44100;
 
 	private double audioFileLengthInSec;
-	private float playbackStartingPoint = (float) 0.0;// pause-nappia varten
+	private float playbackStartingPoint = (float) 0.0;
 	private float currentProgress;
 	private boolean isPlaying = false;
 	private boolean isTestingFilter = false;
@@ -91,10 +91,8 @@ public class AudioManipulator {
 	private boolean isFlangerWanted = true;
 	private boolean isLowPassWanted = true;
 
-	@SuppressWarnings("unused")
 	private boolean isSaved = true;
 
-	// Konstruktori
 	public AudioManipulator(Controller controller) {
 		this.controller = controller;
 	}
