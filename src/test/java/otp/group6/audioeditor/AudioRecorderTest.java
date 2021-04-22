@@ -71,6 +71,7 @@ public class AudioRecorderTest {
 	@Test
 	@DisplayName ("Test for saving recorded file")
 	@Order(5)
+	@Disabled
 	void testSaveRecordedFile() {
 		recorder.recordAudio();
 		try {
