@@ -22,7 +22,7 @@ public class SoundboardPlayer {
 	public SoundboardPlayer() {
 		try {
 			clip = AudioSystem.getClip();
-		} catch (LineUnavailableException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineListener;
 
 /**
@@ -171,6 +172,7 @@ public class Soundboard {
 	public Soundboard() {
 		player = new SoundboardPlayer();
 	}
+	
 	
 	/**
 	 * Sets the <b>default</b> Sample name
