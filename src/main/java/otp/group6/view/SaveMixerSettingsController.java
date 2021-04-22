@@ -21,15 +21,23 @@ import otp.group6.controller.Controller;
 
 /**
  * 
- * Class handles saving mixer settings locally and to the database
+ * Class handles SaveMixerSettings.fxml functions.
+ * Is used to store mixer settings to the database.
  * 
  * @author Joonas Soininen
  *
  */
 public class SaveMixerSettingsController implements Initializable{
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
-	//Properties-muuttujat alkaa
+	/** Object of the Controller.java class */
+	Controller controller;
+	
+	/**
+	 * Variables for the different JavaFX elements
+	 * sMS in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	private Label sMSPitchLabel;
 	@FXML
@@ -69,7 +77,11 @@ public class SaveMixerSettingsController implements Initializable{
 	private String sMSsaveAlert3Title;
 	private String sMSsaveAlert3Header;
 	private String sMSsaveAlert3Content;
-	//Properties-muuttujat päättyy
+	final Tooltip sMSmixNameField = new Tooltip();
+	
+	/**
+	 * Variables that show the mixer settings from the mixer itself.
+	 */
 	@FXML
 	private Label pitchValue;
 	@FXML
@@ -90,14 +102,12 @@ public class SaveMixerSettingsController implements Initializable{
 	private Label name;
 	@FXML
 	private TextArea description;
-
 	private double pitch, echo, decay, gain, flangerLenght, wetness, lfoFrequency;
-	private float lowPass;
-
-	final Tooltip sMSmixNameField = new Tooltip();
+	private float lowPass;	
 	
 	/**
 	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -138,10 +148,10 @@ public class SaveMixerSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method sets the maincontroller used in the main view Opens the database
-	 * connection
-	 * 
-	 * @param mainController
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
+	 * Connects to the database.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -150,14 +160,17 @@ public class SaveMixerSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method is used to set the values from the main views sliders
+	 * Method is used to get the mixer values from the MainController.java and set them to the local variables.
+	 * Makes sure the tool tip is show on immediately when values are fetched.
 	 * 
-	 * @param mix1
-	 * @param mix2
-	 * @param mix3
-	 * @param mix4
-	 * @param mix5
-	 * @param mix6
+	 * @param sliderPitch, double value
+	 * @param sliderEchoLength, double value
+	 * @param sliderDecay, double value
+	 * @param sliderGain, double value
+	 * @param sliderFlangerLength, double value
+	 * @param sliderWetness, double value
+	 * @param sliderLfoFrequency, double value
+	 * @param sliderLowPass, float value
 	 */
 	public void getSettings(double sliderPitch, double sliderEchoLength, double sliderDecay, double sliderGain,
 			double sliderFlangerLength, double sliderWetness, double sliderLfoFrequency, float sliderLowPass) {
@@ -200,9 +213,9 @@ public class SaveMixerSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method stores mixer settings to the database
-	 * 
-	 * @throws SQLException
+	 * Method is used to store mixer values to the database.
+	 * Alerts are used for feedback with the process.
+	 * @throws SQLException, thrown if there are any errors with the database connection.
 	 */
 	public void saveMix() throws SQLException {
 
@@ -271,9 +284,8 @@ public class SaveMixerSettingsController implements Initializable{
 
 
 	/**
-	 * Method handles closing scene windows.
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	public void handleCloseButtonAction(ActionEvent event) {
 		Stage stage = (Stage) sMSCancelButton.getScene().getWindow();

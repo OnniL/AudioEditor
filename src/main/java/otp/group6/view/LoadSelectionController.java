@@ -18,19 +18,25 @@ import otp.group6.audioeditor.AudioFileHandler;
 import otp.group6.controller.Controller;
 
 /**
- * Class is used for loading slider values from our database or locally from the
- * users computer,
+ * Class functions as a controller for the MixerSettingsView.fxml view and is used to load
+ * mixer settings either locally or fromt he database
  * 
  * @author Joonas Soininen
  *
  */
 public class LoadSelectionController implements Initializable{
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
-
+	/** Object of the Controller.java class */
+	Controller controller;
+	
+	/**
+	 * Variables for the different JavaFX elements
+	 * lSB in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	AnchorPane mainContainer;
-
 	@FXML
 	private Button lSBcancel;
 	@FXML
@@ -44,10 +50,13 @@ public class LoadSelectionController implements Initializable{
 	@FXML
 	private Button lSBcloud;
 	
-	private List<String> lines = new ArrayList<String>();
+	/** Array list for the slider values that are fetched from the database*/
+	private List<String> sliderValues = new ArrayList<String>();
 	
 	/**
-	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)}
+	 *  to set certain variables passing the ResourceBundle to it.
+	 *  @param arg1, resource bundle from the MainController.java
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -55,8 +64,8 @@ public class LoadSelectionController implements Initializable{
 	}
 	
 	/**
-	 * Method sets all visible texts and button labels to chosen language.
-	 * @param bundle transfers the localization data to the method so the right language is set
+	 * Method sets all visible text according to the localization settings with the provided parameter.
+	 * @param bundle. is localization data passed trough from the MainController.java
 	 */
 	private void setLocalization(ResourceBundle bundle) {
 		lSBcancel.setText(bundle.getString("lSBcancel"));
@@ -68,9 +77,9 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to get mainController
-	 * 
-	 * @param mainController
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -78,9 +87,8 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to close opened scenes
-	 * 
-	 * @param event 
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -89,7 +97,8 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to open mixer settings from the database
+	 * Method opens MixerSettingsView.fxml by calling its method from the MainController.java and
+	 * closes currently visible stage.
 	 */
 	public void loadFromCloud() {
 		mc.openMixerSettings();
@@ -98,7 +107,9 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to load mixer settings from local storage
+	 * Method to load mixer settings from the users own computers file system.
+	 * When loaded it will set the slider values by calling MainController.java method setSliderValues.
+	 * Also will close the currently open stage.
 	 */
 	public void loadFromLocal() {
 		// TODO Varmista oikea tiedostomuoto
@@ -108,13 +119,13 @@ public class LoadSelectionController implements Initializable{
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 
-				lines.add(data);
+				sliderValues.add(data);
 			}
 			myReader.close();
-			mc.setSliderValues(Double.parseDouble(lines.get(0)), Double.parseDouble(lines.get(1)),
-					Double.parseDouble(lines.get(2)), Double.parseDouble(lines.get(3)),
-					Double.parseDouble(lines.get(4)), Double.parseDouble(lines.get(5)),
-					Double.parseDouble(lines.get(6)), Float.parseFloat(lines.get(7)));
+			mc.setSliderValues(Double.parseDouble(sliderValues.get(0)), Double.parseDouble(sliderValues.get(1)),
+					Double.parseDouble(sliderValues.get(2)), Double.parseDouble(sliderValues.get(3)),
+					Double.parseDouble(sliderValues.get(4)), Double.parseDouble(sliderValues.get(5)),
+					Double.parseDouble(sliderValues.get(6)), Float.parseFloat(sliderValues.get(7)));
 		} catch (FileNotFoundException e) {
 
 			e.printStackTrace();

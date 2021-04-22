@@ -22,6 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+
 <AnchorPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="702.0" prefWidth="1038.0" stylesheets="@../java/css/MainViewStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="otp.group6.view.MainController">
    <children>
       <TabPane layoutY="29.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="673.0" prefWidth="1038.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
@@ -290,7 +291,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Recorder">
+            <Tab fx:id="recorderTab" text="Recorder">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -311,7 +312,7 @@
                               <Slider fx:id="sliderRecordedFileDuration" blockIncrement="1.0" disable="true" layoutX="82.0" layoutY="158.0" prefHeight="16.0" prefWidth="427.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="111.0" AnchorPane.topAnchor="158.0" />
                               <Text fx:id="textRecordFileDuration" disable="true" layoutX="446.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00 / 0:00" />
                               <ToggleButton fx:id="recorderToggleButtonStartRecording" layoutX="283.0" layoutY="88.0" mnemonicParsing="false" onAction="#recordAudioToggle" text="Record" />
-                              <Text fx:id="textRecordingDuration" layoutX="345.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="22.13671875" />
+                              <Text fx:id="textRecordingDuration" layoutX="364.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="22.13671875" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -350,7 +351,7 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Label fx:id="loggedinuser" alignment="CENTER_RIGHT" layoutX="591.0" layoutY="4.0" prefHeight="25.0" prefWidth="295.0">
+      <Label fx:id="loggedinuser" alignment="CENTER_RIGHT" layoutX="743.0" layoutY="2.0" prefHeight="25.0" prefWidth="295.0" AnchorPane.rightAnchor="10.0">
          <font>
             <Font size="14.0" />
          </font>

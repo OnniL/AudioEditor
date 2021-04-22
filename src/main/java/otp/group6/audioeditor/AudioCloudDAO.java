@@ -11,7 +11,10 @@ import java.sql.*;
 import java.time.LocalDate;
 
 /**
- * AudioCloudDAO accesses the database and transports data in and out of it
+ * AudioCloudDAO is a class that handles the database connection, user object and mixer settings object. 
+ * Main functionality is to read from the database and write into the database. 
+ * Database holds user information including name, encrypted password and encrypted salt for the password.
+ * Also stored are mixer settings that can be used in the main applications mixer. 
  * 
  * @author Joonas Soininen
  *
@@ -19,19 +22,27 @@ import java.time.LocalDate;
 public class AudioCloudDAO {
 
 	/**
-	 * User class is used to hold on logged in user
+	 * Class Users is used as a object for the user while logged in.
 	 * 
 	 * @author Joonas Soininen
 	 *
 	 */
 	public static class User {
-
+		/** Static string for the users user name */
 		private static String user;
 
-		public void setUser(String user) {
+		/**
+		 * Method to set the user name for the variable
+		 * @param user is the user name from the database
+		 */
+		private void setUser(String user) {
 			User.user = user;
 		}
 
+		/**
+		 * Method to get the set user name.
+		 * @return Returns set user name or null if none is set.
+		 */
 		public String getUser() {
 			return User.user;
 		}
@@ -39,126 +50,233 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * MixerSettings class is used to store the database data in and pass it to the
-	 * view
+	 * MixerSettings class is used as an object to access the database mixer settings data in the main
+	 * application.
 	 * 
 	 * @author Joonas Soininen
 	 *
 	 */
 	public static class MixerSetting {
-
+		/** Variables for the mixer string types */
 		private String mixName, description, dateDAO, creatorName;
+		/** Variables for the double values in the mixer settings */
 		private double pitch, echo, decay, gain, flangerLenght, wetness, lfoFrequency;
+		/** Variable for the float value of low pass in the mixer settings */
 		private float lowPass;
+		/** Variable for the unique mixer id */
 		private int mixID;
 
-		public MixerSetting() {
-		}
-
-		public void setMixID(int mixID) {
+		/**
+		 * Method to set the id from the database
+		 * @param mixID unique id-number from the database
+		 */
+		private void setMixID(int mixID) {
 			this.mixID = mixID;
 		}
 
-		public void setMixName(String mixName) {
+		/**
+		 * Method to set the name from the database
+		 * @param mixName specific name form the database
+		 */
+		private void setMixName(String mixName) {
 			this.mixName = mixName;
 		}
 
-		public void setDescription(String description) {
+		/**
+		 * Method to set the mix description form the database
+		 * @param description specific description from the database
+		 */
+		private void setDescription(String description) {
 			this.description = description;
 		}
-
-		public void setCreatorName(String creatorName) {
+		
+		/**
+		 * Method to set the creator name from the database
+		 * @param creatorName specific name from the database
+		 */
+		private void setCreatorName(String creatorName) {
 			this.creatorName = creatorName;
 		}
 
-		public void setPitch(double pitch) {
+		/**
+		 * Method to set the pitch value from the database
+		 * @param pitch specific value from the database
+		 */
+		private void setPitch(double pitch) {
 			this.pitch = pitch;
 		}
 
-		public void setEcho(double echo) {
+		/**
+		 * Method to set the echo value from the database
+		 * @param echo specific value from the database
+		 */
+		private void setEcho(double echo) {
 			this.echo = echo;
 		}
 
-		public void setDecay(double decay) {
+		/**
+		 * Method to set the decay value from the database
+		 * @param decay specific value from the database
+		 */
+		private void setDecay(double decay) {
 			this.decay = decay;
 		}
 
-		public void setGain(double gain) {
+		/**
+		 * Method to set the gain value from the database
+		 * @param gain specific value from the database
+		 */
+		private void setGain(double gain) {
 			this.gain = gain;
 		}
 
-		public void setFlangerLenght(double flangerLenght) {
+		/**
+		 * Method to set the flanger length from the database
+		 * @param flangerLenght specific valuea from the database
+		 */
+		private void setFlangerLenght(double flangerLenght) {
 			this.flangerLenght = flangerLenght;
 		}
 
-		public void setWetness(double wetness) {
+		/**
+		 * Method to set the wetness value from the database
+		 * @param wetness specific value from the database
+		 */
+		private void setWetness(double wetness) {
 			this.wetness = wetness;
 		}
-
-		public void setLfoFrequency(double lfoFrequency) {
+		
+		/**
+		 * Method to set the lfo frequency from the database
+		 * @param lfoFrequency specific value from the database
+		 */
+		private void setLfoFrequency(double lfoFrequency) {
 			this.lfoFrequency = lfoFrequency;
 		}
 
-		public void setLowPass(float lowPass) {
+		/**
+		 * Method to set the low pass value from the database
+		 * @param lowPass specific value from the database
+		 */
+		private void setLowPass(float lowPass) {
 			this.lowPass = lowPass;
 		}
 
-		public void setDateDAO(String daoDate) {
+		/**
+		 * Method to set the date from the database for the mixer setting
+		 * @param daoDate specific date from the database
+		 */
+		private void setDateDAO(String daoDate) {
 			this.dateDAO = daoDate;
 		}
 
+		/**
+		 * Method to get the id for the mixer setting
+		 * @return id from the database or null
+		 */
 		public int getMixID() {
 			return mixID;
 		}
-
+		
+		/**
+		 * Method to get the date for the mixer setting
+		 * @return date from the databse or null
+		 */
 		public String getDateDAO() {
 			return dateDAO;
 		}
 
+		/**
+		 * Method to get the mixer setting name
+		 * @return name from the database or null
+		 */
 		public String getMixName() {
 			return mixName;
 		}
 
+		/**
+		 * Method to get the mixer setting description
+		 * @return description from the database or null
+		 */
 		public String getDescription() {
 			return description;
 		}
 
+		/**
+		 * Method to get the mixer setting creator name
+		 * @return name from the database or null
+		 */
 		public String getCreatorName() {
 			return creatorName;
 		}
 
+		/**
+		 * Method to get the pitch value for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getPitch() {
 			return pitch;
 		}
 
+		/**
+		 * Method to get the echo value for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getEcho() {
 			return echo;
 		}
 
+		/**
+		 * Method to get the decay value for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getDecay() {
 			return decay;
 		}
 
+		/**
+		 * Method to get the gain value for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getGain() {
 			return gain;
 		}
 
+		/**
+		 * Method to get the flanger length value for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getFlangerLenght() {
 			return flangerLenght;
 		}
 
+		/**
+		 * Method to get the wetness value for the mixer setting
+		 * @return value from database or null
+		 */ 
 		public double getWetness() {
 			return wetness;
 		}
 
+		/**
+		 * Method to get the lfo frequency for the mixer setting
+		 * @return value from database or null
+		 */
 		public double getLfoFrequency() {
 			return lfoFrequency;
 		}
 
+		/**
+		 * Method to get the low pass value for the mixer setting
+		 * @return value from database or null
+		 */
 		public float getLowPass() {
 			return lowPass;
 		}
 
+		/**
+		 * Returns a string of the demanded values
+		 */
 		@Override
 		public String toString() {
 			return "MixerSetting\n[mixName=" + mixName + "\ndescription=" + description + "\ndateDAO=" + dateDAO
@@ -169,13 +287,17 @@ public class AudioCloudDAO {
 
 	}
 
+	/** Database connection variable */
 	private Connection databaseConnection;
+	/** User object to store the user name */
 	private User userclass = new User();
-
+	/** Boolean for cheking the database connection */
 	private boolean hasconnected = true;
 
 	/**
-	 * Connection to the database
+	 * Constructor that accesses the database every time this instance is created.
+	 * Try clause tires the connection
+	 * Catch clause returns an error for the user
 	 */
 	public AudioCloudDAO() {
 		try {
@@ -196,7 +318,7 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Method to close the database connection
+	 * Method closes the database connection
 	 */
 	@Override
 	protected void finalize() {
@@ -212,8 +334,8 @@ public class AudioCloudDAO {
 	/**
 	 * Method to check for user name availability from the database.
 	 * 
-	 * @param user is the inputed user name
-	 * @return statement return true is the user name exist and false if it is
+	 * @param user is the inputed user name from the user
+	 * @return statement return true if the user name exist and false if it is
 	 *         available
 	 */
 	public boolean chekcforUser(String user) {
@@ -235,14 +357,11 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Method is used to deliver a new user in to the database. Method also makes
-	 * sure that there are no duplicate users.
-	 * 
+	 * Method is used to deliver a new user name in to the database.
 	 * @param user, new user name to be inputed into the database
 	 * @param pw,   hashed password
-	 * @param salt, decipher key for the password
-	 * @return true or false according to completion of the code
-	 * @throws SQLException
+	 * @return true if the new user was inputed in to the database, false if it was not successful
+	 * @throws SQLException if there is a problem with the database
 	 */
 	public boolean createUser(String user, String pw) throws SQLException {
 		String salt = PasswordUtils.getSalt(30);
@@ -269,10 +388,12 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Method to login and check for correct credentials
-	 * 
-	 * @param u user name
-	 * @param p password
+	 * Method logs in user if the credentials are correct and the user is found in the database.
+	 * @param u, inputted user name
+	 * @param p, inputted password
+	 * @return Welcome "user" if user name and password were correct, No user if the user name does not exist,
+	 * Incorrect user or pw if either is not correct, Unexpected error logging in, please try again! if there
+	 * is any sort of problem with the SQL database.
 	 */
 	public String loginUser(String u, String p) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
@@ -307,14 +428,14 @@ public class AudioCloudDAO {
 
 		return "Unexpected error logging in, please try again!";
 	}
-
+	
 	/**
-	 * Method for users to change password.
-	 * 
-	 * @param u
-	 * @param p
-	 * @param np
-	 * @return
+	 * Method to change users password
+	 * @param u, user name given by the user
+	 * @param p, old password of the user
+	 * @param np, new password that user wants to be set
+	 * @return true if password was changed correctly, false if old password is not a match,
+	 * if there is a problem with the database connection, if the user name does not match.
 	 */
 	public boolean changePassword(String u, String p, String np) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
@@ -360,7 +481,7 @@ public class AudioCloudDAO {
 	/**
 	 * Method checks the user-class for logged in user.
 	 * 
-	 * @return
+	 * @return empty string if the user has not been set and returns user name if it is set
 	 */
 	public String loggedIn() {
 		if ((userclass.getUser() == null)) {
@@ -373,7 +494,7 @@ public class AudioCloudDAO {
 	/**
 	 * Method to logout the user
 	 * 
-	 * @return
+	 * @return true when logged out, false when not
 	 */
 	public boolean logoutUser() {
 		if (!(userclass.getUser() == " ")) {
@@ -386,19 +507,19 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * TODO Lopullinen muoto päättämättä!!
+	 * Method to add mixer setting to the database with given parameters
 	 * 
-	 * Create a new mix into the database
-	 * 
-	 * @param mixName
-	 * @param description
-	 * @param pitch
-	 * @param echo
-	 * @param decay
-	 * @param gain
-	 * @param flangerLenght
-	 * @param wetness
-	 * @return true or false according to the process
+	 * @param mixName, compulsory has to have one
+	 * @param description, voluntary input
+	 * @param pitch, double value preset
+	 * @param echo, double value preset
+	 * @param decay, double value preset
+	 * @param gain, double value preset
+	 * @param flangerLenght, double value preset
+	 * @param wetness, double value preset
+	 * @param lfoFrequency, double value preset
+	 * @param lowPass, float value preset
+	 * @return true when mixer setting was successfully inserted to the database, false if there is anything wrong.
 	 * @throws SQLException
 	 */
 	public boolean createMix(String mixName, String description, double pitch, double echo, double decay, double gain,
@@ -439,10 +560,10 @@ public class AudioCloudDAO {
 
 	}
 
+
 	/**
-	 * Get all users from accounts table, only for development
-	 * 
-	 * @return array of users
+	 * Method to get all users listed from the database. This method is only used for development.
+	 * @return Arraylist of all the users listed in the database
 	 */
 	public String[] getUsers() {
 		Statement statement = null;
@@ -468,9 +589,8 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Get all mixer settings in an array
-	 * 
-	 * @return array of mixer settings
+	 * Method lists all the mixer settings from the database into an array list that can be iterated later.
+	 * @return Array list of Mixer setting objects
 	 */
 	public MixerSetting[] getAllMixArray() {
 
@@ -519,7 +639,7 @@ public class AudioCloudDAO {
 	 * 
 	 * @param select  is a variable used to specify what are being searched.
 	 * @param specify is a variable that is searched for.
-	 * @return returns the search in an array.
+	 * @return returns the search in an array list containing mixer settings objects.
 	 */
 	public MixerSetting[] getCertainMixesArray(int select, String specify) {
 		ArrayList<MixerSetting> list = new ArrayList<MixerSetting>();
@@ -563,14 +683,12 @@ public class AudioCloudDAO {
 		return (MixerSetting[]) list.toArray(returnArray);
 	}
 
+
 	/**
-	 * TODO määritä millä tavalla poistetaan! ID? TAPAA EI VIELÄ TOTEUTETTU
-	 * 
-	 * Mehtod deletes mixer settings from the database
-	 * 
-	 * @param name is the specific user name
-	 * @param id   is the mixer setting id that will be deleted
-	 * @return true or false according to the success of the method.
+	 * Method is used to delete mixer settings from the database using the creators name and the settings id.
+	 * @param name, creators name
+	 * @param id, mixer settings id
+	 * @return true if deletion was successful, false if there was anything wrong.
 	 */
 	public boolean deleteMix(String name, int id) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
@@ -595,9 +713,10 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Used to delete a user from the database. Only functions for logged users.
+	 * Used to delete a user from the database. 
+	 * Only functions for logged users.
 	 * 
-	 * @return true or false
+	 * @return true when deletion was successful and false if anything went wrong.
 	 */
 	public boolean deleteUser() {
 		// TODO lopullisesta tietokannasta tippuu TEST pois

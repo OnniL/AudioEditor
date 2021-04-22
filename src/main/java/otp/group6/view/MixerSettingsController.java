@@ -39,14 +39,26 @@ import otp.group6.controller.Controller;
 /**
  * Class handles database stored mixer settings, displaying them, adding them to
  * favorites and storing the favorites list locally.
+ * Classes main functionality is to provide mixer settings from the database for the user to select from.
+ * Mixer settings are fetched from the database and passed trough lists into MixerSettingsView as a list.
+ * User can select a mixer setting there to use in the mixer, add mixer settings to a favorites list and 
+ * delete settings from the database if the user is logged in as the creator of those mixes.
  * 
  * @author Joonas Soininen
  *
+	 * TODO Metodi suosikkien tallentamiseen tietokantaan puuttuu	 
  */
 public class MixerSettingsController implements Initializable {
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
+	/** Object of the Controller.java class */
+	Controller controller;
 	
+	/**
+	 * Variables for the different JavaFX elements
+	 * mS in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	AnchorPane mainContainer;
 	@FXML
@@ -75,7 +87,21 @@ public class MixerSettingsController implements Initializable {
 	private Button mSRemoveFav;
 	@FXML
 	private Button mSDeleteMix;
-
+	@FXML
+	/**
+	 * Variables for the lists shown for user
+	 */
+	private ListView<String> favoritesListView;
+	@FXML
+	private ObservableList<String> mixerSettings = FXCollections.observableArrayList();
+	@FXML
+	private ListView<HBoxCell> cloudListView;
+	@FXML
+	private ObservableList<HBoxCell> settingsListWithButton = FXCollections.observableArrayList();;
+	
+	/**
+	 * Variables for alert messages
+	 */
 	private String mSGeneralOKBT;
 	private String mSGeneralCancelBT;
 	private String mSSaveAlertTitle;
@@ -86,28 +112,18 @@ public class MixerSettingsController implements Initializable {
 	private String mSDeleteAlert1Content;
 	private String mSDelteAlert2Title;
 	private String mSDeleteAlert2Header;
-
-
-
-	@FXML
-	private ListView<String> favoritesListView;
-	@FXML
-	private ObservableList<String> mixerSettings = FXCollections.observableArrayList();
-
-	private int mixerIndetification;
 	
-	private String mixerCreatorName;
-	
+	/** 
+	 * Variables for different information to store.
+	 */
+	private int mixerIndetification;	
+	private String mixerCreatorName;	
 	private List<String> localList = new ArrayList<>();
-
-	@FXML
-	private ListView<HBoxCell> cloudListView;
-	@FXML
-	private ObservableList<HBoxCell> myObservableList = FXCollections.observableArrayList();;
 
 
 	/**
-	 * Inner class to handle buttons on the ListView.
+	 * Inner class to handle create buttons on the listView elements
+	 * Button is used to favorite specific mixer settings.
 	 * 
 	 * @author Joonas Soininen
 	 *
@@ -117,11 +133,12 @@ public class MixerSettingsController implements Initializable {
 		Button button = new Button();
 
 		/**
-		 * Method to create buttons into the ListView
-		 * 
-		 * @param labelText
-		 * @param buttonText
-		 * @param id
+		 * Method to create buttons into the ListView.
+		 * It gets all necessary parameters when called to set the correct response for the button
+		 * @param labelText, general information about the mixer setting
+		 * @param buttonText, the text or image that is shown to the user
+		 * @param id, mixer setting id
+		 * Each button has their own label and id that is connected to the favorites list
 		 */
 		HBoxCell(String labelText, String buttonText, int id) {
 			super();
@@ -132,10 +149,7 @@ public class MixerSettingsController implements Initializable {
 
 			button.setText(buttonText);
 			button.setId(String.valueOf(id));
-			/*
-			 * if (!(controller.loggedIn()==" ")) { button.setDisable(false); } else {
-			 * button.setDisable(true); }
-			 */
+
 			if (localList.contains(String.valueOf(id))) {
 				button.setDisable(true);
 			}
@@ -154,6 +168,7 @@ public class MixerSettingsController implements Initializable {
 	
 	/**
 	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -189,50 +204,24 @@ public class MixerSettingsController implements Initializable {
 		mSDelteAlert2Title=bundle.getString("mSDelteAlert2Title");
 		mSDeleteAlert2Header=bundle.getString("mSDeleteAlert2Header");
 	}
-
+	
 	/**
-	 * TODO Metodi suosikkien tallentamiseen tietokantaan puuttuu
-	 */
-
-	/**
-	 * Method to set the favorite buttons function
-	 * 
-	 * @param id
-	 * @param title
-	 * @throws IOException 
+	 * Method adds mixer setting assigned to the specific button to the favorites list 
+	 * @param id, mixer setting id
+	 * @param title, mixer setting title
+	 * @throws IOException, exception is thrown if the local {@link #save()} or {@link #read()} fails
 	 */
 	public void favoriteButton(String id, String title) throws IOException {		
 		mixerSettings.add(title);
 		localList.add(id);
 		save();
-		//mixerSettings.removeAll(localList);
-		//favoritesListView.getItems().clear();
 		localList.clear();
 		read();
-		
-		/*
-		ObservableList<Object> mixerID = FXCollections.observableArrayList();
-		mixerID.add(Integer.valueOf(id));
-		mixerSettings = FXCollections.observableArrayList(hlist);
-		favoritesListView.setItems(mixerSettings);
-		save();
-		favoritesListView.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
-					int index = favoritesListView.getSelectionModel().getSelectedIndex();
-					int identification = (int) mixerID.get(index);
-					setMixerIndetification(identification);
-					//String selectedItem = mixListView.getSelectionModel().getSelectedItem(); //POISTETTAVA
-					//System.out.println(selectedItem); //POISTETTAVA
-					removeFav.setDisable(false);
-				});
-				*/
-
 	}
 
 	/**
-	 * Method to save locally users favorite mixer settings
-	 * 
-	 * @throws IOException
+	 * Method to store the favorite list data locally so it can be automatically loaded when this view opens
+	 * @throws IOException, exception is thrown if the local save fails.
 	 */
 	public void save() throws IOException {
 		//Automatic save method
@@ -286,16 +275,15 @@ public class MixerSettingsController implements Initializable {
 	}
 
 	/**
-	 * Method to load from local storage users favorite mixer settings
-	 * 
-	 * @throws IOException
+	 * Method to read from local storage automatically when the view is opened.
+	 * Loads favorite mixer settings automatically.
+	 * @throws IOException, exception thrown if the read fails.
 	 */
 	@SuppressWarnings({ "unchecked" })
 	public void read() throws IOException {		
 		favoritesListView.getItems().clear();
 		localList.clear();
 		mixerSettings.clear();
-		//File file = AudioFileHandler.openFileExplorer(mainContainer.getScene().getWindow());
 		File autofile= new File("src/localfav/Fav1.txt");
 		FileInputStream fin = new FileInputStream(autofile);
 		ObjectInputStream ois = new ObjectInputStream(fin);
@@ -313,10 +301,8 @@ public class MixerSettingsController implements Initializable {
 					}
 				}
 
-			}		
-	
+			}			
 			favoritesListView.setItems(mixerSettings);
-
 			favoritesListView.getSelectionModel().selectedItemProperty()
 					.addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 						int index = favoritesListView.getSelectionModel().getSelectedIndex();
@@ -335,7 +321,7 @@ public class MixerSettingsController implements Initializable {
 	
 	/**
 	 * Method to remove favorite settings from the shown list
-	 * @throws IOException
+	 * @throws IOException, exception is thrown if the local {@link #save()} or {@link #read()} fails 
 	 */
 	public void removeFav() throws IOException {
 		localList.remove(localList.lastIndexOf(String.valueOf(getMixerIndetification())));
@@ -346,8 +332,7 @@ public class MixerSettingsController implements Initializable {
 	}
 
 	/**
-	 * Method gets all the mix settings from the database and prints them to a list
-	 * view
+	 * Method fetches all mixer settings from the database and shows them to the user in a ListView.
 	 */
 	@FXML
 	public void getMixes() {
@@ -355,25 +340,19 @@ public class MixerSettingsController implements Initializable {
 		MixerSetting[] setlist = controller.getAllMixArray();
 		ObservableList<Object> mixerID = FXCollections.observableArrayList(); //List to save specific mixer id
 		ObservableList<Object> mixCretor = FXCollections.observableArrayList(); //List to save specific mixer creator name
-		//List<HBoxCell> list = new ArrayList<>();
 		for (MixerSetting mix : setlist) {
-			myObservableList.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
+			settingsListWithButton.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
 					+ "\nMix Description: " + mix.getDescription(), "STAR", mix.getMixID()));
 			mixerID.add(mix.getMixID());
 			mixCretor.add(mix.getCreatorName());
 		}
-		//myObservableList = FXCollections.observableArrayList(list);
-		cloudListView.setItems(myObservableList);
-
+		cloudListView.setItems(settingsListWithButton);
 		cloudListView.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends HBoxCell> ov, HBoxCell old_val, HBoxCell new_val) -> {
 					// String selectedItem = mixListView.getSelectionModel().getSelectedItem();
 					int index = cloudListView.getSelectionModel().getSelectedIndex();
 					int identification = (int) mixerID.get(index);
 					String name = (String) mixCretor.get(index);
-					// System.out.println("Item selected : " + selectedItem + ", Item index : " +
-					// index+", Mixer ID: "+identification);
-					System.out.println(index);//POISTETTAVA
 					setMixerIndetification(identification);
 					setMixerCreatorName(name);
 					checkUp();
@@ -382,8 +361,7 @@ public class MixerSettingsController implements Initializable {
 	}
 
 	/**
-	 * Method lets user select any mixer setting from the list view and passes the
-	 * selection to MainController class
+	 * Method is used to select any mixer setting and pass it to the MainController.view mixer.
 	 */
 	@FXML
 	private void selectMIX() {
@@ -411,9 +389,6 @@ public class MixerSettingsController implements Initializable {
 					lowPass = mix.getLowPass();
 				}
 			}
-			// System.out.println(pitch + " " + echo + " " + decay + " " + gain + " " +
-			// flangerLenght + " " + wetness + " "+ lfoFrequency + " " + lowPass); //
-			// POistettava
 			mc.setSliderValues(pitch, echo, decay, gain, flangerLenght, wetness, lfoFrequency, lowPass);
 			Stage stage = (Stage) mSCancelButtonCloud.getScene().getWindow();
 			stage.close();
@@ -422,8 +397,8 @@ public class MixerSettingsController implements Initializable {
 	}
 
 	/**
-	 * Method searches the database for any specific mix according to the creator,
-	 * mix name or description
+	 * Method is user to search the database for specific mixer settings according to the creator, description or name.
+	 * It fetches only the specific searched and shows them to the user in a ListView.
 	 */
 	@FXML
 	public void searchMix() {
@@ -439,17 +414,14 @@ public class MixerSettingsController implements Initializable {
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
-			myObservableList = FXCollections.observableArrayList(list);
-			cloudListView.setItems(myObservableList);
+			settingsListWithButton = FXCollections.observableArrayList(list);
+			cloudListView.setItems(settingsListWithButton);
 
 			cloudListView.getSelectionModel().selectedItemProperty()
 					.addListener((ObservableValue<? extends HBoxCell> ov, HBoxCell old_val, HBoxCell new_val) -> {
-						// String selectedItem = mixListView.getSelectionModel().getSelectedItem();
 						int index = cloudListView.getSelectionModel().getSelectedIndex();
 						int identification = (int) mixerID.get(index);
 						String name = (String) mixCretor.get(index);
-						// System.out.println("Item selected : " + selectedItem + ", Item index : " +
-						// index+", Mixer ID: "+identification);
 						setMixerIndetification(identification);
 						setMixerCreatorName(name);
 						checkUp();
@@ -465,17 +437,14 @@ public class MixerSettingsController implements Initializable {
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
-			myObservableList = FXCollections.observableArrayList(list);
-			cloudListView.setItems(myObservableList);
+			settingsListWithButton = FXCollections.observableArrayList(list);
+			cloudListView.setItems(settingsListWithButton);
 
 			cloudListView.getSelectionModel().selectedItemProperty()
 					.addListener((ObservableValue<? extends HBoxCell> ov, HBoxCell old_val, HBoxCell new_val) -> {
-						// String selectedItem = mixListView.getSelectionModel().getSelectedItem();
 						int index = cloudListView.getSelectionModel().getSelectedIndex();
 						int identification = (int) mixerID.get(index);
 						String name = (String) mixCretor.get(index);
-						// System.out.println("Item selected : " + selectedItem + ", Item index : " +
-						// index+", Mixer ID: "+identification);
 						setMixerIndetification(identification);
 						setMixerCreatorName(name);
 						checkUp();
@@ -491,17 +460,14 @@ public class MixerSettingsController implements Initializable {
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
-			myObservableList = FXCollections.observableArrayList(list);
-			cloudListView.setItems(myObservableList);
+			settingsListWithButton = FXCollections.observableArrayList(list);
+			cloudListView.setItems(settingsListWithButton);
 
 			cloudListView.getSelectionModel().selectedItemProperty()
 					.addListener((ObservableValue<? extends HBoxCell> ov, HBoxCell old_val, HBoxCell new_val) -> {
-						// String selectedItem = mixListView.getSelectionModel().getSelectedItem();
 						int index = cloudListView.getSelectionModel().getSelectedIndex();
 						int identification = (int) mixerID.get(index);
 						String name = (String) mixCretor.get(index);
-						// System.out.println("Item selected : " + selectedItem + ", Item index : " +
-						// index+", Mixer ID: "+identification);
 						setMixerIndetification(identification);
 						setMixerCreatorName(name);
 						checkUp();
@@ -510,8 +476,9 @@ public class MixerSettingsController implements Initializable {
 	}
 	
 	/**
-	 * Method checks for the logged in user name and the mixer settings creator name
-	 * if a match, user can delete the mixer setting.
+	 * Method is used to check for logged in user, if there is a logged in user
+	 * it will show the delete button for the user on those mixer settings where
+	 * the user is the creator.
 	 */
 	public void checkUp() {
 	
@@ -525,8 +492,9 @@ public class MixerSettingsController implements Initializable {
 	}
 	
 	/**
-	 * Method to delete user created mixer setting from the database  
-	 * @throws IOException
+	 * Method to delete user created mixer setting from the database.
+	 * Alerts are used to give feedback for the user.
+	 * @throws IOException, exception is thrown if the local {@link #save()} or {@link #read()} fails
 	 */
 	@FXML
 	public void deleteMix() throws IOException {		
@@ -550,7 +518,6 @@ public class MixerSettingsController implements Initializable {
 			save();
 			getMixes();
 			mixerSettings.clear();
-			//favoritesListView.getItems().clear();
 			read();
 			mSRemoveFav.setDisable(true);
 			mSDeleteMix.setDisable(true);
@@ -566,23 +533,21 @@ public class MixerSettingsController implements Initializable {
 
 
 	/**
-	 * Method to initialize mixer settings window
-	 * 
-	 * @param mainController
-	 * @throws IOException 
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
+	 * @throws IOException, exception is thrown if the local {@link #read()} fails
 	 */
 	public void setMainController(MainController mainController) throws IOException {
 		this.mc = mainController;
 		this.controller = mc.getController();
-		//getMixes();
 		controller.intializeDatabaseConnection();
 		read();
 	}
 	
 	/**
-	 * Method is used to close open scenes
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -591,34 +556,31 @@ public class MixerSettingsController implements Initializable {
 	}
 
 	/**
-	 * getter for the mixer id
-	 * 
-	 * @return
-	 */
-	public int getMixerIndetification() {
-		return mixerIndetification;
-	}
-
-	/**
-	 * setter for the mixer id
-	 * 
-	 * @param mixerIndetification
+	 * Method to set the variable mixerIdentification a specific value 
+	 * @param mixerIndetification, value of the id.
 	 */
 	public void setMixerIndetification(int mixerIndetification) {
 		this.mixerIndetification = mixerIndetification;
 	}
-	
+
 	/**
-	 * Used to get the mix creators name for deleting purposes
-	 * @param name
+	 * Method to get the mixerIdentification.
+	 * @return the set id or null
+	 */
+	public int getMixerIndetification() {
+		return mixerIndetification;
+	}
+	/**
+	 * Method to set the mixerCreator variable the correct value
+	 * @param name, user name for the variable.
 	 */
 	public void setMixerCreatorName(String name) {
 		this.mixerCreatorName=name;
 	}
 	
 	/**
-	 * Returns the set mix creator name
-	 * @return
+	 * Method to get the previously set mixerCreatorName
+	 * @return current value or null
 	 */
 	public String getMixerCreatorName() {
 		return mixerCreatorName;
