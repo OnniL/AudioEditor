@@ -1,0 +1,10 @@
+New Sample(0);src/audio/testiaani.wav
+New Sample(1);src/audio/testiaani.wav
+New Sample(2);src/audio/testiaani.wav
+New Sample(3);src/audio/testiaani.wav
+New Sample(4);src/audio/testiaani.wav
+New Sample(5);src/audio/testiaani.wav
+New Sample(6);src/audio/testiaani.wav
+New Sample(7);src/audio/testiaani.wav
+New Sample(8);src/audio/testiaani.wav
+New Sample(9);src/audio/testiaani.wav
