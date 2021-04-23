@@ -2,11 +2,14 @@ package otp.group6.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -39,7 +43,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -79,8 +82,9 @@ public class MainController implements Initializable {
 		bundle = resources;
 		loadSoundboard();
 		initializeMixer();
-		initializeRecorderLocalization();
 		sharedMain = mainContainer;
+		initializeMenuItems();
+		setApplicationLanguage();
 	}
 
 	/**
@@ -88,6 +92,84 @@ public class MainController implements Initializable {
 	 */
 	public void exitRoutine() {
 		boardController.saveSampleData();
+	}
+
+	////////////////////////////
+	// MENU BAR
+
+	@FXML
+	private Menu menuSettings;
+	@FXML
+	private MenuItem menuItemPreferences;
+	// MenuItem userSettings (defined in different section)
+	// MenuItem loginoption (defined in different section)
+
+	@FXML
+	private Menu menuHelp;
+	@FXML
+	private MenuItem menuItemAbout;
+	@FXML
+	private MenuItem menuItemUserguide;
+	@FXML
+
+	private Menu menuLanguage;
+	@FXML
+	private MenuItem languageEnglish;
+	@FXML
+	private ImageView checkmarkEnglish;
+	@FXML
+	private MenuItem languageFinnish;
+	@FXML
+	private ImageView checkmarkFinnish;
+
+	public void initializeMenuBarLocalization() {
+		menuSettings.setText(bundle.getString("mVSettings"));
+		menuItemPreferences.setText(bundle.getString("mVPreferences"));
+		userSettings.setText(bundle.getString("mVUsersettings"));
+		loginoption.setText(bundle.getString("mVLogin"));
+		menuHelp.setText(bundle.getString("mVHelp"));
+		menuItemAbout.setText(bundle.getString("mVAbout"));
+		menuItemUserguide.setText(bundle.getString("mVUserguide"));
+		menuLanguage.setText(bundle.getString("mVLanguage"));
+	}
+
+	public void changeApplicationLanguage(ActionEvent event) {
+
+		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream(new File(appConfigPath).getAbsoluteFile()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (event.getSource() == languageEnglish) {
+			curLocale = new Locale("en", "US");
+			properties.setProperty("language", "en");
+			properties.setProperty("country", "US");
+		} else if (event.getSource() == languageFinnish) {
+			curLocale = new Locale("fi", "FI");
+			properties.setProperty("country", "FI");
+			properties.setProperty("language", "fi");
+		}
+
+		try (FileOutputStream fos = new FileOutputStream(appConfigPath);) {
+			properties.store(fos, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		bundle = ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
+
+		setApplicationLanguage();
+	}
+
+	public void setApplicationLanguage() {
+		initializeMixerLocalization();
+		initializeRecorderLocalization();
+		initializeMenuBarLocalization();
+		setLocalizedLanguageMenuItems();
+		// boardController.refreshSoundBoard();
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,6 +320,8 @@ public class MainController implements Initializable {
 	@FXML
 	private AnchorPane mainContainer;
 
+	private File mixerSelectedFile;
+
 	@FXML
 	AnchorPane soundboardRoot;
 	// Muuttujat tiedoston kokonaiskestolle ja toistetulle ajalle
@@ -245,7 +329,8 @@ public class MainController implements Initializable {
 	private String audioFileProcessedTimeString = "0:00";
 
 	// TODO HOX TÄMÄN LOKALISOINTI
-	private DecimalFormat decimalFormat = new DecimalFormat("#0.00"); // kaikki luvut kahden desimaalin tarkkuuteen
+	private DecimalFormatSymbols symbols;
+	private DecimalFormat decimalFormat;
 
 	// public static AnchorPane getMainContainer() {
 	// return mainContainer;
@@ -257,7 +342,6 @@ public class MainController implements Initializable {
 		initializeSlidersAndTextFields();
 		initializeTooltips();
 		initializeRecorderListener();
-		setLanguageToMixer();
 	}
 
 	// Methods for buttons
@@ -358,11 +442,12 @@ public class MainController implements Initializable {
 			Pattern pattern = Pattern.compile("(\\.wav)$", Pattern.CASE_INSENSITIVE);
 
 			// Avataan file AudioFileHandlerilla ja välitetään file kontrollerille
-			File file = AudioFileHandler.openFileExplorer(mainContainer.getScene().getWindow());
-			Matcher matcher = pattern.matcher(file.getName());
+			mixerSelectedFile = AudioFileHandler.openWavFileExplorer(mainContainer.getScene().getWindow());
+
+			Matcher matcher = pattern.matcher(mixerSelectedFile.getName());
 			if (matcher.find()) {
 				audioManipulatorResetMediaPlayer();
-				controller.audioManipulatorOpenFile(file);
+				controller.audioManipulatorOpenFile(mixerSelectedFile);
 			} else {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle(bundle.getString("mixerErrorTitle"));
@@ -372,8 +457,8 @@ public class MainController implements Initializable {
 			}
 			// Length of the audio file in seconds (file.length / (format.frameSize *
 			// format.frameRate))
-			AudioFormat format = AudioSystem.getAudioFileFormat(file.getAbsoluteFile()).getFormat();
-			double audioFileLengthInSec = file.length() / (format.getFrameSize() * format.getFrameRate());
+			AudioFormat format = AudioSystem.getAudioFileFormat(mixerSelectedFile.getAbsoluteFile()).getFormat();
+			double audioFileLengthInSec = mixerSelectedFile.length() / (format.getFrameSize() * format.getFrameRate());
 			controller.setAudioFileLengthInSec(audioFileLengthInSec);
 			audioFileDurationString = secondsToMinutesAndSeconds(audioFileLengthInSec);
 
@@ -381,7 +466,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + file.getName());
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + mixerSelectedFile.getName());
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -411,15 +496,15 @@ public class MainController implements Initializable {
 
 	public void audioManipulatorOpenRecordedFile() {
 		try {
-			File file = new File("src/audio/mixer_default.wav").getAbsoluteFile();
-			file.deleteOnExit();
+			mixerSelectedFile = new File("src/audio/mixer_default.wav").getAbsoluteFile();
+			mixerSelectedFile.deleteOnExit();
 			audioManipulatorResetMediaPlayer();
-			controller.audioManipulatorOpenFile(file);
+			controller.audioManipulatorOpenFile(mixerSelectedFile);
 
 			// Length of the audio file in seconds (file.length / (format.frameSize *
 			// format.frameRate))
-			AudioFormat format = AudioSystem.getAudioFileFormat(file.getAbsoluteFile()).getFormat();
-			double audioFileLengthInSec = file.length() / (format.getFrameSize() * format.getFrameRate());
+			AudioFormat format = AudioSystem.getAudioFileFormat(mixerSelectedFile.getAbsoluteFile()).getFormat();
+			double audioFileLengthInSec = mixerSelectedFile.length() / (format.getFrameSize() * format.getFrameRate());
 			controller.setAudioFileLengthInSec(audioFileLengthInSec);
 			audioFileDurationString = secondsToMinutesAndSeconds(audioFileLengthInSec);
 
@@ -427,7 +512,7 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + file.getName());
+			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + bundle.getString("mixerSelectedRecordingText"));
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -521,17 +606,18 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void getTextFieldPitch() {
-		String text = textFieldPitch.getText();
+		textFieldPitch.setStyle("-fx-text-fill: black");
+		String text = textFieldPitch.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderPitch.getMin() && number <= sliderPitch.getMax()) {
 				controller.audioManipulatorSetPitchFactor(number);
 				sliderPitch.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldPitch.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldPitch.setStyle("-fx-text-fill: red");
 		}
 	}
 
@@ -540,17 +626,18 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void getTextFieldGain() {
-		String text = textFieldGain.getText();
+		textFieldGain.setStyle("-fx-text-fill: black");
+		String text = textFieldGain.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderGain.getMin() && number <= sliderGain.getMax()) {
 				controller.audioManipulatorSetGain(number);
 				sliderGain.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldGain.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldGain.setStyle("-fx-text-fill: red");
 		}
 	}
 
@@ -559,17 +646,18 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void getTextFieldEchoLength() {
-		String text = textFieldEchoLength.getText();
+		textFieldEchoLength.setStyle("-fx-text-fill: black");
+		String text = textFieldEchoLength.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderEchoLength.getMin() && number <= sliderEchoLength.getMax()) {
 				controller.audioManipulatorSetEchoLength(number);
 				sliderEchoLength.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldEchoLength.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldEchoLength.setStyle("-fx-text-fill: red");
 		}
 	}
 
@@ -578,84 +666,89 @@ public class MainController implements Initializable {
 	 */
 	@FXML
 	private void getTextFieldDecay() {
-		String text = textFieldDecay.getText();
+		textFieldDecay.setStyle("-fx-text-fill: black");
+		String text = textFieldDecay.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderDecay.getMin() && number <= sliderDecay.getMax()) {
 				controller.audioManipulatorSetDecay(number);
 				sliderDecay.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldDecay.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldDecay.setStyle("-fx-text-fill: red");
 		}
 	}
 
 	/*
-	 * 
+	 * TODO Javadoc
 	 */
 	@FXML
 	private void getTextFieldFlangerLength() {
-		String text = textFieldFlangerLength.getText();
+		textFieldFlangerLength.setStyle("-fx-text-fill: black");
+		String text = textFieldFlangerLength.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderFlangerLength.getMin() && number <= sliderFlangerLength.getMax()) {
 				controller.audioManipulatorSetFlangerLength(number);
 				sliderFlangerLength.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldFlangerLength.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldFlangerLength.setStyle("-fx-text-fill: red");
 		}
 	}
 
 	@FXML
 	private void getTextFieldWetness() {
-		String text = textFieldWetness.getText();
+		textFieldWetness.setStyle("-fx-text-fill: black");
+		String text = textFieldWetness.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderWetness.getMin() && number <= sliderWetness.getMax()) {
 				controller.audioManipulatorSetWetness(number);
 				sliderWetness.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldWetness.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldWetness.setStyle("-fx-text-fill: red");
 		}
 	}
 
 	@FXML
 	private void getTextFieldLfo() {
-		String text = textFieldLfo.getText();
+		textFieldLfo.setStyle("-fx-text-fill: black");
+		String text = textFieldLfo.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderLfoFrequency.getMin() && number <= sliderLfoFrequency.getMax()) {
 				controller.audioManipulatorSetLFO(number);
 				sliderLfoFrequency.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldLfo.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldLfo.setStyle("-fx-text-fill: red");
 		}
 	}
 
 	@FXML
 	private void getTextFieldLowPass() {
-		String text = textFieldLowPass.getText();
+		textFieldLowPass.setStyle("-fx-text-fill: black");
+		String text = textFieldLowPass.getText().replace(',', '.');
 		try {
 			double number = Double.parseDouble(text);
 			if (number >= sliderLowPass.getMin() && number <= sliderLowPass.getMax()) {
 				controller.audioManipulatorSetLowPass((float) number);
 				sliderLowPass.setValue(number);
 			} else {
-				System.out.println("Arvo yli viiterajojen");
+				textFieldLowPass.setStyle("-fx-text-fill: red");
 			}
 		} catch (Exception e) {
-			System.out.println("Virheellinen syöte");
+			textFieldLowPass.setStyle("-fx-text-fill: red");
 		}
 	}
 
@@ -725,8 +818,6 @@ public class MainController implements Initializable {
 	}
 
 	/*
-	 * @ author Roosa Laukkanen
-	 * 
 	 * Converts seconds to minutes and seconds. Returns String in XX:XX format
 	 */
 	private String secondsToMinutesAndSeconds(double seconds) {
@@ -759,8 +850,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetPitchFactor(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldPitch.setText(value.replace(",", "."));
+				textFieldPitch.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -769,8 +859,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetGain(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldGain.setText(value.replace(",", "."));
+				textFieldGain.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -779,8 +868,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetEchoLength(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldEchoLength.setText(value.replace(",", "."));
+				textFieldEchoLength.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -789,8 +877,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetDecay(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldDecay.setText(value.replace(",", "."));
+				textFieldDecay.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -799,8 +886,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetFlangerLength(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldFlangerLength.setText(value.replace(",", "."));
+				textFieldFlangerLength.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -809,8 +895,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetWetness(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldWetness.setText(value.replace(",", "."));
+				textFieldWetness.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -819,8 +904,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetLFO(newValue.doubleValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldLfo.setText(value.replace(",", "."));
+				textFieldLfo.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -829,8 +913,7 @@ public class MainController implements Initializable {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				controller.audioManipulatorSetLowPass(newValue.floatValue());
-				String value = decimalFormat.format(newValue.doubleValue());
-				textFieldLowPass.setText(value.replace(",", "."));
+				textFieldLowPass.setText(decimalFormat.format(newValue.doubleValue()));
 			}
 		});
 
@@ -840,7 +923,8 @@ public class MainController implements Initializable {
 				if (sliderAudioFileDuration.isPressed()) {
 					controller.timerCancel();
 
-					System.out.println("slideria klikattu " + sliderAudioFileDuration.getValue());
+					// System.out.println("slideria klikattu " +
+					// sliderAudioFileDuration.getValue());
 					controller.audioManipulatorPlayFromDesiredSec(sliderAudioFileDuration.getValue());
 
 					// Nyk kesto tekstinä
@@ -902,9 +986,7 @@ public class MainController implements Initializable {
 	}
 
 	/*
-	 * @author Roosa Laukkanen
-	 * 
-	 * Sets a tooltip to every info button
+	 * * Sets a tooltip to every info button
 	 */
 	private void initializeTooltips() {
 		tooltipPitch = new Tooltip();
@@ -923,15 +1005,28 @@ public class MainController implements Initializable {
 		buttonInfoLowPass.setTooltip(tooltipLowPass);
 	}
 
-
-	private void setLanguageToMixer() {
+	private void initializeMixerLocalization() {
 		try {
 			mixerTab.setText(bundle.getString("mixerTab"));
 
 			labelSelectFile.setText(bundle.getString("mixerSelectFileText"));
 			labelOr.setText(bundle.getString("mixerOrText"));
 			labelRecordFile.setText(bundle.getString("mixerRecordFileText"));
-			labelSelectedFile.setText(bundle.getString("mixerFileNotSelectedText"));
+
+			if (mixerSelectedFile != null) {
+				if (mixerSelectedFile.getName().equals("mixer_default.wav")) {
+					labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " "
+							+ bundle.getString("mixerSelectedRecordingText"));
+					System.out.println("ei oo null");
+				} else {
+					labelSelectedFile
+							.setText(bundle.getString("mixerFileSelectedText") + " " + mixerSelectedFile.getName());
+					System.out.println("on null");
+				}
+			} else {
+				labelSelectedFile.setText(bundle.getString("mixerFileNotSelectedText"));
+			}
+
 			labelTryMixer.setText(bundle.getString("mixerTryMixerText"));
 
 			labelPitch.setText(bundle.getString("mixerPitchText"));
@@ -958,22 +1053,17 @@ public class MainController implements Initializable {
 			tooltipEcho.setText(bundle.getString("mixerEchoTooltip"));
 			tooltipFlanger.setText(bundle.getString("mixerFlangerTooltip"));
 			tooltipLowPass.setText(bundle.getString("mixerLowPassTooltip"));
-			
-			
-			 
-			 
-			 
-			 
-			
 
-			
-			  Image imagePlay = new Image(new FileInputStream("./src/main/assets/images/playbutton.png")); 
-			  ImageView viewPlay = new ImageView(imagePlay); buttonPlay.setGraphic(viewPlay);			  
-			 // buttonPause.setGraphic(); 
-			  //buttonStop.setGraphic();
-			  
-			  
-			 
+			symbols = new DecimalFormatSymbols(bundle.getLocale());
+			decimalFormat = new DecimalFormat("#0.00", symbols); // kaikki luvut kahden desimaalin tarkkuuteen
+
+			if (bundle.getLocale().toString().equals("fi_FI")) {
+				checkmarkFinnish.setVisible(true);
+				checkmarkEnglish.setVisible(false);
+			} else if (bundle.getLocale().toString().equals("en_US")) {
+				checkmarkEnglish.setVisible(true);
+				checkmarkFinnish.setVisible(false);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -985,11 +1075,10 @@ public class MainController implements Initializable {
 
 	// RECORDER METHODS START HERE/////////////////////////////////////
 
-	
 	/**
 	 * @author Onni Lukkarila
 	 */
-	
+
 	@FXML
 	private Button recorderButtonPlay;
 	@FXML
@@ -1152,8 +1241,7 @@ public class MainController implements Initializable {
 		recorderButtonPause.setDisable(true);
 		recorderButtonStop.setDisable(true);
 	}
-	
-	
+
 	private void initializeRecorderLocalization() {
 
 		try {
@@ -1184,16 +1272,36 @@ public class MainController implements Initializable {
 	private Label loggedinuser;
 	@FXML
 	private MenuItem userSettings;
-	private MenuButton userMenuButton = new MenuButton();
-	private MenuItem menu1 = new MenuItem("User settings");
-	private MenuItem menu2 = new MenuItem("log out");
+	private MenuButton userMenuButton;
+	private MenuItem menu1;
+	private MenuItem menu2;
 	@FXML
 	private MenuItem loginoption;
 	@FXML
 	private Button closeButton;
 
 	/**
-	 * Method opens a new scene Login and Register form
+	 * Method sets localization parameters for the variables.
+	 */
+	public void initializeMenuItems() {
+		userMenuButton = new MenuButton();
+		menu1 = new MenuItem(bundle.getString("mVmenu1")); //
+		menu2 = new MenuItem(bundle.getString("mVmenu2")); //
+	}
+
+	/*
+	 * Method changes localization parameters for the variables.
+	 */
+	public void setLocalizedLanguageMenuItems() {
+		if (!userMenuButton.getText().equals("")) {
+			loggedinuser.setText(bundle.getString("mVloggedin"));
+			menu1.setText(bundle.getString("mVmenu1"));
+			menu2.setText(bundle.getString("mVmenu2"));
+		}
+	}
+
+	/**
+	 * Method opens a new stage of the login and register view.
 	 */
 	public void openLoginRegister() {
 		controller.intializeDatabaseConnection();
@@ -1218,7 +1326,7 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Method opens a new scene, the mixer settings from the database
+	 * Method opens a new stage of the mixer settings lists.
 	 */
 	public void openMixerSettings() {
 		controller.intializeDatabaseConnection();
@@ -1242,12 +1350,18 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Method to get current controller object.
+	 * 
+	 * @return the current set controller or null
+	 */
 	public Controller getController() {
 		return this.controller;
 	}
 
 	/**
-	 * Opens a new scene where the mixer settings can be saved to the database
+	 * Method opens a new scene where the mixer settings can be saved to the
+	 * database
 	 */
 	public void openMixerSave() {
 
@@ -1272,8 +1386,8 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens the save selection scene where user can decide to save settings locally
-	 * or to the database.
+	 * Method opens the save selection scene where user can decide to save settings
+	 * locally or to the database.
 	 */
 	public void openSaveSelection() {
 		try {
@@ -1295,8 +1409,8 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens a new scene where user can select where to load mixer settings, locally
-	 * or from the database.
+	 * Method opens a new scene where user can select where to load mixer settings,
+	 * locally or from the database.
 	 */
 	public void openLoadSelection() {
 		try {
@@ -1318,7 +1432,8 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Opens user settings view where password can be changed or the user deleted.
+	 * Method opens user settings view where password can be changed or the account
+	 * deleted.
 	 */
 	public void openUserSettings() {
 		try {
@@ -1340,9 +1455,9 @@ public class MainController implements Initializable {
 	}
 
 	/**
-	 * Method to close open scenes
+	 * Method to close the view when button is pressed
 	 * 
-	 * @param event
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -1400,15 +1515,15 @@ public class MainController implements Initializable {
 				writeFile.write(Float.toString((float) sliderLowPass.getValue()) + "\n");
 				writeFile.close();
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Information");
-				alert.setHeaderText("Setting saved succesfully!");
+				alert.setTitle(bundle.getString("sMSsaveAlert1Title"));
+				alert.setHeaderText(bundle.getString("sMSsaveAlert1Header"));
 				alert.showAndWait();
 			} catch (IOException e) {
 				e.printStackTrace();
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setTitle("Error!");
-				alert.setHeaderText("Something went wrong!");
-				alert.setContentText("If this keeps happening, contact support! :)");
+				alert.setTitle(bundle.getString("mSSaveAlertTitle"));
+				alert.setHeaderText(bundle.getString("mSSaveAlertHeader"));
+				alert.setContentText(bundle.getString("mSSaveAlertContent"));
 				alert.showAndWait();
 			}
 		} catch (Exception e) {
@@ -1431,7 +1546,7 @@ public class MainController implements Initializable {
 		userMenuButton.setStyle("-fx-font-size: 10pt; -fx-text-fill:black;"); // MUOTOILU CSSSSSÄÄÄÄN
 		userMenuButton.getItems().addAll(menu1, menu2);
 		loggedinuser.setVisible(true);
-		loggedinuser.setText("Logged in as: ");
+		loggedinuser.setText(bundle.getString("mVloggedin"));
 		loggedinuser.setGraphic(userMenuButton);
 		loggedinuser.setContentDisplay(ContentDisplay.RIGHT);
 		userSettings.setVisible(true);

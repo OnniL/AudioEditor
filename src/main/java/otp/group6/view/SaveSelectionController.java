@@ -13,15 +13,24 @@ import otp.group6.controller.Controller;
 
 /**
  * 
- * Class handles selection for saving mixer settings locally or into database
+ * Class is used for the SaveSelectionView.fxml to control its actions.
+ * Main functionality is for the user to select save location for the mixer settings
+ * either locally or to the database.
  * 
  * @author Joonas Soininen
  *
  */
 public class SaveSelectionController implements Initializable{
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
+	/** Object of the Controller.java class */
+	Controller controller;
 
+	/**
+	 * Variables for the different JavaFX elements
+	 * sS in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	private Label sSHeaderLabel;
 	@FXML
@@ -39,6 +48,7 @@ public class SaveSelectionController implements Initializable{
 
 	/**
 	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -59,9 +69,9 @@ public class SaveSelectionController implements Initializable{
 	}
 	
 	/**
-	 * Method to get mainController
-	 * 
-	 * @param mainController
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -69,9 +79,8 @@ public class SaveSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to close opened scenes
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -79,8 +88,12 @@ public class SaveSelectionController implements Initializable{
 		stage.close();
 	}
 
+	
 	/**
-	 * Does a query to the database class to check for a logged in user
+	 * Method does a query to the database and checks for logged in user
+	 * If there is a user logged in the SaveMixerSettingsView.fxml is opened trough the MainController.java or
+	 * the RegisterLoginView.fxml is opened.
+	 * Closes this stage automatically.
 	 */
 	public void checkForloggedin() {
 		controller.intializeDatabaseConnection();
@@ -102,7 +115,7 @@ public class SaveSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method for storing settings on users computer
+	 * Method calls for local save method that is in MainController.java.
 	 */
 	public void saveLocal() {
 		mc.saveMixerSettingsLocally();

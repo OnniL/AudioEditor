@@ -24,18 +24,23 @@ import javafx.stage.Stage;
 import otp.group6.controller.Controller;
 
 /**
- * Class handles user registering and logging in
+ * Class is used to handle RegisterLoginView.fxml views user logging in and user registering.
+ * It communicates with the database and checks for user names, registers users and logs them in.
  * 
  * @author Joonas Soininen
  *
  */
 public class RegisterLoginController implements Initializable {
-	Controller controller;
+	/** Object of the MainController.java class */
 	MainController mc;
+	/** Object of the Controller.java class */
+	Controller controller;
 
-	public RegisterLoginController() {
-
-	}
+	/**
+	 * Variables for the different JavaFX elements
+	 * rL in front refers to this class and then the variable name
+	 * to its function in the visible view.
+	 */
 	@FXML
 	private Label rLWelcomeLabel;
 	@FXML
@@ -62,25 +67,23 @@ public class RegisterLoginController implements Initializable {
 	private Label rLForgotLabel;
 	@FXML
 	private Button rLCloseButton;
-	
-	private Image imageShow;
-	
-	private Image imageHide;
-	
-	private FileInputStream imageinputshow;
-	
+	final Tooltip rLpwtooltip = new Tooltip();
+	final Tooltip rLwuntooltip = new Tooltip();
+	final Tooltip rLlogintip = new Tooltip();
+	/**
+	 *Variables for the images 
+	 */
+	private Image imageShow;	
+	private Image imageHide;	
+	private FileInputStream imageinputshow;	
 	private FileInputStream imageinputhide;
-
+	/** variable for the final password to be sent to the databse */
 	private String lastPW;
 	
-	final Tooltip rLpwtooltip = new Tooltip();
-
-	final Tooltip rLwuntooltip = new Tooltip();
-
-	final Tooltip rLlogintip = new Tooltip();
 	
 	/**
 	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
+	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -97,7 +100,6 @@ public class RegisterLoginController implements Initializable {
 		rLUsernameLabel.setText(bundle.getString("rLUsernameLabel"));
 		rLUserTextField.setPromptText(bundle.getString("rLUserTextField"));
 		rLPasswdLabel.setText(bundle.getString("rLPasswdLabel"));
-		//rLShowPwToggle.setText(bundle.getString("rLShowPwToggle"));
 		rLRegisterButton.setText(bundle.getString("rLRegisterButton"));
 		rLLorLabel.setText(bundle.getString("rLLorLabel"));
 		rLLoginButton.setText(bundle.getString("rLLoginButton"));
@@ -112,7 +114,6 @@ public class RegisterLoginController implements Initializable {
 			imageinputhide = new FileInputStream("src/main/resources/images/hidePW.jpg");
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		imageShow = new Image(imageinputshow,20,20, true, true);
@@ -123,7 +124,7 @@ public class RegisterLoginController implements Initializable {
 	
 	
 	/**
-	 * Method for user to see their password on toggleButton click
+	 * Method shows and hides the password from the user on pressing a toggle button
 	 */
 	@FXML
 	public void showPW() {
@@ -158,9 +159,8 @@ public class RegisterLoginController implements Initializable {
 	}
 	
 	/**
-	 * Method to close opened scenes
-	 * 
-	 * @param event
+	 * Method to close the view when button is pressed
+	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
@@ -169,9 +169,10 @@ public class RegisterLoginController implements Initializable {
 	}
 
 	/**
-	 * Method to get mainController
-	 * 
-	 * @param mainController
+	 * Method sets variable to the parameter provided from MainController.java 
+	 * @param mainController, is the instance of MainController.java that is in the
+	 * current thread running.
+	 * Makes a connection to the database and calls for a function to remind about the password
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -182,8 +183,7 @@ public class RegisterLoginController implements Initializable {
 	}
 
 	/**
-	 * Method called to remind of correct password format. Only called form username
-	 * textfield.
+	 * Method to show a tool tip for the password field reminding about the correct way of selecting a password
 	 */
 	@FXML
 	public void pwReminder() {
@@ -204,27 +204,38 @@ public class RegisterLoginController implements Initializable {
 				}
 			}
 		});
+		
+		rLPasswdTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				if (newValue) {
+					rLpwtooltip.show(rLPasswdTextField, //
+							// popup tooltip on the right, you can adjust these values for different
+							// positions
+							rLPasswdTextField.getScene().getWindow().getX() + rLPasswdTextField.getLayoutX() + rLPasswdTextField.getWidth() + 0, //
+							rLPasswdTextField.getScene().getWindow().getY() + rLPasswdTextField.getLayoutY() + rLPasswdTextField.getHeight());
+				} else {
+					rLpwtooltip.hide();
+				}
+			}
+		});
 	}
 
 	/**
-	 * Method registers new user to the database
-	 * 
-	 * @param event
-	 * @throws SQLException
+	 * Method to register the user name and password to the database if all is met correctly
+	 * Method goes trough comparisons and the user name has to pass these also the password must be in correct form
+	 * @param event, button push handling
+	 * @throws SQLException, thrown if there is a problem with the database
 	 */
 	public void registerUser(ActionEvent event) throws SQLException {
-		// System.out.println(username.getText().toString().length());// Poistettava
-		// System.out.println(password.getText());// Poistettava
 
 		if ((unisValid(rLUserTextField.getText()))&&!(controller.chekcforUser(rLUserTextField.getText()))) {
-			// System.out.println("VAPAA"); // Poistettava
 			rLUserTextField.setStyle("-fx-text-fill: green; -fx-font-size: 16px;");
 			rLwuntooltip.hide();
 			if (pwIsValid(getLastPW())) {
 				controller.createUser(rLUserTextField.getText(), getLastPW());
 				loginUser();
 			} else {
-				// System.out.println("UUS PASSU"); // Poistettava
 				rLPasswdField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
 				rLPasswdTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
 				// password.setStyle("-fx-control-inner-background:#000000; -fx-font-family:
@@ -239,16 +250,16 @@ public class RegisterLoginController implements Initializable {
 			rLUserTextField.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
 			rLwuntooltip.setWrapText(true);
 			rLwuntooltip.setTextOverrun(OverrunStyle.ELLIPSIS);
-			// System.out.println("Varattu!"); // Poistettava
 			rLUserTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					if (newValue) {
+						rLlogintip.hide();
 						rLwuntooltip.show(rLUserTextField, //
 								// popup tooltip on the right, you can adjust these values for different
 								// positions
 								rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
-										+ 35, //
+										+ 0, //
 								rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY() + rLUserTextField.getHeight());
 
 					} else {
@@ -262,9 +273,11 @@ public class RegisterLoginController implements Initializable {
 	}
 
 	/**
-	 * Method logs user in to access the database save function
+	 * Method logs user in to the system if all comparisons are met.
+	 * Feedback is provided with tool tips and coloring the error areas.
 	 */
 	public void loginUser() {
+	
 		rLlogintip.setWrapText(true);
 		rLlogintip.setTextOverrun(OverrunStyle.ELLIPSIS);
 		if (controller.loginUser(rLUserTextField.getText(), getLastPW()) == "No user") {
@@ -275,11 +288,12 @@ public class RegisterLoginController implements Initializable {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 					if (newValue) {
+						rLwuntooltip.hide();
 						rLlogintip.show(rLUserTextField, //
 								// popup tooltip on the right, you can adjust these values for different
 								// positions
 								rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
-										+ 35, //
+										+ 0, //
 								rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY() + rLUserTextField.getHeight());
 
 					} else {
@@ -298,11 +312,12 @@ public class RegisterLoginController implements Initializable {
 					public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
 							Boolean newValue) {
 						if (newValue) {
+							rLwuntooltip.hide();
 							rLlogintip.show(rLUserTextField, //
 									// popup tooltip on the right, you can adjust these values for different
 									// positions
 									rLUserTextField.getScene().getWindow().getX() + rLUserTextField.getLayoutX() + rLUserTextField.getWidth()
-											+ 35, //
+											+ 0, //
 									rLUserTextField.getScene().getWindow().getY() + rLUserTextField.getLayoutY()
 											+ rLUserTextField.getHeight());
 
@@ -323,7 +338,9 @@ public class RegisterLoginController implements Initializable {
 		}
 
 	}
-
+	/**
+	 * Variables for the correct password pattern and a compiler for the password pattern
+	 */
 	private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
 	private static final Pattern pwPattern = Pattern.compile(PASSWORD_PATTERN);
 
@@ -338,6 +355,9 @@ public class RegisterLoginController implements Initializable {
 		return matcher.matches();
 	}
 	
+	/**
+	 * Variables for he correct user name input, mostly to make sure there are no white spaces in the user name and the compiler for the user name
+	 */
 	private static final String USERNAME_PATTERN = "^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$";
 	private static final Pattern unPattern = Pattern.compile(USERNAME_PATTERN);
 	

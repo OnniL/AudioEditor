@@ -7,6 +7,7 @@ import java.io.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import otp.group6.controller.Controller;
@@ -16,6 +17,7 @@ import otp.group6.controller.Controller;
  * @author Onni Lukkarila
  *
  */
+ @Disabled
 public class AudioRecorderTest {
 
 	

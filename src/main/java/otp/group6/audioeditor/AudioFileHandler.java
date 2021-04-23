@@ -2,7 +2,10 @@ package otp.group6.audioeditor;
 
 import javax.sound.sampled.*;
 import javax.sound.sampled.AudioFileFormat.Type;
+
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 import java.io.File;
 
@@ -66,10 +69,24 @@ public class AudioFileHandler {
 	// tiedostomuoto.
 	public static File openFileExplorer(Window window) {
 		FileChooser fc = new FileChooser();
-		// ExtensionFilter filter = new ExtensionFilter("Wav files", "*.wav"); Nämä
-		// takas käyttöön, kun on metodeille omat
-		// fc.getExtensionFilters().add(filter);
 		File file = fc.showOpenDialog(window);
+		return file;
+
+	}
+
+	/*
+	 * @author Roosa Laukkanen 
+	 * Opens the file choosers and shows all WAV files in
+	 * user's music folder
+	 * 
+	 * @return returns the chosen WAV file
+	 */
+	public static File openWavFileExplorer(Window window) {
+		FileChooser fileChooser = new FileChooser();
+		ExtensionFilter filter = new ExtensionFilter("Wav files", "*.wav");
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + File.separator + "Music"));
+		fileChooser.getExtensionFilters().add(filter);
+		File file = fileChooser.showOpenDialog(window);
 		return file;
 
 	}

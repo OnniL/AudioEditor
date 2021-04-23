@@ -10,6 +10,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Disabled;
 
 import otp.group6.audioeditor.Soundboard.Sample;
 
@@ -20,6 +21,7 @@ import otp.group6.audioeditor.Soundboard.Sample;
  * @author Kevin Akkoyun
  *
  */
+@Disabled
 class SoundboardTest {
 	private Soundboard soundboard = new Soundboard();
 
@@ -28,7 +30,7 @@ class SoundboardTest {
 	@Test
 	final void testCreateSampleFPath() {
 
-		int testSampleIndex = soundboard.addSample("src/audio/jumalauta.wav");
+		int testSampleIndex = soundboard.addSample("src/audio/testiaani.wav");
 
 		assertTrue(soundboard.checkSampleArray(testSampleIndex), "Checks if sample array contains added sample");
 	}
@@ -38,7 +40,7 @@ class SoundboardTest {
 	@Test
 	final void testCreateSampleNew() {
 
-		Sample testSample = soundboard.new Sample("src/audio/jumalauta.wav");
+		Sample testSample = soundboard.new Sample("src/audio/testiaani.wav");
 
 		int testSampleIndex = soundboard.addSample(testSample);
 
@@ -50,7 +52,7 @@ class SoundboardTest {
 	@Test
 	final void testSampleRemovalWithIndex() {
 
-		Sample newSample = soundboard.new Sample("src/audio/jumalauta.wav");
+		Sample newSample = soundboard.new Sample("src/audio/testiaani.wav");
 		int testSampleIndex = soundboard.addSample(newSample);
 
 		Sample removedSample = soundboard.removeSample(testSampleIndex);
@@ -63,19 +65,19 @@ class SoundboardTest {
 	@Test
 	final void testSampleRemovalWithSample() {
 
-		Sample newSample = soundboard.new Sample("src/audio/jumalauta.wav");
+		Sample newSample = soundboard.new Sample("src/audio/testiaani.wav");
 		soundboard.addSample(newSample);
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
 
-	@Disabled
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
+	@Disabled
 	final void testSaveSampleData() {
 		for (int i = 0; i < 10; i++) {
-			soundboard.addSample("src/audio/jumalauta.wav");
+			soundboard.addSample("src/audio/testiaani.wav");
 		}
 		assertEquals(10, soundboard.getSampleArrayLength(), "sampleArray didnt recieve all samples");
 		soundboard.saveSampleData();
