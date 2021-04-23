@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import otp.group6.controller.Controller;
 
-public class AudioManipulatoriTest {
+public class AudioManipulatorTest {
 
 	private Controller controller = new Controller();
 	private AudioManipulator manipulator = new AudioManipulator(controller);
