@@ -17,7 +17,7 @@ import otp.group6.controller.Controller;
  * @author Onni Lukkarila
  *
  */
-@Disabled
+
 public class AudioRecorderTest {
 
 	private Controller controller;
