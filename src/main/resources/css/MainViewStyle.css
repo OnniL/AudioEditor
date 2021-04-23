@@ -1,0 +1,30 @@
+.info-button {
+	-fx-background-color: transparent;
+}
+
+.mediaplayer-button {
+	-fx-background-color: transparent;
+}
+
+.above-mixer-slider {
+	-fx-background-color: lightblue;
+	-fx-margin-left: 10px;
+}
+
+.tab {
+	-fx-font-size: 1.3em;
+	-fx-pref-height: 2em;
+}
+
+/* ei toimi atm */
+.invalid-text-input {
+	-fx-text-fill: red;
+}
+/* ei toimi atm */
+.normal-text-input {
+	-fx-text-fill: black;
+}
+
+#labelSelectedFile {
+	-fx-font-weight: bold;
+}

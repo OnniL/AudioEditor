@@ -1,6 +1,7 @@
 package otp.group6.audioeditor;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -310,9 +311,12 @@ public class AudioCloudDAO {
 			System.err.println("Virhe tietokantayhteyden muodostamisessa. " + e);
 			// System.exit(-1);
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error!");
-			alert.setHeaderText("Can not connect to the database!");
-			alert.setContentText("Please try again later.\nIf this keeps happening, contact support! :)");
+			alert.setTitle("jee");
+			alert.setHeaderText("jee");
+			alert.setContentText("jee");
+			//alert.setTitle(bundle.getString("aCDAlert1Header"));
+			//alert.setHeaderText(bundle.getString("aCDAlert1Text"));
+			//alert.setContentText(bundle.getString("aCDAlert1Header"));
 			alert.showAndWait();
 		}
 	}
