@@ -1223,6 +1223,12 @@ public class MainController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else {
+			Alert alert1 = new Alert(AlertType.ERROR);
+			alert1.setTitle(bundle.getString("mVDataConAlertTitle"));
+			alert1.setHeaderText(bundle.getString("mVDataConAlertHeader"));
+			alert1.setContentText(bundle.getString("mVDataConAlertContent"));
+			alert1.showAndWait();
 		}
 
 	}
@@ -1248,6 +1254,12 @@ public class MainController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else {
+			Alert alert1 = new Alert(AlertType.ERROR);
+			alert1.setTitle(bundle.getString("mVDataConAlertTitle"));
+			alert1.setHeaderText(bundle.getString("mVDataConAlertHeader"));
+			alert1.setContentText(bundle.getString("mVDataConAlertContent"));
+			alert1.showAndWait();
 		}
 
 	}

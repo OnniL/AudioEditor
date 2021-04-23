@@ -291,7 +291,7 @@ public class AudioCloudDAO {
 	private Connection databaseConnection;
 	/** User object to store the user name */
 	private User userclass = new User();
-	/** Boolean for cheking the database connection */
+	/** Boolean for checking the database connection */
 	private boolean hasconnected = true;
 
 	/**
@@ -309,11 +309,6 @@ public class AudioCloudDAO {
 			setHasconnected(false);
 			System.err.println("Virhe tietokantayhteyden muodostamisessa. " + e);
 			// System.exit(-1);
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error!");
-			alert.setHeaderText("Can not connect to the database!");
-			alert.setContentText("Please try again later.\nIf this keeps happening, contact support! :)");
-			alert.showAndWait();
 		}
 	}
 
