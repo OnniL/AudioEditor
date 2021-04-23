@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -126,13 +125,10 @@ public class SoundboardViewController implements Initializable {
 	 * Initializes storage variables that contain runtime view components
 	 */
 	public void createStorageVariables() {
-		if (buttonList == null) {
-			buttonList = new ArrayList<Node>();
-		}
-		if (containerMap == null) {
-			containerMap = new HashMap<Integer, Pane>();
-			getContainers();
-		}
+		buttonList = new ArrayList<Node>();
+		containerMap = new HashMap<Integer, Pane>();
+		getContainers();
+
 	}
 
 	/**
@@ -148,6 +144,7 @@ public class SoundboardViewController implements Initializable {
 		WARNING_TITLE = bundle.getString("sBWarning_title");
 		CLEAR_BTN = bundle.getString("sBClear_btn");
 		controller.setSampleDefaultName(bundle.getString("sBDefault_name"));
+		// refresh buttons?
 	}
 
 	/**
@@ -364,7 +361,7 @@ public class SoundboardViewController implements Initializable {
 
 	/**
 	 * Adds a newSoundButton loaded from an FXML template to given Pane.<br>
-	 * Clears all chilren from given Pane
+	 * Clears all children from given Pane
 	 * 
 	 * @param container for the button {@link #clearContainer(Pane)}
 	 */
@@ -443,7 +440,7 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Refreshes
+	 * Refreshes button specific Text - element string
 	 * 
 	 * @param container - root element of the button
 	 */
@@ -456,8 +453,22 @@ public class SoundboardViewController implements Initializable {
 			}
 		});
 	}
-	// *****************************BUTTON
-	// FUNCTIONALITY*************************************//
+	/**
+	 * Refreshes every single Soundboard element
+	 */
+	public void refreshSoundboard() {
+		containerMap.forEach((i, e) ->{
+			clearContainer(e);
+		});
+		int sampleAmount = buttonList.size();
+		for (int i = 0; i < sampleAmount; i++) {
+			addSoundboardButton(containerMap.get(i), i, OP_TYPE.EXISTING);
+		}
+		if (sampleAmount < 20) {
+			addNewSoundButton(containerMap.get(sampleAmount));
+		}
+		configureClearAllButton();
+	}
 
 	/**
 	 * Functionality for button created by {@link #addNewSoundButton(Pane)} <br>
@@ -471,6 +482,7 @@ public class SoundboardViewController implements Initializable {
 		if (newFile != null) {
 			// The next container pane
 			Pane currentContainer = containerMap.get(buttonList.size());
+			System.out.println(buttonList.size());
 			clearContainer(currentContainer);
 			int sampleIndex = controller.addSample(newFile.getAbsolutePath());
 			Pane newButton = addSoundboardButton(currentContainer, sampleIndex, OP_TYPE.NEW);
@@ -606,14 +618,14 @@ public class SoundboardViewController implements Initializable {
 			refreshContainerText((Pane) buttonList.get(i), i);
 		}
 		buttonList.remove(index);
-
-		// remove specified sample from soundboard -> delete last button from container
-		// -> refresh affected button texts
-
 	}
 
 	/**
 	 * Clears everything and recreates storage variables
+	 * 
+	 * @see {@link #buttonList} <br>
+	 *      {@link #containerMap} <br>
+	 *      {@link Soundboard#sampleArray}
 	 */
 	@FXML
 	private void clearAllButton() {
@@ -623,6 +635,7 @@ public class SoundboardViewController implements Initializable {
 			});
 			createStorageVariables();
 			addNewSoundButton(containerMap.get(0));
+
 			controller.clearSampleArray();
 		}
 	}
