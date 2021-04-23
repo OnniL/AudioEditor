@@ -169,7 +169,7 @@ public class MainController implements Initializable {
 		initializeRecorderLocalization();
 		initializeMenuBarLocalization();
 		setLocalizedLanguageMenuItems();
-		// boardController.refreshSoundBoard();
+		boardController.refreshSoundboard();
 	}
 
 ////// MIXER //////////////////////////////////////////////////////////////////////////////////////////////////////////
