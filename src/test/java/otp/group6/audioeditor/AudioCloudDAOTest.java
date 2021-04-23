@@ -107,7 +107,7 @@ class AudioCloudDAOTest {
 		MixerSetting[] mlist = dao.getCertainMixesArray(1, "test6");
 		int id = 0;
 		for (MixerSetting mix : mlist) {
-			id=mix.getMixID();
+			id = mix.getMixID();
 		}
 		assertTrue(dao.deleteMix("test6", id), "deleteMix(String, int): true, if the specified mix was deleted");
 	}
@@ -123,7 +123,8 @@ class AudioCloudDAOTest {
 	@Test
 	@DisplayName("Password is valid")
 	void testIsValid() {
-		assertTrue(AudioCloudDAO.isValid(pw2), "isValid(String): true, when the inserted password matches requirements");
+		assertTrue(AudioCloudDAO.isValid(pw2),
+				"isValid(String): true, when the inserted password matches requirements");
 	}
 
 	@Test
