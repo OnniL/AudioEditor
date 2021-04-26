@@ -1483,7 +1483,7 @@ public class MainController implements Initializable {
 			soundboardRoot.setTopAnchor(temp, 0.0);
 			soundboardRoot.setLeftAnchor(temp, 0.0);
 			soundboardRoot.setRightAnchor(temp, 0.0);
-
+			System.out.println(temp.sceneProperty());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

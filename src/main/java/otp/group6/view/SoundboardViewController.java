@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -453,11 +454,12 @@ public class SoundboardViewController implements Initializable {
 			}
 		});
 	}
+
 	/**
 	 * Refreshes every single Soundboard element
 	 */
 	public void refreshSoundboard() {
-		containerMap.forEach((i, e) ->{
+		containerMap.forEach((i, e) -> {
 			clearContainer(e);
 		});
 		int sampleAmount = buttonList.size();
@@ -482,7 +484,7 @@ public class SoundboardViewController implements Initializable {
 		if (newFile != null) {
 			// The next container pane
 			Pane currentContainer = containerMap.get(buttonList.size());
-			System.out.println(buttonList.size());
+
 			clearContainer(currentContainer);
 			int sampleIndex = controller.addSample(newFile.getAbsolutePath());
 			Pane newButton = addSoundboardButton(currentContainer, sampleIndex, OP_TYPE.NEW);
@@ -522,6 +524,7 @@ public class SoundboardViewController implements Initializable {
 	 * @param button - current button
 	 */
 	private void playButton(int index, Button button) {
+
 		if (button == lastButton) {
 			controller.playSample(index);
 		} else {
@@ -554,6 +557,7 @@ public class SoundboardViewController implements Initializable {
 	@SuppressWarnings("unchecked")
 	private void renameButton(int index) {
 		try {
+
 			Pane buttonRoot = (Pane) buttonList.get(index);
 			TextField iField = new TextField();
 			iField.setText(controller.getSampleName(index));
@@ -582,7 +586,6 @@ public class SoundboardViewController implements Initializable {
 				public void handle(KeyEvent event) {
 					if (event.getCode() == KeyCode.ENTER) {
 						String iText = iField.getText();
-
 						if (!controller.compareSamples(index, iText, INPUT_TYPE.SAMPLE_NAME) && !checkEmpty(iText)) {
 							controller.editSample(index, iText, INPUT_TYPE.SAMPLE_NAME);
 							refreshContainerText(buttonRoot, index);
@@ -608,16 +611,19 @@ public class SoundboardViewController implements Initializable {
 	 * @param index - index of the sample
 	 */
 	private void deleteButton(int index) {
-		controller.removeSample(index);
-		clearContainer(containerMap.get(buttonList.size() - 1));
-		if (buttonList.size() < 20) {
-			clearContainer(containerMap.get(buttonList.size()));
+			
+			controller.removeSample(index);
+			clearContainer(containerMap.get(buttonList.size() - 1));
 			addNewSoundButton(containerMap.get(buttonList.size() - 1));
-		}
-		for (int i = index; i < buttonList.size() - 1; i++) {
-			refreshContainerText((Pane) buttonList.get(i), i);
-		}
-		buttonList.remove(index);
+			if (buttonList.size() < 20) {
+				clearContainer(containerMap.get(buttonList.size()));
+			}
+			if (index < buttonList.size()) {
+				for (int i = index; i < buttonList.size() - 1; i++) {
+					//refreshContainerText((Pane) buttonList.get(i), i);
+				}
+			}
+			buttonList.remove(buttonList.size() - 1);
 	}
 
 	/**
