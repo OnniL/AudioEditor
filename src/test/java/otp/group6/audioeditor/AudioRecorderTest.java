@@ -17,7 +17,7 @@ import otp.group6.controller.Controller;
  * @author Onni Lukkarila
  *
  */
-@Disabled
+
 public class AudioRecorderTest {
 
 	private Controller controller;
@@ -68,6 +68,7 @@ public class AudioRecorderTest {
 	@Test
 	@DisplayName("Test for saving recorded file")
 	@Order(5)
+	@Disabled
 	void testSaveRecordedFile() {
 		recorder.recordAudio();
 		try {
