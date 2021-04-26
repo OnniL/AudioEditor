@@ -17,7 +17,6 @@ class MixerSettingsControllerTest {
 		assertEquals(15, msc.getMixerIndetification());
 	}
 
-	
 	@Test
 	@DisplayName("Cheking for mix identifiaction to be correct")
 	@Order(2)

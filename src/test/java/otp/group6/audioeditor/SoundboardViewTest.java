@@ -10,18 +10,17 @@ import javafx.stage.Stage;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 /**
  * Test class for soundboard view
+ * 
  * @author Kevin Akkoyun
  *
  */
 @Disabled
-public class SoundboardViewTest extends Application{
+public class SoundboardViewTest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
 
 }
