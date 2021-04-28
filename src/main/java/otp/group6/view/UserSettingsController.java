@@ -47,8 +47,8 @@ public class UserSettingsController implements Initializable{
 	 */
 	@FXML
 	private Label uSHeaderLabel;
-	@FXML
-	private Button uSXButton;
+	//@FXML
+	//private Button uSXButton;
 	@FXML
 	private Label uSChangePWLabel;
 	@FXML
@@ -117,7 +117,7 @@ public class UserSettingsController implements Initializable{
 	 */
 	private void setLocalization(ResourceBundle bundle) {
 		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
-		uSXButton.setText(bundle.getString("uSXButton"));
+		//uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
 		uSOldPWLabel.setText(bundle.getString("uSOldPWLabel"));
 		uSNewPWLabel.setText(bundle.getString("uSNewPWLabel"));

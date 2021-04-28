@@ -11,81 +11,80 @@
 <?import javafx.scene.text.Font?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="otp.group6.view.UserSettingsController">
-   <content>
-      <AnchorPane prefHeight="460.0" prefWidth="400.0">
-         <children>
-            <Label fx:id="uSHeaderLabel" layoutX="14.0" layoutY="14.0" text="User Settings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Button fx:id="uSXButton" layoutX="362.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="X" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="15.0" />
-            <Label fx:id="userName" alignment="CENTER" layoutX="15.0" layoutY="67.0" prefHeight="17.0" prefWidth="370.0" text="Label">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="uSChangePWLabel" layoutX="15.0" layoutY="116.0" text="Change password">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <Label fx:id="uSOldPWLabel" alignment="CENTER" layoutX="44.0" layoutY="157.0" text="Old password:" AnchorPane.rightAnchor="243.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="password" layoutX="166.0" layoutY="151.0" AnchorPane.rightAnchor="10.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </PasswordField>
-            <TextField fx:id="showOldPW" editable="false" layoutX="166.0" layoutY="151.0" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <Label fx:id="uSNewPWLabel" alignment="CENTER" layoutX="36.0" layoutY="209.0" text="New password:" AnchorPane.rightAnchor="243.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <PasswordField fx:id="npassword" layoutX="166.0" layoutY="203.0" onAction="#changePassword" AnchorPane.rightAnchor="10.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </PasswordField>
-            <TextField fx:id="showNewPW" editable="false" layoutX="166.0" layoutY="203.0" visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </TextField>
-            <ToggleButton fx:id="uSShowPW2Toggle" layoutX="362.0" layoutY="210.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#showPW2" prefHeight="25.0" prefWidth="25.0" text="EYE" />
-            <Button fx:id="uSChangeButton" layoutX="303.0" layoutY="250.0" mnemonicParsing="false" onAction="#changePassword" text="Change" AnchorPane.rightAnchor="12.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="uSDeleteUserButton" layoutX="272.0" layoutY="319.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" AnchorPane.rightAnchor="12.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="uSCancelButton" layoutX="307.0" layoutY="401.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Cancel" AnchorPane.rightAnchor="12.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Label fx:id="uSUserDeleLabel" layoutX="12.0" layoutY="325.0" text="User deletion:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <ToggleButton fx:id="uSShowPW1Toggle" layoutX="362.0" layoutY="158.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#showPW1" prefHeight="25.0" prefWidth="25.0" text="EYE" />
-            <Separator layoutX="12.0" layoutY="283.0" prefHeight="49.0" prefWidth="376.0" />
-            <Separator layoutX="12.0" layoutY="92.0" prefHeight="49.0" prefWidth="376.0" />
-            <Separator layoutX="12.0" layoutY="352.0" prefHeight="49.0" prefWidth="376.0" />
-         </children>
-      </AnchorPane>
-   </content>
+	<content>
+		<AnchorPane prefHeight="460.0" prefWidth="400.0">
+			<children>
+				<Label fx:id="uSHeaderLabel" layoutX="14.0" layoutY="14.0" text="User Settings" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label fx:id="userName" alignment="CENTER" layoutX="15.0" layoutY="67.0" prefHeight="17.0" prefWidth="370.0" text="Label">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label fx:id="uSChangePWLabel" layoutX="15.0" layoutY="116.0" text="Change password">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<Label fx:id="uSOldPWLabel" alignment="CENTER" layoutX="44.0" layoutY="157.0" text="Old password:" AnchorPane.rightAnchor="243.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<PasswordField fx:id="password" layoutX="166.0" layoutY="151.0" AnchorPane.rightAnchor="10.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</PasswordField>
+				<TextField fx:id="showOldPW" editable="false" layoutX="166.0" layoutY="151.0" visible="false">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</TextField>
+				<Label fx:id="uSNewPWLabel" alignment="CENTER" layoutX="36.0" layoutY="209.0" text="New password:" AnchorPane.rightAnchor="243.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<PasswordField fx:id="npassword" layoutX="166.0" layoutY="203.0" onAction="#changePassword" AnchorPane.rightAnchor="10.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</PasswordField>
+				<TextField fx:id="showNewPW" editable="false" layoutX="166.0" layoutY="203.0" visible="false">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</TextField>
+				<ToggleButton fx:id="uSShowPW2Toggle" layoutX="362.0" layoutY="210.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#showPW2" prefHeight="25.0" prefWidth="25.0" text="EYE" />
+				<Button fx:id="uSChangeButton" layoutX="303.0" layoutY="250.0" mnemonicParsing="false" onAction="#changePassword" text="Change" AnchorPane.rightAnchor="12.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Button>
+				<Button fx:id="uSDeleteUserButton" layoutX="272.0" layoutY="319.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" AnchorPane.rightAnchor="12.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Button>
+				<Button fx:id="uSCancelButton" layoutX="307.0" layoutY="401.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" text="Cancel" AnchorPane.rightAnchor="12.0">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Button>
+				<Label fx:id="uSUserDeleLabel" layoutX="12.0" layoutY="325.0" text="User deletion:">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Label>
+				<ToggleButton fx:id="uSShowPW1Toggle" layoutX="362.0" layoutY="158.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" mnemonicParsing="false" onAction="#showPW1" prefHeight="25.0" prefWidth="25.0" text="EYE" />
+				<Separator layoutX="12.0" layoutY="283.0" prefHeight="49.0" prefWidth="376.0" />
+				<Separator layoutX="12.0" layoutY="92.0" prefHeight="49.0" prefWidth="376.0" />
+				<Separator layoutX="12.0" layoutY="352.0" prefHeight="49.0" prefWidth="376.0" />
+			</children>
+		</AnchorPane>
+	</content>
 </ScrollPane>

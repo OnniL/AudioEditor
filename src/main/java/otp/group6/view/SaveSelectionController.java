@@ -41,8 +41,8 @@ public class SaveSelectionController implements Initializable{
 	private Button sSCloudButton;
 	@FXML
 	private Button sSCancelButton;
-	@FXML
-	private Button sSXButton;
+	//@FXML
+	//private Button sSXButton;
 	@FXML
 	AnchorPane mainContainer;
 
@@ -65,7 +65,7 @@ public class SaveSelectionController implements Initializable{
 		sSLocalButton.setText(bundle.getString("sSLocalButton"));
 		sSCloudButton.setText(bundle.getString("sSCloudButton"));
 		sSCancelButton.setText(bundle.getString("sSCancelButton"));
-		sSXButton.setText(bundle.getString("sSXButton"));
+		//sSXButton.setText(bundle.getString("sSXButton"));
 	}
 	
 	/**

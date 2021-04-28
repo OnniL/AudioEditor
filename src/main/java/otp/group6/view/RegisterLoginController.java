@@ -65,11 +65,11 @@ public class RegisterLoginController implements Initializable {
 	private Button rLLoginButton;
 	@FXML
 	private Label rLForgotLabel;
-	@FXML
-	private Button rLCloseButton;
-	final Tooltip rLpwtooltip = new Tooltip();
-	final Tooltip rLwuntooltip = new Tooltip();
-	final Tooltip rLlogintip = new Tooltip();
+	//@FXML
+	//private Button rLCloseButton;
+	private final Tooltip rLpwtooltip = new Tooltip();
+	private final Tooltip rLwuntooltip = new Tooltip();
+	private final Tooltip rLlogintip = new Tooltip();
 	/**
 	 *Variables for the images 
 	 */
@@ -104,7 +104,7 @@ public class RegisterLoginController implements Initializable {
 		rLLorLabel.setText(bundle.getString("rLLorLabel"));
 		rLLoginButton.setText(bundle.getString("rLLoginButton"));
 		rLForgotLabel.setText(bundle.getString("rLForgotLabel"));
-		rLCloseButton.setText(bundle.getString("rLCloseButton"));
+		//rLCloseButton.setText(bundle.getString("rLCloseButton"));
 		rLpwtooltip.setText(bundle.getString("rLpwtooltip"));
 		rLwuntooltip.setText(bundle.getString("rLwuntooltip"));
 		rLlogintip.setText(bundle.getString("rLlogintip"));
@@ -162,12 +162,13 @@ public class RegisterLoginController implements Initializable {
 	 * Method to close the view when button is pressed
 	 * @param event, handles the on push events of binded buttons
 	 */
+	/*
 	@FXML
 	public void handleCloseButtonAction(ActionEvent event) {
 		Stage stage = (Stage) rLCloseButton.getScene().getWindow();
 		stage.close();
 	}
-
+*/
 	/**
 	 * Method sets variable to the parameter provided from MainController.java 
 	 * @param mainController, is the instance of MainController.java that is in the
@@ -329,7 +330,7 @@ public class RegisterLoginController implements Initializable {
 				rLUserTextField.requestFocus();
 			} else {
 				controller.loginUser(rLUserTextField.getText(), getLastPW());
-				Stage stage = (Stage) rLCloseButton.getScene().getWindow();
+				Stage stage = (Stage) rLLoginButton.getScene().getWindow();
 				stage.close();
 				// mc.openMixerSave();
 				mc.setlogUserIn();

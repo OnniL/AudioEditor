@@ -289,7 +289,7 @@ public class MixerSettingsController implements Initializable {
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		try {
 			localList = (ArrayList<String>) ois.readObject();
-			System.out.println(localList);
+			//System.out.println(localList); //POISTETTAVA
 			ObservableList<Object> mixerID = FXCollections.observableArrayList();
 			MixerSetting[] setlist = controller.getAllMixArray();
 			for (MixerSetting mix : setlist) {
@@ -309,7 +309,7 @@ public class MixerSettingsController implements Initializable {
 						int identification = (int) mixerID.get(index);
 						setMixerIndetification(identification);
 						//String selectedItem = mixListView.getSelectionModel().getSelectedItem(); //POISTETTAVA
-						System.out.println(index); //POISTETTAVA
+						//System.out.println(index); //POISTETTAVA
 						mSRemoveFav.setDisable(false);
 					});
 			getMixes();

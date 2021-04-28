@@ -51,7 +51,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import otp.group6.audioeditor.AudioFileHandler;
 import otp.group6.controller.Controller;
 
@@ -1314,8 +1313,8 @@ public class MainController implements Initializable {
 				RegisterLoginController rlc = fxmlLoader.getController();
 				rlc.setMainController(this);
 				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.initStyle(StageStyle.UNDECORATED);
-				stage.setTitle("Login or Register");
+				//stage.initStyle(StageStyle.UNDECORATED);
+				stage.setTitle(bundle.getString("rLPleaseLabel"));
 				stage.setScene(new Scene(root1));
 				stage.show();
 			} catch (Exception e) {
@@ -1345,7 +1344,7 @@ public class MainController implements Initializable {
 				MixerSettingsController msc = fxmlLoader.getController();
 				msc.setMainController(this);
 				stage.initModality(Modality.APPLICATION_MODAL);
-				stage.initStyle(StageStyle.UNDECORATED);
+				//stage.initStyle(StageStyle.UNDECORATED);
 				stage.setTitle("Mixer Settings Loader");
 				stage.setScene(new Scene(root1));
 				stage.show();
@@ -1388,8 +1387,8 @@ public class MainController implements Initializable {
 					sliderLfoFrequency.getValue(), (float) sliderLowPass.getValue());
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setTitle("Save Mixer Settings");
+			//stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle(bundle.getString("mSTitle"));
 			stage.setScene(new Scene(root1));
 			stage.show();
 		} catch (Exception e) {
@@ -1410,8 +1409,8 @@ public class MainController implements Initializable {
 			SaveSelectionController ssc = fxmlLoader.getController();
 			ssc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setTitle("Mixer Settings Saving");
+			//stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle(bundle.getString("sSHeaderLabel"));
 			stage.setScene(new Scene(root1));
 			stage.show();
 
@@ -1433,8 +1432,8 @@ public class MainController implements Initializable {
 			LoadSelectionController lsc = fxmlLoader.getController();
 			lsc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setTitle("Mixer Settings Loader");
+			//stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle(bundle.getString("lSTitle"));
 			stage.setScene(new Scene(root1));
 			stage.show();
 
@@ -1456,8 +1455,8 @@ public class MainController implements Initializable {
 			UserSettingsController usc = fxmlLoader.getController();
 			usc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setTitle("Mixer Settings Loader");
+			//stage.initStyle(StageStyle.UNDECORATED);
+			stage.setTitle(bundle.getString("uSHeaderLabel"));
 			stage.setScene(new Scene(root1));
 			stage.show();
 
