@@ -300,9 +300,9 @@ public class SoundboardViewController implements Initializable {
 	private void configureMenuButton(MenuButton menuButton, int index) {
 		List<MenuItem> list = menuButton.getItems();
 		list.forEach(e -> {
-			String eName = e.getText();
-			switch (eName) {
-			case "Rename":
+			int i = list.indexOf(e);
+			switch (i) {
+			case 0:
 				e.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
@@ -313,7 +313,7 @@ public class SoundboardViewController implements Initializable {
 				});
 				e.setText(RENAME_BTN);
 				break;
-			case "Change sound":
+			case 1:
 				e.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
@@ -324,7 +324,7 @@ public class SoundboardViewController implements Initializable {
 				});
 				e.setText(CSOUND_BTN);
 				break;
-			case "Delete":
+			case 2:
 				e.setOnAction(new EventHandler<ActionEvent>() {
 
 					@Override
