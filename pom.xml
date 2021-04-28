@@ -162,6 +162,17 @@
 					<configuration>
 						<mainClass>otp.group6.view.MainApplication</mainClass>
 					</configuration>
+					<executions>
+						<execution>
+							<id>debug</id>
+							<configuration>
+								<options>
+									<option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
+								</options>
+								<mainClass>otp.group6.view.MainApplication</mainClass>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
