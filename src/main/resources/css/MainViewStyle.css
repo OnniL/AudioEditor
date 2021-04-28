@@ -7,24 +7,38 @@
 }
 
 .above-mixer-slider {
-	-fx-background-color: lightblue;
-	-fx-margin-left: 10px;
+	-fx-margin-left: 10.0px;
+	-fx-display: flex;
+  	-fx-flex-wrap: wrap;
 }
 
 .tab {
 	-fx-font-size: 1.3em;
-	-fx-pref-height: 2em;
-}
-
-/* ei toimi atm */
-.invalid-text-input {
-	-fx-text-fill: red;
-}
-/* ei toimi atm */
-.normal-text-input {
-	-fx-text-fill: black;
+	-fx-pref-height: 2.0em;
 }
 
 #labelSelectedFile {
 	-fx-font-weight: bold;
+}
+
+.effect-section{
+	-fx-border: ridge;
+	-fx-border-color: gray;
+	-fx-border-radius: 1.0em;
+}
+
+.centered-content{
+	-fx-text-align: center;
+    -fx-display: block;
+    -fx-margin: auto;
+}
+
+.mixer-controller-buttons{
+	-fx-pref-width: 10.0em;	
+}
+
+.testi{
+	-fx-display: inline-block;
+	-fx-height: auto;
+	-fx-width:auto;
 }

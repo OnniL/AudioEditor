@@ -39,6 +39,10 @@ public class Controller {
 		recorder = new AudioRecorder(this);
 		audioManipulator = new AudioManipulator(this);
 	}
+	
+	public boolean checkIfUnsavedMixedFile() {
+		return audioManipulator.checkIfUnsavedMixedFile();
+	}
 
 	// SoundManipulator methods start
 
@@ -118,8 +122,8 @@ public class Controller {
 		audioManipulator.playFromDesiredSec(seconds);
 	}
 
-	public void audioManipulatorSaveFile(String path) {
-		audioManipulator.saveFile(path);
+	public boolean audioManipulatorSaveFile(String path) {
+		return audioManipulator.saveFile(path);
 	}
 
 	public void testFilter() {
@@ -200,8 +204,9 @@ public class Controller {
 	public void setDisableMixerSliders(boolean trueOrFalse) {
 		mainController.setDisableMixerSliders(trueOrFalse);
 	}
-
-	// SoundManipulator methods end
+	
+	
+	// AudioManipulator methods end
 
 	// AudioRecorder methods start
 	public void recordAudio() {
