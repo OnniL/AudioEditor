@@ -1,0 +1,29 @@
+Button,MenuButton{ -fx-background-color: #C6EFDC;
+	-fx-border-width: 1.0px;
+	-fx-border-color:  #b2d7c6;
+	-fx-border-radius: 3.0px;
+}
+Button:hover,MenuButton:hover{-fx-background-color: #b2d7c6;}
+Button:pressed,MenuButton:pressed{
+	-fx-background-color: #768f84;
+}
+.menu-item{ -fx-background-color: #C6EFDC;
+	-fx-border-width: 1.0px;
+	-fx-border-color: black black gray black;
+	-fx-transition-duration: 0.4s;
+}
+.menu-item:hover{-fx-background-color: #b2d7c6;
+}
+.menu-item .label{
+	-fx-text-fill: black;
+}
+.menu-item:pressed{
+	-fx-background-color: #768f84;
+}
+.context-menu{
+	-fx-padding: 0.0px;
+}
+.buttonRoot{-fx-background-color: 
+#acbbb5;
+-fx-background-radius: 10px; }
+.boardRoot{-fx-background-color: #eefaf4}

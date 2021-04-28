@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-	prefWidth="150.0" xmlns="http://javafx.com/javafx/11.0.1"
-	xmlns:fx="http://javafx.com/fxml/1">
-	<children>
-		<Button layoutX="61.0" layoutY="62.0" mnemonicParsing="false"
-			text="+" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="61.0"
-			AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="62.0" />
-	</children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" styleClass="buttonRoot" stylesheets="@css/SoundboardViewStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="65.0" layoutY="61.0" mnemonicParsing="false" styleClass="newButton" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="60.0">
+         <graphic>
+            <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" smooth="false">
+               <image>
+                  <Image url="@images/plusimg.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
 </AnchorPane>

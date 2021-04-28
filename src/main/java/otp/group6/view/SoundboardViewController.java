@@ -31,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -184,8 +185,6 @@ public class SoundboardViewController implements Initializable {
 	 * @return .wav file or null
 	 */
 	private File openFileExplorer() {
-		System.out.println(boardRoot.getHeight() + " " + boardRoot.getWidth());
-		System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
 		Pattern pattern = Pattern.compile("(\\.wav)$", Pattern.CASE_INSENSITIVE);
 
 		File file = AudioFileHandler.openFileExplorer(MainController.sharedMain.getScene().getWindow());
@@ -665,12 +664,15 @@ public class SoundboardViewController implements Initializable {
 
 		ButtonType type = new ButtonType(CONFIRM_BTN, ButtonData.OK_DONE);
 		ButtonType ntype = new ButtonType(CANCEL_BTN, ButtonData.CANCEL_CLOSE);
-
+		
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(
+		   MainApplication.class.getResource("/css/SoundboardViewStyle.css").toExternalForm());
+		
 		alert.getButtonTypes().add(type);
 		alert.getButtonTypes().add(ntype);
 
 		alert.setTitle(WARNING_TITLE);
-
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().getButtonData() == ButtonData.OK_DONE) {
 			return true;

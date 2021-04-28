@@ -9,21 +9,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" styleClass="buttonRoot" stylesheets="@css/SoundboardViewStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<Button layoutX="61.0" layoutY="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0">
+		<Button layoutX="75.0" layoutY="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="55.0">
          <graphic>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="55.0">
                <children>
                   <ImageView fitHeight="19.0" fitWidth="40.0" layoutX="12.0" layoutY="1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="1.0">
                      <image>
-                        <Image url="@../../src/main/assets/images/playbutton.png" />
+                        <Image url="@images/playbutton.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="19.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="1.0">
                      <image>
-                        <Image url="@../../src/main/assets/images/stopbutton.png" />
+                        <Image url="@images/stopbutton.png" />
                      </image>
                   </ImageView>
                </children>
@@ -34,12 +33,11 @@
 				<Font size="16.0" />
 			</font>
 		</Text>
-		<MenuButton layoutX="14.0" layoutY="84.0"
-			mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0">
+		<MenuButton layoutX="14.0" layoutY="85.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0">
 			<items>
-				<MenuItem mnemonicParsing="false" text="Rename" />
-				<MenuItem mnemonicParsing="false" text="Change sound" />
-				<MenuItem mnemonicParsing="false" text="Delete" />
+				<MenuItem mnemonicParsing="false" styleClass="menuitem" text="Rename" />
+				<MenuItem mnemonicParsing="false" styleClass="menuitem" text="Change sound" />
+				<MenuItem mnemonicParsing="false" styleClass="menuitem" text="Delete" />
 			</items>
 		</MenuButton>
 	</children>
