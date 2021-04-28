@@ -1,5 +1,6 @@
 package otp.group6.view;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -24,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -85,7 +87,10 @@ public class SoundboardViewController implements Initializable {
 	 */
 	@FXML
 	private GridPane mainGrid;
-
+	@FXML
+	private AnchorPane boardRoot;
+	@FXML
+	private AnchorPane mainContainer;
 	@FXML
 	private Button clearAll;
 
@@ -105,6 +110,7 @@ public class SoundboardViewController implements Initializable {
 		getViewResources();
 		loadSavedSamples();
 		setIconChanger();
+		
 	}
 
 	// *********************UTILITY METHODS*******************************//
@@ -178,7 +184,8 @@ public class SoundboardViewController implements Initializable {
 	 * @return .wav file or null
 	 */
 	private File openFileExplorer() {
-
+		System.out.println(boardRoot.getHeight() + " " + boardRoot.getWidth());
+		System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
 		Pattern pattern = Pattern.compile("(\\.wav)$", Pattern.CASE_INSENSITIVE);
 
 		File file = AudioFileHandler.openFileExplorer(MainController.sharedMain.getScene().getWindow());

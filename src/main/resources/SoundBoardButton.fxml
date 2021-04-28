@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Button layoutX="61.0" layoutY="84.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0">
          <graphic>
@@ -17,12 +17,12 @@
                <children>
                   <ImageView fitHeight="19.0" fitWidth="40.0" layoutX="12.0" layoutY="1.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="1.0">
                      <image>
-                        <Image url="@../../src/main/assets/images/playbutton.png"/>
+                        <Image url="@../../src/main/assets/images/playbutton.png" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="19.0" fitWidth="40.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="1.0">
                      <image>
-                        <Image url="@../../src/main/assets/images/stopbutton.png"/>
+                        <Image url="@../../src/main/assets/images/stopbutton.png" />
                      </image>
                   </ImageView>
                </children>
