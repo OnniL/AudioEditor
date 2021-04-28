@@ -39,8 +39,8 @@ public class LoadSelectionController implements Initializable{
 	AnchorPane mainContainer;
 	@FXML
 	private Button lSBcancel;
-	@FXML
-	private Button lSBX;
+	//@FXML
+	//private Button lSBX;
 	@FXML
 	private Label lSTitle;
 	@FXML
@@ -69,7 +69,7 @@ public class LoadSelectionController implements Initializable{
 	 */
 	private void setLocalization(ResourceBundle bundle) {
 		lSBcancel.setText(bundle.getString("lSBcancel"));
-		lSBX.setText(bundle.getString("lSBX"));
+		//lSBX.setText(bundle.getString("lSBX"));
 		lSTitle.setText(bundle.getString("lSTitle"));
 		lSmaintext.setText(bundle.getString("lSmaintext"));
 		lSBlocal.setText(bundle.getString("lSBlocal"));

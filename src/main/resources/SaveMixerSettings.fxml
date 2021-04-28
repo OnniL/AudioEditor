@@ -14,49 +14,71 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="otp.group6.view.SaveMixerSettingsController">
+<ScrollPane xmlns="http://javafx.com/javafx/8.0.171"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="otp.group6.view.SaveMixerSettingsController">
 	<content>
 		<AnchorPane>
 			<children>
-				<SplitPane dividerPositions="0.7995991983967936" prefHeight="571.0" prefWidth="1000.0">
+				<SplitPane dividerPositions="0.7995991983967936"
+					prefHeight="571.0" prefWidth="1000.0">
 					<items>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="160.0" prefWidth="100.0">
 							<children>
-								<GridPane layoutX="-7.0" prefHeight="569.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
+								<GridPane layoutX="-7.0" prefHeight="569.0"
+									prefWidth="795.0" AnchorPane.bottomAnchor="0.0"
+									AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0"
+									AnchorPane.topAnchor="0.0">
 									<columnConstraints>
-										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											minWidth="10.0" prefWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
 										<GridPane GridPane.columnIndex="1">
 											<columnConstraints>
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
 											</columnConstraints>
 											<rowConstraints>
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
 											</rowConstraints>
 											<children>
 												<GridPane>
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSEchoDLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Echo Decay value:">
+														<Label fx:id="sMSEchoDLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Echo Decay value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="decayValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="decayValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -65,19 +87,26 @@
 												</GridPane>
 												<GridPane GridPane.columnIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSGainLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Gain value:">
+														<Label fx:id="sMSGainLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Gain value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="gainValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="gainValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -86,40 +115,55 @@
 												</GridPane>
 												<GridPane GridPane.rowIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSLFOLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="LFO Frequency value:">
+														<Label fx:id="sMSLFOLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="LFO Frequency value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="lfoFrequencyValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="lfoFrequencyValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
 													</children>
 												</GridPane>
-												<GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+												<GridPane GridPane.columnIndex="1"
+													GridPane.rowIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSLowLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Low Pass value:">
+														<Label fx:id="sMSLowLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Low Pass value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="lowPassValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="lowPassValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -128,13 +172,17 @@
 												</GridPane>
 											</children>
 										</GridPane>
-										<GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+										<GridPane GridPane.columnIndex="1"
+											GridPane.rowIndex="1">
 											<columnConstraints>
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
 											</columnConstraints>
 											<rowConstraints>
-												<RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-												<RowConstraints maxHeight="242.0" minHeight="10.0" prefHeight="242.0" vgrow="SOMETIMES" />
+												<RowConstraints maxHeight="138.0"
+													minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+												<RowConstraints maxHeight="242.0"
+													minHeight="10.0" prefHeight="242.0" vgrow="SOMETIMES" />
 											</rowConstraints>
 											<children>
 												<Label fx:id="sMSDescLabel" text="Description:">
@@ -145,9 +193,11 @@
 														<Font size="18.0" />
 													</font>
 												</Label>
-												<TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+												<TextArea fx:id="description" prefHeight="200.0"
+													prefWidth="200.0" GridPane.rowIndex="1">
 													<GridPane.margin>
-														<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+														<Insets bottom="10.0" left="10.0" right="10.0"
+															top="10.0" />
 													</GridPane.margin>
 													<tooltip>
 														<Tooltip text="Fill this if you want to!!" />
@@ -157,23 +207,30 @@
 										</GridPane>
 										<GridPane GridPane.rowIndex="1">
 											<columnConstraints>
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
 											</columnConstraints>
 											<rowConstraints>
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
 											</rowConstraints>
 											<children>
 												<GridPane>
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSMixCreatorLabel" text="Mix creator:">
+														<Label fx:id="sMSMixCreatorLabel"
+															text="Mix creator:">
 															<GridPane.margin>
 																<Insets left="50.0" />
 															</GridPane.margin>
@@ -191,15 +248,18 @@
 														</Label>
 													</children>
 												</GridPane>
-												<Label fx:id="sMSRequiredLable" text="* Marked are required" GridPane.rowIndex="2">
+												<Label fx:id="sMSRequiredLable"
+													text="* Marked are required" GridPane.rowIndex="2">
 													<font>
 														<Font size="18.0" />
 													</font>
 													<GridPane.margin>
-														<Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+														<Insets bottom="50.0" left="50.0" right="50.0"
+															top="50.0" />
 													</GridPane.margin>
 												</Label>
-												<Label fx:id="sMSMixNameLabel" text="Mix Name:*" GridPane.rowIndex="1">
+												<Label fx:id="sMSMixNameLabel" text="Mix Name:*"
+													GridPane.rowIndex="1">
 													<GridPane.margin>
 														<Insets left="50.0" />
 													</GridPane.margin>
@@ -207,7 +267,8 @@
 														<Font size="18.0" />
 													</font>
 												</Label>
-												<TextField fx:id="sMSMixNTextField" promptText="Required" GridPane.rowIndex="1">
+												<TextField fx:id="sMSMixNTextField"
+													promptText="Required" GridPane.rowIndex="1">
 													<GridPane.margin>
 														<Insets left="144.0" right="22.0" />
 													</GridPane.margin>
@@ -219,29 +280,40 @@
 										</GridPane>
 										<GridPane>
 											<columnConstraints>
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-												<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
+												<ColumnConstraints hgrow="SOMETIMES"
+													minWidth="10.0" prefWidth="100.0" />
 											</columnConstraints>
 											<rowConstraints>
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-												<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
+												<RowConstraints minHeight="10.0"
+													prefHeight="30.0" vgrow="SOMETIMES" />
 											</rowConstraints>
 											<children>
 												<GridPane>
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSPitchLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Pitch value:">
+														<Label fx:id="sMSPitchLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Pitch value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="pitchValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="pitchValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -250,40 +322,55 @@
 												</GridPane>
 												<GridPane GridPane.columnIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSEchoLLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Echo Length value:">
+														<Label fx:id="sMSEchoLLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Echo Length value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="echoValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="echoValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
 													</children>
 												</GridPane>
-												<GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+												<GridPane GridPane.columnIndex="1"
+													GridPane.rowIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSWetnessLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Wetness value:">
+														<Label fx:id="sMSWetnessLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Wetness value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="wetnessValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="wetnessValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -292,19 +379,26 @@
 												</GridPane>
 												<GridPane GridPane.rowIndex="1">
 													<columnConstraints>
-														<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+														<ColumnConstraints hgrow="SOMETIMES"
+															minWidth="10.0" prefWidth="100.0" />
 													</columnConstraints>
 													<rowConstraints>
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-														<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
+														<RowConstraints minHeight="10.0"
+															prefHeight="30.0" vgrow="SOMETIMES" />
 													</rowConstraints>
 													<children>
-														<Label fx:id="sMSFlangerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="207.0" text="Flanger Length value:">
+														<Label fx:id="sMSFlangerLabel" alignment="CENTER"
+															contentDisplay="CENTER" prefHeight="17.0"
+															prefWidth="207.0" text="Flanger Length value:">
 															<font>
 																<Font size="18.0" />
 															</font>
 														</Label>
-														<Label fx:id="flangerLenghtValue" alignment="CENTER" prefHeight="17.0" prefWidth="203.0" text="VALUE" GridPane.rowIndex="1">
+														<Label fx:id="flangerLenghtValue" alignment="CENTER"
+															prefHeight="17.0" prefWidth="203.0" text="VALUE"
+															GridPane.rowIndex="1">
 															<font>
 																<Font size="18.0" />
 															</font>
@@ -317,23 +411,33 @@
 								</GridPane>
 							</children>
 						</AnchorPane>
-						<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+						<AnchorPane minHeight="0.0" minWidth="0.0"
+							prefHeight="160.0" prefWidth="100.0">
 							<children>
-								<GridPane prefHeight="569.0" prefWidth="197.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+								<GridPane prefHeight="569.0" prefWidth="197.0"
+									AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+									AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 									<columnConstraints>
-										<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+										<ColumnConstraints hgrow="SOMETIMES"
+											minWidth="10.0" prefWidth="100.0" />
 									</columnConstraints>
 									<rowConstraints>
-										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-										<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											prefHeight="30.0" vgrow="SOMETIMES" />
 									</rowConstraints>
 									<children>
-										<Button fx:id="sMSSaveButton" mnemonicParsing="false" onAction="#saveMix" prefHeight="25.0" prefWidth="198.0" text="Save Settings">
+										<Button fx:id="sMSSaveButton" mnemonicParsing="false"
+											onAction="#saveMix" prefHeight="25.0" prefWidth="198.0"
+											text="Save Settings">
 											<font>
 												<Font size="24.0" />
 											</font>
 										</Button>
-										<Button fx:id="sMSCancelButton" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="25.0" prefWidth="209.0" text="Cancel" GridPane.rowIndex="1">
+										<Button fx:id="sMSCancelButton" mnemonicParsing="false"
+											onAction="#handleCloseButtonAction" prefHeight="25.0"
+											prefWidth="209.0" text="Cancel" GridPane.rowIndex="1">
 											<font>
 												<Font size="24.0" />
 											</font>

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.Disabled;
 
 import otp.group6.audioeditor.Soundboard.Sample;
 
@@ -26,6 +27,7 @@ import otp.group6.audioeditor.Soundboard.Sample;
  * @author Kevin Akkoyun
  *
  */
+@Disabled
 class SoundboardTest {
 	private Soundboard soundboard = new Soundboard();
 
@@ -85,13 +87,13 @@ class SoundboardTest {
 		}
 		assertEquals(10, soundboard.getSampleArrayLength(), "sampleArray didnt recieve all samples");
 		soundboard.saveSampleData();
-		
+
 		for (int i = 9; i >= 0; i--) {
 			soundboard.removeSample(i);
 		}
 		assertEquals(0, soundboard.getSampleArrayLength(), "sampleArray is not empty");
 		assertEquals(10, soundboard.readSampleData(), "sampleArray didnt recieve as many samples as needed");
-		
+
 	}
 	@DisplayName("Check if sample file exits")
 	@Order(6)
