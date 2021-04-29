@@ -246,6 +246,7 @@ public class AudioManipulator {
 		flangerEffect.setFlangerLength(ogFlangerLength);
 		flangerEffect.setWet(ogWetness);
 		flangerEffect.setLFOFrequency(ogLfo);
+		wetness = ogWetness;
 	}
 
 	/*
@@ -254,6 +255,7 @@ public class AudioManipulator {
 	public void disableLowPassEffect() {
 		lowPassSP = new LowPassSP(ogLowPass, sampleRate);
 		adp.addAudioProcessor(lowPassSP);
+		lowPass = ogLowPass;
 	}
 
 	/*
