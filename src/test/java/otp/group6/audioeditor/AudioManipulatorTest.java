@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ public class AudioManipulatorTest {
 	private Controller controller = new Controller();
 	private AudioManipulator manipulator = new AudioManipulator(controller);
 
-	@BeforeEach
+	@BeforeAll
 	public void setUp() {
 		manipulator.setAudioSourceFile(new File("src/audio/mixer_default.wav"));
 	}
