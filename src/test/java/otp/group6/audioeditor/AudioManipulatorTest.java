@@ -20,7 +20,7 @@ public class AudioManipulatorTest {
 
 	@BeforeAll
 	public static void setUp() {
-		manipulator.setAudioSourceFile(new File("src/audio/mixer_default.wav"));
+		manipulator.setAudioSourceFile(new File("src/audio/testiaani.wav"));
 	}
 
 	@Test
