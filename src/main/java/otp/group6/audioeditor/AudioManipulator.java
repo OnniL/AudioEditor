@@ -136,9 +136,7 @@ public class AudioManipulator {
 			lowPassSP = new LowPassSP(lowPass, sampleRate);
 			adp.addAudioProcessor(lowPassSP);
 
-			audioPlayer = new AudioPlayer(tarsosFormat);
 
-		} catch (LineUnavailableException e) {
 		} catch (NullPointerException e) {
 		} catch (Exception e) {
 		}

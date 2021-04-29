@@ -1246,11 +1246,16 @@ public class MainController implements Initializable {
 
 		try {
 			recorderTab.setText(bundle.getString("recorderTab"));
+			
+			// Following methods have been commented out because the strings were replaced by images
+			/* 
 			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
 			recorderButtonPause.setText(bundle.getString("recorderPause"));
 			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
-			recorderButtonStop.setText(bundle.getString("recorderStop"));
-			recorderButtonSave.setText(bundle.getString("recorderSave"));
+			recorderButtonStop.setText(bundle.getString("recorderStop")); 
+			*/
+			
+			recorderButtonSave.setText(bundle.getString("recorderSave")); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
