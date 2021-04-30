@@ -18,29 +18,28 @@ import otp.group6.audioeditor.AudioFileHandler;
 import otp.group6.controller.Controller;
 
 /**
- * Class functions as a controller for the MixerSettingsView.fxml view and is used to load
- * mixer settings either locally or fromt he database
+ * Class functions as a controller for the MixerSettingsView.fxml view and is
+ * used to load mixer settings either locally or fromt he database
  * 
  * @author Joonas Soininen
  *
  */
-public class LoadSelectionController implements Initializable{
+public class LoadSelectionController implements Initializable {
 	/** Object of the MainController.java class */
 	MainController mc;
 	/** Object of the Controller.java class */
 	Controller controller;
-	
+
 	/**
-	 * Variables for the different JavaFX elements
-	 * lSB in front refers to this class and then the variable name
-	 * to its function in the visible view.
+	 * Variables for the different JavaFX elements lSB in front refers to this class
+	 * and then the variable name to its function in the visible view.
 	 */
 	@FXML
 	AnchorPane mainContainer;
 	@FXML
 	private Button lSBcancel;
-	//@FXML
-	//private Button lSBX;
+	// @FXML
+	// private Button lSBX;
 	@FXML
 	private Label lSTitle;
 	@FXML
@@ -49,27 +48,32 @@ public class LoadSelectionController implements Initializable{
 	private Button lSBlocal;
 	@FXML
 	private Button lSBcloud;
-	
-	/** Array list for the slider values that are fetched from the database*/
+
+	/** Array list for the slider values that are fetched from the database */
 	private List<String> sliderValues = new ArrayList<String>();
-	
+
 	/**
-	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)}
-	 *  to set certain variables passing the ResourceBundle to it.
-	 *  @param arg1, resource bundle from the MainController.java
+	 * Method initializes this class when loaded, calls
+	 * {@link #setLocalization(ResourceBundle)} to set certain variables passing the
+	 * ResourceBundle to it.
+	 * 
+	 * @param arg1, resource bundle from the MainController.java
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setLocalization(arg1);
 	}
-	
+
 	/**
-	 * Method sets all visible text according to the localization settings with the provided parameter.
-	 * @param bundle. is localization data passed trough from the MainController.java
+	 * Method sets all visible text according to the localization settings with the
+	 * provided parameter.
+	 * 
+	 * @param bundle. is localization data passed trough from the
+	 *                MainController.java
 	 */
 	private void setLocalization(ResourceBundle bundle) {
 		lSBcancel.setText(bundle.getString("lSBcancel"));
-		//lSBX.setText(bundle.getString("lSBX"));
+		// lSBX.setText(bundle.getString("lSBX"));
 		lSTitle.setText(bundle.getString("lSTitle"));
 		lSmaintext.setText(bundle.getString("lSmaintext"));
 		lSBlocal.setText(bundle.getString("lSBlocal"));
@@ -77,9 +81,10 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method sets variable to the parameter provided from MainController.java 
+	 * Method sets variable to the parameter provided from MainController.java
+	 * 
 	 * @param mainController, is the instance of MainController.java that is in the
-	 * current thread running.
+	 *                        current thread running.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -88,6 +93,7 @@ public class LoadSelectionController implements Initializable{
 
 	/**
 	 * Method to close the view when button is pressed
+	 * 
 	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
@@ -97,8 +103,8 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method opens MixerSettingsView.fxml by calling its method from the MainController.java and
-	 * closes currently visible stage.
+	 * Method opens MixerSettingsView.fxml by calling its method from the
+	 * MainController.java and closes currently visible stage.
 	 */
 	public void loadFromCloud() {
 		mc.openMixerSettings();
@@ -107,9 +113,9 @@ public class LoadSelectionController implements Initializable{
 	}
 
 	/**
-	 * Method to load mixer settings from the users own computers file system.
-	 * When loaded it will set the slider values by calling MainController.java method setSliderValues.
-	 * Also will close the currently open stage.
+	 * Method to load mixer settings from the users own computers file system. When
+	 * loaded it will set the slider values by calling MainController.java method
+	 * setSliderValues. Also will close the currently open stage.
 	 */
 	public void loadFromLocal() {
 		// TODO Varmista oikea tiedostomuoto
@@ -133,6 +139,5 @@ public class LoadSelectionController implements Initializable{
 		Stage stage = (Stage) lSBcancel.getScene().getWindow();
 		stage.close();
 	}
-
 
 }

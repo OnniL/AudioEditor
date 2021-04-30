@@ -28,27 +28,26 @@ import javafx.stage.Stage;
 import otp.group6.controller.Controller;
 
 /**
- * Class controls the UserSettingsView.fxml and it main function is to 
- * make user able to change their password or to delete their account.
+ * Class controls the UserSettingsView.fxml and it main function is to make user
+ * able to change their password or to delete their account.
  * 
  * @author Joonas Soininen
  *
  */
-public class UserSettingsController implements Initializable{
+public class UserSettingsController implements Initializable {
 	/** Object of the MainController.java class */
 	MainController mc;
 	/** Object of the Controller.java class */
 	Controller controller;
 
 	/**
-	 * Variables for the different JavaFX elements
-	 * uS in front refers to this class and then the variable name
-	 * to its function in the visible view.
+	 * Variables for the different JavaFX elements uS in front refers to this class
+	 * and then the variable name to its function in the visible view.
 	 */
 	@FXML
 	private Label uSHeaderLabel;
-	//@FXML
-	//private Button uSXButton;
+	// @FXML
+	// private Button uSXButton;
 	@FXML
 	private Label uSChangePWLabel;
 	@FXML
@@ -90,19 +89,23 @@ public class UserSettingsController implements Initializable{
 	private String uSChangePWAlert2Header;
 	private String uSChangePWAlert2Content;
 	final Tooltip uSpwtooltip = new Tooltip();
-	
+
 	/**
-	 *Variables for the images 
+	 * Variables for the images
 	 */
-	private Image imageShow;	
-	private Image imageHide;	
-	private FileInputStream imageinputshow;	
+	private Image imageShow;
+	private Image imageHide;
+	private FileInputStream imageinputshow;
 	private FileInputStream imageinputhide;
 
 	/**
-	 * Method initializes this class when loaded, calls {@link #setLocalization(ResourceBundle)} to set certain variables passing the ResourceBundle to it.
-	 * @param arg1, is the resource bundle provided from the MainControler.java containing the language settings
-	 * Calls {@link #pwReminder()} to remind the user of the correct way to input the password.
+	 * Method initializes this class when loaded, calls
+	 * {@link #setLocalization(ResourceBundle)} to set certain variables passing the
+	 * ResourceBundle to it.
+	 * 
+	 * @param arg1, is the resource bundle provided from the MainControler.java
+	 *              containing the language settings Calls {@link #pwReminder()} to
+	 *              remind the user of the correct way to input the password.
 	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -110,14 +113,17 @@ public class UserSettingsController implements Initializable{
 		setLocalization(arg1);
 
 	}
-	
+
 	/**
-	 * Method sets all visible texts and button labels to chosen language. Sets specific images to specific buttons.
-	 * @param bundle transfers the localization data to the method so the right language is set
+	 * Method sets all visible texts and button labels to chosen language. Sets
+	 * specific images to specific buttons.
+	 * 
+	 * @param bundle transfers the localization data to the method so the right
+	 *               language is set
 	 */
 	private void setLocalization(ResourceBundle bundle) {
 		uSHeaderLabel.setText(bundle.getString("uSHeaderLabel"));
-		//uSXButton.setText(bundle.getString("uSXButton"));
+		// uSXButton.setText(bundle.getString("uSXButton"));
 		uSChangePWLabel.setText(bundle.getString("uSChangePWLabel"));
 		uSOldPWLabel.setText(bundle.getString("uSOldPWLabel"));
 		uSNewPWLabel.setText(bundle.getString("uSNewPWLabel"));
@@ -126,18 +132,18 @@ public class UserSettingsController implements Initializable{
 		uSDeleteUserButton.setText(bundle.getString("uSDeleteUserButton"));
 		uSCancelButton.setText(bundle.getString("uSCancelButton"));
 		uSpwtooltip.setText(bundle.getString("uSpwtooltip"));
-		uSGeneralOKBT=bundle.getString("uSGeneralOKBT");
-		uSGeneralCancelBT=bundle.getString("uSGeneralCancelBT");
-		uSDeleteAlert1Title=bundle.getString("uSDeleteAlert2Title");
-		uSDeleteAlert1Header=bundle.getString("uSDeleteAlert1Header");
-		uSDeleteAlert1Content=bundle.getString("uSDeleteAlert1Content");
-		uSDeleteAlert2Title=bundle.getString("uSDeleteAlert2Title");
-		uSDeleteAlert2Header=bundle.getString("uSDeleteAlert2Header");
-		uSDeleteAlert2Content=bundle.getString("uSDeleteAlert2Content");
-		uSChangePWAlert1Header=bundle.getString("uSChangePWAlert1Header");
-		uSChangePWAlert2Title=bundle.getString("uSChangePWAlert2Title");
-		uSChangePWAlert2Header=bundle.getString("uSChangePWAlert2Header");
-		uSChangePWAlert2Content=bundle.getString("uSChangePWAlert2Content");
+		uSGeneralOKBT = bundle.getString("uSGeneralOKBT");
+		uSGeneralCancelBT = bundle.getString("uSGeneralCancelBT");
+		uSDeleteAlert1Title = bundle.getString("uSDeleteAlert2Title");
+		uSDeleteAlert1Header = bundle.getString("uSDeleteAlert1Header");
+		uSDeleteAlert1Content = bundle.getString("uSDeleteAlert1Content");
+		uSDeleteAlert2Title = bundle.getString("uSDeleteAlert2Title");
+		uSDeleteAlert2Header = bundle.getString("uSDeleteAlert2Header");
+		uSDeleteAlert2Content = bundle.getString("uSDeleteAlert2Content");
+		uSChangePWAlert1Header = bundle.getString("uSChangePWAlert1Header");
+		uSChangePWAlert2Title = bundle.getString("uSChangePWAlert2Title");
+		uSChangePWAlert2Header = bundle.getString("uSChangePWAlert2Header");
+		uSChangePWAlert2Content = bundle.getString("uSChangePWAlert2Content");
 		try {
 			imageinputshow = new FileInputStream("src/main/resources/images/showPW.jpg");
 			imageinputhide = new FileInputStream("src/main/resources/images/hidePW.jpg");
@@ -145,19 +151,19 @@ public class UserSettingsController implements Initializable{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		imageShow = new Image(imageinputshow,20,20, true, true);
-		imageHide = new Image(imageinputhide,20,20, true, true);
+		imageShow = new Image(imageinputshow, 20, 20, true, true);
+		imageHide = new Image(imageinputhide, 20, 20, true, true);
 		uSShowPW1Toggle.setGraphic(new ImageView(imageHide));
 		uSShowPW1Toggle.setText("");
 		uSShowPW2Toggle.setGraphic(new ImageView(imageHide));
 		uSShowPW2Toggle.setText("");
 	}
-	
+
 	/**
 	 * Method to show and hide users old password using the eye-icon
 	 */
 	@FXML
-	public void showPW1() {		
+	public void showPW1() {
 		if (uSShowPW1Toggle.isSelected()) {
 			password.setVisible(false);
 			showOldPW.setVisible(true);
@@ -167,14 +173,14 @@ public class UserSettingsController implements Initializable{
 			uSShowPW1Toggle.setText("");
 		} else if (!uSShowPW1Toggle.isSelected()) {
 			password.setText(showOldPW.getText());
-			password.setVisible(true);			
+			password.setVisible(true);
 			showOldPW.setVisible(false);
 			uSShowPW1Toggle.setGraphic(new ImageView(imageHide));
 			uSShowPW1Toggle.setText("");
 		}
 
 	}
-	
+
 	/*
 	 * Method to show and hide users new password using the eye-icon
 	 */
@@ -196,11 +202,12 @@ public class UserSettingsController implements Initializable{
 		}
 
 	}
-	
+
 	/**
-	 * Method sets variable to the parameter provided from MainController.java 
+	 * Method sets variable to the parameter provided from MainController.java
+	 * 
 	 * @param mainController, is the instance of MainController.java that is in the
-	 * current thread running.
+	 *                        current thread running.
 	 */
 	public void setMainController(MainController mainController) {
 		this.mc = mainController;
@@ -210,6 +217,7 @@ public class UserSettingsController implements Initializable{
 
 	/**
 	 * Method to close the view when button is pressed
+	 * 
 	 * @param event, handles the on push events of binded buttons
 	 */
 	@FXML
@@ -219,8 +227,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method to delete the users account from the database and make sure user is logged out.
-	 * Alerts are used to give feedback to the user.
+	 * Method to delete the users account from the database and make sure user is
+	 * logged out. Alerts are used to give feedback to the user.
 	 */
 	@FXML
 	public void deleteUser() {
@@ -248,8 +256,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Method used to change the users password.
-	 * Alerts provide feedback for the user.
+	 * Method used to change the users password. Alerts provide feedback for the
+	 * user.
 	 */
 	@FXML
 	public void changePassword() {
@@ -310,7 +318,8 @@ public class UserSettingsController implements Initializable{
 	}
 
 	/**
-	 * Variables for the correct password pattern and a compiler for the password pattern
+	 * Variables for the correct password pattern and a compiler for the password
+	 * pattern
 	 */
 	private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
 	private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
@@ -325,9 +334,10 @@ public class UserSettingsController implements Initializable{
 		Matcher matcher = pattern.matcher(password);
 		return matcher.matches();
 	}
-	
+
 	/**
-	 * Method to set the password to different variables depending on if the password is visible to the user or not.
+	 * Method to set the password to different variables depending on if the
+	 * password is visible to the user or not.
 	 */
 	@FXML
 	private void setText() {
@@ -342,6 +352,5 @@ public class UserSettingsController implements Initializable{
 			npassword.setText(showNewPW.getText());
 		}
 	}
-
 
 }

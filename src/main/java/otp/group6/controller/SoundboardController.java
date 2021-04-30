@@ -40,8 +40,10 @@ public class SoundboardController {
 		}
 		return instance;
 	}
+
 	/**
 	 * Controller method for setting default {@link Soundboard.Sample} name
+	 * 
 	 * @param dName - name in <b>String</b> format
 	 */
 	public void setSampleDefaultName(String dName) {

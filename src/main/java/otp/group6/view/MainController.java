@@ -1029,20 +1029,20 @@ public class MainController implements Initializable {
 		});
 	}
 
-	//TODO
+	// TODO
 	public void handleTooltipClick(ActionEvent e) {
 		System.out.println(e.getSource());
 
-		if(tooltipPitch.isActivated()) {
+		if (tooltipPitch.isActivated()) {
 			tooltipPitch.hide();
 		} else {
 			tooltipPitch.show(mainContainer.getScene().getWindow());
 		}
-			
+
 	}
-	
+
 	/**
-	 *Sets a tooltip to every info button
+	 * Sets a tooltip to every info button
 	 */
 	private void initializeTooltips() {
 		tooltipPitch = new Tooltip();
@@ -1315,16 +1315,17 @@ public class MainController implements Initializable {
 
 		try {
 			recorderTab.setText(bundle.getString("recorderTab"));
-			
-			// Following methods have been commented out because the strings were replaced by images
-			/* 
-			recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord"));
-			recorderButtonPause.setText(bundle.getString("recorderPause"));
-			recorderButtonPlay.setText(bundle.getString("recorderPlay"));
-			recorderButtonStop.setText(bundle.getString("recorderStop")); 
-			*/
-			
-			recorderButtonSave.setText(bundle.getString("recorderSave")); 
+
+			// Following methods have been commented out because the strings were replaced
+			// by images
+			/*
+			 * recorderToggleButtonStartRecording.setText(bundle.getString("recorderRecord")
+			 * ); recorderButtonPause.setText(bundle.getString("recorderPause"));
+			 * recorderButtonPlay.setText(bundle.getString("recorderPlay"));
+			 * recorderButtonStop.setText(bundle.getString("recorderStop"));
+			 */
+
+			recorderButtonSave.setText(bundle.getString("recorderSave"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1388,7 +1389,7 @@ public class MainController implements Initializable {
 				RegisterLoginController rlc = fxmlLoader.getController();
 				rlc.setMainController(this);
 				stage.initModality(Modality.APPLICATION_MODAL);
-				//stage.initStyle(StageStyle.UNDECORATED);
+				// stage.initStyle(StageStyle.UNDECORATED);
 				stage.setTitle(bundle.getString("rLPleaseLabel"));
 				stage.setScene(new Scene(root1));
 				stage.show();
@@ -1419,7 +1420,7 @@ public class MainController implements Initializable {
 				MixerSettingsController msc = fxmlLoader.getController();
 				msc.setMainController(this);
 				stage.initModality(Modality.APPLICATION_MODAL);
-				//stage.initStyle(StageStyle.UNDECORATED);
+				// stage.initStyle(StageStyle.UNDECORATED);
 				stage.setTitle("Mixer Settings Loader");
 				stage.setScene(new Scene(root1));
 				stage.show();
@@ -1462,7 +1463,7 @@ public class MainController implements Initializable {
 					sliderLfoFrequency.getValue(), (float) sliderLowPass.getValue());
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
-			//stage.initStyle(StageStyle.UNDECORATED);
+			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle(bundle.getString("mSTitle"));
 			stage.setScene(new Scene(root1));
 			stage.show();
@@ -1484,7 +1485,7 @@ public class MainController implements Initializable {
 			SaveSelectionController ssc = fxmlLoader.getController();
 			ssc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			//stage.initStyle(StageStyle.UNDECORATED);
+			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle(bundle.getString("sSHeaderLabel"));
 			stage.setScene(new Scene(root1));
 			stage.show();
@@ -1507,7 +1508,7 @@ public class MainController implements Initializable {
 			LoadSelectionController lsc = fxmlLoader.getController();
 			lsc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			//stage.initStyle(StageStyle.UNDECORATED);
+			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle(bundle.getString("lSTitle"));
 			stage.setScene(new Scene(root1));
 			stage.show();
@@ -1530,7 +1531,7 @@ public class MainController implements Initializable {
 			UserSettingsController usc = fxmlLoader.getController();
 			usc.setMainController(this);
 			stage.initModality(Modality.APPLICATION_MODAL);
-			//stage.initStyle(StageStyle.UNDECORATED);
+			// stage.initStyle(StageStyle.UNDECORATED);
 			stage.setTitle(bundle.getString("uSHeaderLabel"));
 			stage.setScene(new Scene(root1));
 			stage.show();

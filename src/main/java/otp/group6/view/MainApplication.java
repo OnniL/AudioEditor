@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.css.Style;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -44,7 +43,8 @@ public class MainApplication extends Application {
 		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				//Checks if any unsaved files in mixer and closes the application if ok to do so
+				// Checks if any unsaved files in mixer and closes the application if ok to do
+				// so
 				if (mainController.isMixerOkToExit() == true) {
 					mainController.exitRoutine();
 					Platform.exit();

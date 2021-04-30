@@ -1,21 +1,22 @@
 package otp.group6.audioeditor;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
-import java.sql.*;
-import java.time.LocalDate;
-
 /**
- * AudioCloudDAO is a class that handles the database connection, user object and mixer settings object. 
- * Main functionality is to read from the database and write into the database. 
- * Database holds user information including name, encrypted password and encrypted salt for the password.
- * Also stored are mixer settings that can be used in the main applications mixer. 
+ * AudioCloudDAO is a class that handles the database connection, user object
+ * and mixer settings object. Main functionality is to read from the database
+ * and write into the database. Database holds user information including name,
+ * encrypted password and encrypted salt for the password. Also stored are mixer
+ * settings that can be used in the main applications mixer.
  * 
  * @author Joonas Soininen
  *
@@ -34,6 +35,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the user name for the variable
+		 * 
 		 * @param user is the user name from the database
 		 */
 		private void setUser(String user) {
@@ -42,6 +44,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the set user name.
+		 * 
 		 * @return Returns set user name or null if none is set.
 		 */
 		public String getUser() {
@@ -51,8 +54,8 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * MixerSettings class is used as an object to access the database mixer settings data in the main
-	 * application.
+	 * MixerSettings class is used as an object to access the database mixer
+	 * settings data in the main application.
 	 * 
 	 * @author Joonas Soininen
 	 *
@@ -69,6 +72,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the id from the database
+		 * 
 		 * @param mixID unique id-number from the database
 		 */
 		private void setMixID(int mixID) {
@@ -77,6 +81,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the name from the database
+		 * 
 		 * @param mixName specific name form the database
 		 */
 		private void setMixName(String mixName) {
@@ -85,14 +90,16 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the mix description form the database
+		 * 
 		 * @param description specific description from the database
 		 */
 		private void setDescription(String description) {
 			this.description = description;
 		}
-		
+
 		/**
 		 * Method to set the creator name from the database
+		 * 
 		 * @param creatorName specific name from the database
 		 */
 		private void setCreatorName(String creatorName) {
@@ -101,6 +108,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the pitch value from the database
+		 * 
 		 * @param pitch specific value from the database
 		 */
 		private void setPitch(double pitch) {
@@ -109,6 +117,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the echo value from the database
+		 * 
 		 * @param echo specific value from the database
 		 */
 		private void setEcho(double echo) {
@@ -117,6 +126,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the decay value from the database
+		 * 
 		 * @param decay specific value from the database
 		 */
 		private void setDecay(double decay) {
@@ -125,6 +135,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the gain value from the database
+		 * 
 		 * @param gain specific value from the database
 		 */
 		private void setGain(double gain) {
@@ -133,6 +144,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the flanger length from the database
+		 * 
 		 * @param flangerLenght specific valuea from the database
 		 */
 		private void setFlangerLenght(double flangerLenght) {
@@ -141,14 +153,16 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the wetness value from the database
+		 * 
 		 * @param wetness specific value from the database
 		 */
 		private void setWetness(double wetness) {
 			this.wetness = wetness;
 		}
-		
+
 		/**
 		 * Method to set the lfo frequency from the database
+		 * 
 		 * @param lfoFrequency specific value from the database
 		 */
 		private void setLfoFrequency(double lfoFrequency) {
@@ -157,6 +171,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the low pass value from the database
+		 * 
 		 * @param lowPass specific value from the database
 		 */
 		private void setLowPass(float lowPass) {
@@ -165,6 +180,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to set the date from the database for the mixer setting
+		 * 
 		 * @param daoDate specific date from the database
 		 */
 		private void setDateDAO(String daoDate) {
@@ -173,14 +189,16 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the id for the mixer setting
+		 * 
 		 * @return id from the database or null
 		 */
 		public int getMixID() {
 			return mixID;
 		}
-		
+
 		/**
 		 * Method to get the date for the mixer setting
+		 * 
 		 * @return date from the databse or null
 		 */
 		public String getDateDAO() {
@@ -189,6 +207,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the mixer setting name
+		 * 
 		 * @return name from the database or null
 		 */
 		public String getMixName() {
@@ -197,6 +216,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the mixer setting description
+		 * 
 		 * @return description from the database or null
 		 */
 		public String getDescription() {
@@ -205,6 +225,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the mixer setting creator name
+		 * 
 		 * @return name from the database or null
 		 */
 		public String getCreatorName() {
@@ -213,6 +234,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the pitch value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getPitch() {
@@ -221,6 +243,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the echo value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getEcho() {
@@ -229,6 +252,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the decay value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getDecay() {
@@ -237,6 +261,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the gain value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getGain() {
@@ -245,6 +270,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the flanger length value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getFlangerLenght() {
@@ -253,14 +279,16 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the wetness value for the mixer setting
+		 * 
 		 * @return value from database or null
-		 */ 
+		 */
 		public double getWetness() {
 			return wetness;
 		}
 
 		/**
 		 * Method to get the lfo frequency for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public double getLfoFrequency() {
@@ -269,6 +297,7 @@ public class AudioCloudDAO {
 
 		/**
 		 * Method to get the low pass value for the mixer setting
+		 * 
 		 * @return value from database or null
 		 */
 		public float getLowPass() {
@@ -297,8 +326,7 @@ public class AudioCloudDAO {
 
 	/**
 	 * Constructor that accesses the database every time this instance is created.
-	 * Try clause tires the connection
-	 * Catch clause returns an error for the user
+	 * Try clause tires the connection Catch clause returns an error for the user
 	 */
 	public AudioCloudDAO() {
 		try {
@@ -354,9 +382,11 @@ public class AudioCloudDAO {
 
 	/**
 	 * Method is used to deliver a new user name in to the database.
+	 * 
 	 * @param user, new user name to be inputed into the database
 	 * @param pw,   hashed password
-	 * @return true if the new user was inputed in to the database, false if it was not successful
+	 * @return true if the new user was inputed in to the database, false if it was
+	 *         not successful
 	 * @throws SQLException if there is a problem with the database
 	 */
 	public boolean createUser(String user, String pw) throws SQLException {
@@ -384,12 +414,15 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Method logs in user if the credentials are correct and the user is found in the database.
+	 * Method logs in user if the credentials are correct and the user is found in
+	 * the database.
+	 * 
 	 * @param u, inputted user name
 	 * @param p, inputted password
-	 * @return Welcome "user" if user name and password were correct, No user if the user name does not exist,
-	 * Incorrect user or pw if either is not correct, Unexpected error logging in, please try again! if there
-	 * is any sort of problem with the SQL database.
+	 * @return Welcome "user" if user name and password were correct, No user if the
+	 *         user name does not exist, Incorrect user or pw if either is not
+	 *         correct, Unexpected error logging in, please try again! if there is
+	 *         any sort of problem with the SQL database.
 	 */
 	public String loginUser(String u, String p) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
@@ -424,14 +457,16 @@ public class AudioCloudDAO {
 
 		return "Unexpected error logging in, please try again!";
 	}
-	
+
 	/**
 	 * Method to change users password
-	 * @param u, user name given by the user
-	 * @param p, old password of the user
+	 * 
+	 * @param u,  user name given by the user
+	 * @param p,  old password of the user
 	 * @param np, new password that user wants to be set
-	 * @return true if password was changed correctly, false if old password is not a match,
-	 * if there is a problem with the database connection, if the user name does not match.
+	 * @return true if password was changed correctly, false if old password is not
+	 *         a match, if there is a problem with the database connection, if the
+	 *         user name does not match.
 	 */
 	public boolean changePassword(String u, String p, String np) {
 		// TODO lopullisesta tietokannasta tippuu TEST pois
@@ -477,7 +512,8 @@ public class AudioCloudDAO {
 	/**
 	 * Method checks the user-class for logged in user.
 	 * 
-	 * @return empty string if the user has not been set and returns user name if it is set
+	 * @return empty string if the user has not been set and returns user name if it
+	 *         is set
 	 */
 	public String loggedIn() {
 		if ((userclass.getUser() == null)) {
@@ -505,17 +541,18 @@ public class AudioCloudDAO {
 	/**
 	 * Method to add mixer setting to the database with given parameters
 	 * 
-	 * @param mixName, compulsory has to have one
-	 * @param description, voluntary input
-	 * @param pitch, double value preset
-	 * @param echo, double value preset
-	 * @param decay, double value preset
-	 * @param gain, double value preset
+	 * @param mixName,       compulsory has to have one
+	 * @param description,   voluntary input
+	 * @param pitch,         double value preset
+	 * @param echo,          double value preset
+	 * @param decay,         double value preset
+	 * @param gain,          double value preset
 	 * @param flangerLenght, double value preset
-	 * @param wetness, double value preset
-	 * @param lfoFrequency, double value preset
-	 * @param lowPass, float value preset
-	 * @return true when mixer setting was successfully inserted to the database, false if there is anything wrong.
+	 * @param wetness,       double value preset
+	 * @param lfoFrequency,  double value preset
+	 * @param lowPass,       float value preset
+	 * @return true when mixer setting was successfully inserted to the database,
+	 *         false if there is anything wrong.
 	 * @throws SQLException
 	 */
 	public boolean createMix(String mixName, String description, double pitch, double echo, double decay, double gain,
@@ -556,9 +593,10 @@ public class AudioCloudDAO {
 
 	}
 
-
 	/**
-	 * Method to get all users listed from the database. This method is only used for development.
+	 * Method to get all users listed from the database. This method is only used
+	 * for development.
+	 * 
 	 * @return Arraylist of all the users listed in the database
 	 */
 	public String[] getUsers() {
@@ -585,7 +623,9 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Method lists all the mixer settings from the database into an array list that can be iterated later.
+	 * Method lists all the mixer settings from the database into an array list that
+	 * can be iterated later.
+	 * 
 	 * @return Array list of Mixer setting objects
 	 */
 	public MixerSetting[] getAllMixArray() {
@@ -635,7 +675,8 @@ public class AudioCloudDAO {
 	 * 
 	 * @param select  is a variable used to specify what are being searched.
 	 * @param specify is a variable that is searched for.
-	 * @return returns the search in an array list containing mixer settings objects.
+	 * @return returns the search in an array list containing mixer settings
+	 *         objects.
 	 */
 	public MixerSetting[] getCertainMixesArray(int select, String specify) {
 		ArrayList<MixerSetting> list = new ArrayList<MixerSetting>();
@@ -679,11 +720,12 @@ public class AudioCloudDAO {
 		return (MixerSetting[]) list.toArray(returnArray);
 	}
 
-
 	/**
-	 * Method is used to delete mixer settings from the database using the creators name and the settings id.
+	 * Method is used to delete mixer settings from the database using the creators
+	 * name and the settings id.
+	 * 
 	 * @param name, creators name
-	 * @param id, mixer settings id
+	 * @param id,   mixer settings id
 	 * @return true if deletion was successful, false if there was anything wrong.
 	 */
 	public boolean deleteMix(String name, int id) {
@@ -709,8 +751,7 @@ public class AudioCloudDAO {
 	}
 
 	/**
-	 * Used to delete a user from the database. 
-	 * Only functions for logged users.
+	 * Used to delete a user from the database. Only functions for logged users.
 	 * 
 	 * @return true when deletion was successful and false if anything went wrong.
 	 */

@@ -2,15 +2,11 @@ package otp.group6.controller;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
-
-import javax.sound.sampled.LineListener;
 
 import otp.group6.audioeditor.AudioCloudDAO;
+import otp.group6.audioeditor.AudioCloudDAO.MixerSetting;
 import otp.group6.audioeditor.AudioManipulator;
 import otp.group6.audioeditor.AudioRecorder;
-import otp.group6.audioeditor.Soundboard;
-import otp.group6.audioeditor.AudioCloudDAO.MixerSetting;
 import otp.group6.view.MainController;
 
 /**
@@ -20,7 +16,6 @@ import otp.group6.view.MainController;
  */
 public class Controller {
 
-	private Soundboard soundboard;
 	private AudioRecorder recorder;
 	private AudioManipulator audioManipulator;
 	private AudioCloudDAO audioDAO;
@@ -30,16 +25,16 @@ public class Controller {
 		this.mainController = mainController;
 		initialConfig();
 	}
+
 	public Controller() {
 		initialConfig();
 	}
 
 	public void initialConfig() {
-		soundboard = new Soundboard();
 		recorder = new AudioRecorder(this);
 		audioManipulator = new AudioManipulator(this);
 	}
-	
+
 	public boolean checkIfUnsavedMixedFile() {
 		return audioManipulator.checkIfUnsavedMixedFile();
 	}
@@ -93,15 +88,15 @@ public class Controller {
 	public void audioManipulatorOpenFile(File file) {
 		audioManipulator.setAudioSourceFile(file);
 	}
-	
+
 	public void audioManipulatorOpenRecordedFile() {
 		mainController.audioManipulatorOpenRecordedFile();
 	}
-	
+
 	public void audioManipulatorStartRecord() {
 		audioManipulator.recordAudio();
 	}
-	
+
 	public void audioManipulatorStopRecord() {
 		audioManipulator.stopRecord();
 	}
@@ -129,16 +124,16 @@ public class Controller {
 	public void testFilter() {
 		audioManipulator.testFilter();
 	}
-	
+
 	public void setAudioFileLengthInSec(double audioFileLengthInSec) {
 		audioManipulator.setAudioFileLengthInSec(audioFileLengthInSec);
-		
+
 	}
 
 	public void audioManipulatorResetMediaPlayer() {
 		audioManipulator.resetMediaPlayer();
 	}
-	
+
 	public void audioManipulatorAudioFileReachedEnd() {
 		mainController.audioManipulatorAudioFileReachedEnd();
 	}
@@ -204,8 +199,7 @@ public class Controller {
 	public void setDisableMixerSliders(boolean trueOrFalse) {
 		mainController.setDisableMixerSliders(trueOrFalse);
 	}
-	
-	
+
 	// AudioManipulator methods end
 
 	// AudioRecorder methods start
@@ -248,11 +242,11 @@ public class Controller {
 	public void setCurrentValueToRecordFileDurationSlider(Double currentSeconds) {
 		mainController.setCurrentValueToRecordDurationSlider(currentSeconds);
 	}
-	
+
 	public void recorderSetAudioFileDuration(float audioFileDuration) {
 		recorder.setAudioFileDuration(audioFileDuration);
 	}
-	
+
 	public void recorderAudioFileReachedEnd() {
 		mainController.recorderAudioFileReachedEnd();
 	}
@@ -313,11 +307,10 @@ public class Controller {
 	public boolean changePW(String u, String p, String np) {
 		return audioDAO.changePassword(u, p, np);
 	}
-	
+
 	public boolean isConnected() {
 		return audioDAO.isHasconnected();
 	}
 	// AudioCloudDAO methods stop
 
-	
 }

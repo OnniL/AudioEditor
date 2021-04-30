@@ -1,13 +1,11 @@
 package otp.group6.view;
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -25,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -111,7 +108,7 @@ public class SoundboardViewController implements Initializable {
 		getViewResources();
 		loadSavedSamples();
 		setIconChanger();
-		
+
 	}
 
 	// *********************UTILITY METHODS*******************************//
@@ -617,19 +614,19 @@ public class SoundboardViewController implements Initializable {
 	 * @param index - index of the sample
 	 */
 	private void deleteButton(int index) {
-			
-			controller.removeSample(index);
-			clearContainer(containerMap.get(buttonList.size() - 1));
-			addNewSoundButton(containerMap.get(buttonList.size() - 1));
-			if (buttonList.size() < 20) {
-				clearContainer(containerMap.get(buttonList.size()));
+
+		controller.removeSample(index);
+		clearContainer(containerMap.get(buttonList.size() - 1));
+		addNewSoundButton(containerMap.get(buttonList.size() - 1));
+		if (buttonList.size() < 20) {
+			clearContainer(containerMap.get(buttonList.size()));
+		}
+		if (index < buttonList.size()) {
+			for (int i = index; i < buttonList.size() - 1; i++) {
+				// refreshContainerText((Pane) buttonList.get(i), i);
 			}
-			if (index < buttonList.size()) {
-				for (int i = index; i < buttonList.size() - 1; i++) {
-					//refreshContainerText((Pane) buttonList.get(i), i);
-				}
-			}
-			buttonList.remove(buttonList.size() - 1);
+		}
+		buttonList.remove(buttonList.size() - 1);
 	}
 
 	/**
@@ -664,11 +661,11 @@ public class SoundboardViewController implements Initializable {
 
 		ButtonType type = new ButtonType(CONFIRM_BTN, ButtonData.OK_DONE);
 		ButtonType ntype = new ButtonType(CANCEL_BTN, ButtonData.CANCEL_CLOSE);
-		
+
 		DialogPane dialogPane = alert.getDialogPane();
-		dialogPane.getStylesheets().add(
-		   MainApplication.class.getResource("/css/SoundboardViewStyle.css").toExternalForm());
-		
+		dialogPane.getStylesheets()
+				.add(MainApplication.class.getResource("/css/SoundboardViewStyle.css").toExternalForm());
+
 		alert.getButtonTypes().add(type);
 		alert.getButtonTypes().add(ntype);
 

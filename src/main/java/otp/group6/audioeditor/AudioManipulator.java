@@ -1,7 +1,6 @@
 package otp.group6.audioeditor;
 
 import java.io.File;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,7 +8,6 @@ import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -171,9 +169,8 @@ public class AudioManipulator {
 				isSaved = true;
 			}
 
-		} catch (LineUnavailableException e) {
-		} catch (NullPointerException e) {
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

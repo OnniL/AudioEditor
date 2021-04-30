@@ -1,13 +1,14 @@
 package otp.group6.audioeditor;
 
-import javax.sound.sampled.*;
-import javax.sound.sampled.AudioFileFormat.Type;
+import java.io.File;
 
-import javafx.stage.DirectoryChooser;
+import javax.sound.sampled.AudioFileFormat.Type;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
-import java.io.File;
 
 /**
  * 
@@ -75,8 +76,7 @@ public class AudioFileHandler {
 	}
 
 	/*
-	 * @author Roosa Laukkanen 
-	 * Opens the file choosers and shows all WAV files in
+	 * @author Roosa Laukkanen Opens the file choosers and shows all WAV files in
 	 * user's music folder
 	 * 
 	 * @return returns the chosen WAV file

@@ -24,9 +24,7 @@ public class TutorialViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		comboBoxlanguageOptions.setPromptText("Language");
 		comboBoxlanguageOptions.setItems(languageOptions);
-		
+
 	}
 
-	
-	
 }

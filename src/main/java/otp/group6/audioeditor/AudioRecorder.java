@@ -69,6 +69,7 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Getter for audioformat
+	 * 
 	 * @return AudioFormat object
 	 */
 	public AudioFormat getFormat() {
@@ -77,6 +78,7 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Setter for audioformat
+	 * 
 	 * @param format
 	 */
 	public void setFormat(AudioFormat format) {
@@ -85,15 +87,16 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Getter for the targetfile
+	 * 
 	 * @return File object
 	 */
 	public File getTargetFile() {
 		return targetFile;
 	}
 
-	
 	/**
 	 * Setter for targetfile
+	 * 
 	 * @param targetFile
 	 */
 	public void setTargetFile(File targetFile) {
@@ -157,7 +160,7 @@ public class AudioRecorder extends Thread {
 			adp.addAudioProcessor(new AudioProcessor() {
 				@Override
 				public void processingFinished() {
-					if((audioFileDuration - secondsProcessed) < 0.1) {
+					if ((audioFileDuration - secondsProcessed) < 0.1) {
 						audioFileReachedEnd();
 					}
 					task.cancel();
@@ -223,6 +226,7 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Method to play recorded file desired position
+	 * 
 	 * @param seconds
 	 */
 	public void playFromDesiredSec(double seconds) {
@@ -235,6 +239,7 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Method to save recorded file
+	 * 
 	 * @param path
 	 */
 	public void saveAudioFile(String path) {
@@ -256,7 +261,8 @@ public class AudioRecorder extends Thread {
 	}
 
 	/**
-	 * Method to cancel the timer that shows the correct position to mediaplayerslider
+	 * Method to cancel the timer that shows the correct position to
+	 * mediaplayerslider
 	 */
 	public void timerCancel() {
 		if (timer != null) {
@@ -276,44 +282,47 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Method to set the current position to mediaplayerslider
+	 * 
 	 * @param seconds
 	 */
 	private void setCurrentPositionToRecordFileDurationSlider(double seconds) {
 		controller.setCurrentValueToRecordFileDurationSlider(seconds);
 	}
-	
+
 	/**
 	 * Method to set audio file's duration to recorder class
+	 * 
 	 * @param audioFileDuration
 	 */
-	public void setAudioFileDuration (float audioFileDuration) {
+	public void setAudioFileDuration(float audioFileDuration) {
 		this.audioFileDuration = audioFileDuration;
 	}
-	
+
 	/**
 	 * Method to get audio file's duration
+	 * 
 	 * @return audioFileDuration
 	 */
 	public float getAudioFileDuration() {
 		return audioFileDuration;
 	}
-	
+
 	/**
 	 * Method to tell maincontroller that audio file has reached its end
 	 */
-	public void audioFileReachedEnd(){
-		try{
+	public void audioFileReachedEnd() {
+		try {
 			controller.recorderAudioFileReachedEnd();
-		}
-		catch (Exception e){
+		} catch (Exception e) {
 		}
 		playbackStartingPoint = 0;
 		secondsProcessed = 0;
 		isPlaying = false;
 	}
-	
+
 	/**
 	 * Getter for playbacks startingpoint
+	 * 
 	 * @return playbackStartingPoint
 	 */
 	public float getPlaybackStartingPoint() {
@@ -322,13 +331,13 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Setter for playbacks startingpoint
+	 * 
 	 * @param playbackStartingPoint
 	 */
 	public void setPlaybackStartingPoint(float playbackStartingPoint) {
 		this.playbackStartingPoint = playbackStartingPoint;
 	}
 
-	
 	/**
 	 * Getter for getting correct dataline from system
 	 */
@@ -344,6 +353,7 @@ public class AudioRecorder extends Thread {
 
 	/**
 	 * Method to return the default audio format, which the software uses
+	 * 
 	 * @return correct audio format
 	 */
 	public AudioFormat getDefaultAudioFormat() {

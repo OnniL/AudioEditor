@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineListener;
 
 /**
@@ -172,10 +171,10 @@ public class Soundboard {
 	public Soundboard() {
 		player = new SoundboardPlayer();
 	}
-	
-	
+
 	/**
 	 * Sets the <b>default</b> Sample name
+	 * 
 	 * @param dName - name in <b>String</b> format
 	 */
 	public void setDefaultSampleName(String dName) {
@@ -381,9 +380,9 @@ public class Soundboard {
 					String temp = fileReader.nextLine();
 					String[] sampleParts = temp.split(";");
 					File tester;
-					if(sampleParts.length == 2) {
+					if (sampleParts.length == 2) {
 						tester = new File(sampleParts[1]);
-					}else {
+					} else {
 						tester = null;
 					}
 					if (tester != null && tester.exists()) {
