@@ -30,7 +30,11 @@ import otp.group6.audioeditor.Soundboard.Sample;
 
 class SoundboardTest {
 	private Soundboard soundboard = new Soundboard();
-
+	
+	/**
+	 * Adds a file path to a fixed test audio into the {@link Soundboard} <br>
+	 * Checks if the given file path exists as a {@link Sample} in the <b>sampleArray</b>
+	 */
 	@DisplayName("Trying to add a sample to sampleArray via file path")
 	@Order(1)
 	@Test
@@ -40,7 +44,11 @@ class SoundboardTest {
 
 		assertTrue(soundboard.checkSampleArray(testSampleIndex), "Checks if sample array contains added sample");
 	}
-
+	
+	/**
+	 * Creates a {@link Sample} from a fixed test audio file <br>
+	 * Checks if the created <b>Sample</b> is added to the <b>sampleArray</b>
+	 */
 	@DisplayName("Trying to add a sample to sampleArray via creating a new sample")
 	@Order(2)
 	@Test
@@ -52,7 +60,11 @@ class SoundboardTest {
 
 		assertTrue(soundboard.checkSampleArray(testSampleIndex), "Checks if sample array contains added sample");
 	}
-
+	/**
+	 * Creates a new {@link Sample} from a file path. <br>
+	 * Attempts to remove it from the <b>sampleArray</b> with given index
+	 * @see {@link Soundboard#removeSample(int)}
+	 */
 	@DisplayName("Removing a sample from sampleArray with an index")
 	@Order(3)
 	@Test
@@ -65,7 +77,11 @@ class SoundboardTest {
 
 		assertTrue(newSample == removedSample, "Comparing removed sample");
 	}
-
+	/**
+	 *  Creates a new {@link Sample} from a file path. <br>
+	 *  Attempt to delete created <b>Sample</b> with reference to itself.
+	 *  @see {@link Soundboard#removeSample(Sample)}
+	 */
 	@DisplayName("Removing a Sample from sampleArray with a reference to a Sample")
 	@Order(4)
 	@Test
@@ -76,11 +92,14 @@ class SoundboardTest {
 
 		assertTrue(soundboard.removeSample(newSample), "Removing sample");
 	}
-
+	
+	/**
+	 * Creates 10 identical <b>Samples</b> and writes them to sampledata.txt <br>
+	 * Checks if the file contains written data.
+	 */
 	@DisplayName("Save sample data and read it")
 	@Order(5)
 	@Test
-
 	final void testSaveSampleData() {
 		for (int i = 0; i < 10; i++) {
 			soundboard.addSample("src/audio/testiaani.wav");
@@ -95,6 +114,10 @@ class SoundboardTest {
 		assertEquals(10, soundboard.readSampleData(), "sampleArray didnt recieve as many samples as needed");
 
 	}
+	/**
+	 * Creates a new {@link Sample} and adds it to <b>sampleArray</b>. <br>
+	 * Checks if <b>Samples</b> initial file path matches the one from <b>sampleArray</b>
+	 */
 	@DisplayName("Check if sample file exits")
 	@Order(6)
 	@Test
@@ -108,6 +131,10 @@ class SoundboardTest {
 		assertTrue(sampleFile.exists(), "Sample file does not exist");
 		
 	}
+	/**
+	 * Writes a single line to <b>sampledata.txt</b> and reads it. <br>
+	 * Attempts to create {@link Sample} from the read data.
+	 */
 	@DisplayName("Test sample data reading")
 	@Order(7)
 	@Test
@@ -132,6 +159,10 @@ class SoundboardTest {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Writes 25 lines to <b>sampledata.txt</b> and reads it. <br>
+	 * Creates <b>Samples</b> from read data. Checks if <b>sampleArray</b> handles overflow
+	 */
 	@DisplayName("Test overflowing sampleArray and error handling")
 	@Order(8)
 	@Test
@@ -143,7 +174,9 @@ class SoundboardTest {
 		soundboard.validateSampleArray();
 		assertEquals(20, soundboard.getSampleArrayLength(), "sample array failed to trim to 20");
 	}
-	
+	/**
+	 * Checks if <b>sampleArray</b> is empty.
+	 */
 	@BeforeEach
 	final void checkIfArrayEmpty() {
 		assertEquals(0, soundboard.getSampleArrayLength(), "sampleArray is not empty");
