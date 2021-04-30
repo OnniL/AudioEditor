@@ -9,6 +9,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Timer;
@@ -33,6 +34,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -93,6 +96,37 @@ public class MainController implements Initializable {
 		boardController.saveSampleData();
 	}
 
+	public boolean isMixerOkToExit() {
+		if (controller.checkIfUnsavedMixedFile() == true) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle(bundle.getString("mixerUnsavedAlertTitle"));
+			alert.setHeaderText(bundle.getString("mixerUnsavedAlertHeader"));
+			alert.setContentText(bundle.getString("mixerUnsavedAlertContent"));
+
+			ButtonType buttonSave = new ButtonType(bundle.getString("mixerUnsavedAlertSaveButton"));
+			ButtonType buttonExit = new ButtonType(bundle.getString("mixerUnsavedAlertExitButton"));
+			ButtonType buttonCancel = new ButtonType(bundle.getString("mixerUnsavedAlertCancelButton"),
+					ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonSave, buttonExit, buttonCancel);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == buttonSave) {
+				boolean saved = false;
+				while (!saved) {
+					saved = handleAudioManipulatorSaveMixedFileButton();
+				}
+				return true;
+			} else if (result.get() == buttonExit) {
+				return true;
+			} else {
+
+				return false;
+			}
+		}
+		return true;
+	}
+
 	////////////////////////////
 	// MENU BAR
 
@@ -109,8 +143,8 @@ public class MainController implements Initializable {
 	private MenuItem menuItemAbout;
 	@FXML
 	private MenuItem menuItemUserguide;
-	@FXML
 
+	@FXML
 	private Menu menuLanguage;
 	@FXML
 	private MenuItem languageEnglish;
@@ -416,7 +450,7 @@ public class MainController implements Initializable {
 	 * 
 	 */
 	@FXML
-	public void handleAudioManipulatorSaveMixedFileButton() {
+	public boolean handleAudioManipulatorSaveMixedFileButton() {
 		FileChooser fileChooser = new FileChooser();
 		ExtensionFilter filter = new ExtensionFilter("WAV files (*.wav)", "*.wav");
 		fileChooser.getExtensionFilters().add(filter);
@@ -427,9 +461,9 @@ public class MainController implements Initializable {
 			if (!fullPath.endsWith(".wav")) {
 				fullPath = fullPath + ".wav";
 			}
-			controller.audioManipulatorSaveFile(fullPath);
-			System.out.println("saved to " + fullPath);
+			return controller.audioManipulatorSaveFile(fullPath);
 		} catch (Exception e) {
+			return false;
 		}
 	}
 
@@ -512,7 +546,8 @@ public class MainController implements Initializable {
 			textAudioFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 
 			// Shows the name of the file in textSelectedFile element
-			labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " " + bundle.getString("mixerSelectedRecordingText"));
+			labelSelectedFile.setText(
+					bundle.getString("mixerFileSelectedText") + " " + bundle.getString("mixerSelectedRecordingText"));
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
@@ -528,10 +563,13 @@ public class MainController implements Initializable {
 			controller.audioManipulatorUsePitchProcessor(true);
 			sliderPitch.setDisable(false);
 			textFieldPitch.setDisable(false);
+			toggleButtonPitch.setText(bundle.getString("mixerToggleButtonOn"));
+
 		} else if (!toggleButtonPitch.isSelected()) {
 			controller.audioManipulatorUsePitchProcessor(false);
 			sliderPitch.setDisable(true);
 			textFieldPitch.setDisable(true);
+			toggleButtonPitch.setText(bundle.getString("mixerToggleButtonOff"));
 		}
 	}
 
@@ -542,12 +580,14 @@ public class MainController implements Initializable {
 			sliderDecay.setDisable(false);
 			textFieldEchoLength.setDisable(false);
 			textFieldDecay.setDisable(false);
+			toggleButtonEcho.setText(bundle.getString("mixerToggleButtonOn"));
 		} else {
 			controller.audioManipulatorUseDelayProcessor(false);
 			sliderEchoLength.setDisable(true);
 			sliderDecay.setDisable(true);
 			textFieldEchoLength.setDisable(true);
 			textFieldDecay.setDisable(true);
+			toggleButtonEcho.setText(bundle.getString("mixerToggleButtonOff"));
 		}
 
 	}
@@ -557,10 +597,12 @@ public class MainController implements Initializable {
 			controller.audioManipulatorUseGainProcessor(true);
 			sliderGain.setDisable(false);
 			textFieldGain.setDisable(false);
+			toggleButtonGain.setText(bundle.getString("mixerToggleButtonOn"));
 		} else {
 			controller.audioManipulatorUseGainProcessor(false);
 			sliderGain.setDisable(true);
 			textFieldGain.setDisable(true);
+			toggleButtonGain.setText(bundle.getString("mixerToggleButtonOff"));
 		}
 
 	}
@@ -574,6 +616,7 @@ public class MainController implements Initializable {
 			textFieldWetness.setDisable(false);
 			textFieldFlangerLength.setDisable(false);
 			textFieldLfo.setDisable(false);
+			toggleButtonFlanger.setText(bundle.getString("mixerToggleButtonOn"));
 		} else {
 			controller.audioManipulatorUseFlangerProcessor(false);
 			sliderWetness.setDisable(true);
@@ -582,6 +625,7 @@ public class MainController implements Initializable {
 			textFieldWetness.setDisable(true);
 			textFieldFlangerLength.setDisable(true);
 			textFieldLfo.setDisable(true);
+			toggleButtonFlanger.setText(bundle.getString("mixerToggleButtonOff"));
 		}
 
 	}
@@ -591,10 +635,12 @@ public class MainController implements Initializable {
 			controller.audioManipulatorUseLowPassProcessor(true);
 			sliderLowPass.setDisable(false);
 			textFieldLowPass.setDisable(false);
+			toggleButtonLowPass.setText(bundle.getString("mixerToggleButtonOn"));
 		} else {
 			controller.audioManipulatorUseLowPassProcessor(false);
 			sliderLowPass.setDisable(true);
 			textFieldLowPass.setDisable(true);
+			toggleButtonLowPass.setText(bundle.getString("mixerToggleButtonOff"));
 		}
 
 	}
@@ -923,8 +969,6 @@ public class MainController implements Initializable {
 				if (sliderAudioFileDuration.isPressed()) {
 					controller.timerCancel();
 
-					// System.out.println("slideria klikattu " +
-					// sliderAudioFileDuration.getValue());
 					controller.audioManipulatorPlayFromDesiredSec(sliderAudioFileDuration.getValue());
 
 					// Nyk kesto tekstinä
@@ -985,8 +1029,20 @@ public class MainController implements Initializable {
 		});
 	}
 
-	/*
-	 * * Sets a tooltip to every info button
+	//TODO
+	public void handleTooltipClick(ActionEvent e) {
+		System.out.println(e.getSource());
+
+		if(tooltipPitch.isActivated()) {
+			tooltipPitch.hide();
+		} else {
+			tooltipPitch.show(mainContainer.getScene().getWindow());
+		}
+			
+	}
+	
+	/**
+	 *Sets a tooltip to every info button
 	 */
 	private void initializeTooltips() {
 		tooltipPitch = new Tooltip();
@@ -1055,7 +1111,22 @@ public class MainController implements Initializable {
 			tooltipLowPass.setText(bundle.getString("mixerLowPassTooltip"));
 
 			symbols = new DecimalFormatSymbols(bundle.getLocale());
-			decimalFormat = new DecimalFormat("#0.00", symbols); // kaikki luvut kahden desimaalin tarkkuuteen
+			decimalFormat = new DecimalFormat("#0.00", symbols);
+
+			textFieldPitch
+					.setText(decimalFormat.format(Double.parseDouble(textFieldPitch.getText().replace(',', '.'))));
+			textFieldEchoLength
+					.setText(decimalFormat.format(Double.parseDouble(textFieldEchoLength.getText().replace(',', '.'))));
+			textFieldDecay
+					.setText(decimalFormat.format(Double.parseDouble(textFieldDecay.getText().replace(',', '.'))));
+			textFieldLowPass
+					.setText(decimalFormat.format(Double.parseDouble(textFieldLowPass.getText().replace(',', '.'))));
+			textFieldWetness
+					.setText(decimalFormat.format(Double.parseDouble(textFieldWetness.getText().replace(',', '.'))));
+			textFieldFlangerLength.setText(
+					decimalFormat.format(Double.parseDouble(textFieldFlangerLength.getText().replace(',', '.'))));
+			textFieldLfo.setText(decimalFormat.format(Double.parseDouble(textFieldLfo.getText().replace(',', '.'))));
+			textFieldGain.setText(decimalFormat.format(Double.parseDouble(textFieldGain.getText().replace(',', '.'))));
 
 			if (bundle.getLocale().toString().equals("fi_FI")) {
 				checkmarkFinnish.setVisible(true);

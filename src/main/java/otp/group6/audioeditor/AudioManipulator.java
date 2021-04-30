@@ -33,6 +33,9 @@ import otp.group6.controller.Controller;
  * 
  */
 
+/*
+ * TODO JAVADOC
+ */
 public class AudioManipulator {
 
 	private Controller controller;
@@ -70,14 +73,14 @@ public class AudioManipulator {
 	private float lowPass = 44100;
 
 	// Original values causing no effect to audio
-	final private double ogPitchFactor = 1;
-	final private double ogGain = 1;
-	final private double ogEchoLength = 1;
-	final private double ogDecay = 0;
-	private double ogFlangerLength = 0.01;
-	private double ogWetness = 0;
-	private double ogLfo = 5;
-	private float ogLowPass = 44100;
+	private final double ogPitchFactor = 1;
+	private final double ogGain = 1;
+	private final double ogEchoLength = 1;
+	private final double ogDecay = 0;
+	private final double ogFlangerLength = 0.01;
+	private final double ogWetness = 0;
+	private final double ogLfo = 5;
+	private final float ogLowPass = 44100;
 
 	private double audioFileLengthInSec;
 	private float playbackStartingPoint = (float) 0.0;
@@ -95,6 +98,30 @@ public class AudioManipulator {
 
 	public AudioManipulator(Controller controller) {
 		this.controller = controller;
+	}
+
+	public boolean checkIfUnsavedMixedFile() {
+		if (pitchFactor != ogPitchFactor && isSaved == false) {
+			return true;
+		} else if (echoLength != ogEchoLength && isSaved == false) {
+			return true;
+		} else if (decay != ogDecay && isSaved == false) {
+			return true;
+		} else if (lowPass != ogLowPass && isSaved == false) {
+			return true;
+		} else if (wetness != ogWetness && isSaved == false) {
+			return true;
+		} else if (flangerLength != ogFlangerLength && isSaved == false) {
+			return true;
+		} else if (lfo != ogLfo && isSaved == false) {
+			return true;
+		} else if (gain != ogGain && isSaved == false) {
+			return true;
+		} else if (isSaved == false) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void setAudioSourceFile(File file) {
@@ -116,11 +143,11 @@ public class AudioManipulator {
 			wsola.setDispatcher(adp);
 			adp.addAudioProcessor(wsola);
 
-			// Pitch effect aka rate transposer
+			// Create rate transposer (pitch effect)
 			rateTransposer = new RateTransposer(pitchFactor);
 			adp.addAudioProcessor(rateTransposer);
 
-			// Delay effect = echo
+			// Delay effect (echo)
 			delayEffect = new DelayEffect(echoLength, decay, sampleRate);
 			adp.addAudioProcessor(delayEffect);
 
@@ -135,8 +162,16 @@ public class AudioManipulator {
 			// LowPass
 			lowPassSP = new LowPassSP(lowPass, sampleRate);
 			adp.addAudioProcessor(lowPassSP);
+			// Only if the file being used is a recording, isSaved is false. This is to
+			// prevent the user from exiting the application without saving the recorded
+			// file
+			if (file.getAbsoluteFile().getName().equals("mixer_default.wav")) {
+				isSaved = false;
+			} else {
+				isSaved = true;
+			}
 
-
+		} catch (LineUnavailableException e) {
 		} catch (NullPointerException e) {
 		} catch (Exception e) {
 		}
@@ -320,9 +355,10 @@ public class AudioManipulator {
 	}
 
 	////////////////////////// MEDIAPLAYER METHODS
-/*
- * Plays the selected audio file and creates a timer that updates the audio file's progress bar
- */
+	/*
+	 * Plays the selected audio file and creates a timer that updates the audio
+	 * file's progress bar
+	 */
 	public void playAudio() {
 		// Stops audio dispatcher if already playing
 		if (adp != null) {
@@ -495,7 +531,7 @@ public class AudioManipulator {
 
 	}
 
-	public void saveFile(String path) {
+	public boolean saveFile(String path) {
 		createAudioProcessors();
 		writer = new WaveformWriter(tarsosFormat, path);
 		adp.removeAudioProcessor(audioPlayer);
@@ -503,8 +539,14 @@ public class AudioManipulator {
 		try {
 			Thread t = new Thread(adp);
 			t.start();
+			while (t.isAlive()) {
+				Thread.sleep(100);
+			}
+			isSaved = true;
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -621,9 +663,26 @@ public class AudioManipulator {
 		AudioFormat format = new AudioFormat(sampleRate, sampleSizeBits, channels, signed, bigEndian);
 		return format;
 	}
-	
-	/*
-	 * For JUnit tests
+
+	/**
+	 * Returns the current value of one of the following effects depending on the
+	 * parameter
+	 * 
+	 * @param effectName can be any of the following:
+	 *                   <ul>
+	 *                   <li>"pitch" - method returns the current value of
+	 *                   pitch</li>
+	 *                   <li>"gain"</li>
+	 *                   <li>"echoLength"</li>
+	 *                   <li>"decay"</li>
+	 *                   <li>"flangerLength"</li>
+	 *                   <li>"wetness"</li>
+	 *                   <li>"lfo"</li>
+	 *                   <li>"lowPass"</li>
+	 *                   </ul>
+	 * 
+	 *                   if the parameter given is none of the following, method
+	 *                   returns 0
 	 */
 	public double getEffectValue(String effectName) {
 		switch (effectName) {
