@@ -100,8 +100,9 @@ public class AudioManipulator {
 		this.controller = controller;
 	}
 
-	public boolean checkIfUnsavedMixedFile() {
+	public boolean checkIfUnsavedMixedFile() {System.out.println(pitchFactor + " " + ogPitchFactor + isSaved);
 		if (pitchFactor != ogPitchFactor && isSaved == false) {
+			System.out.println(pitchFactor + " " + ogPitchFactor);
 			return true;
 		} else if (echoLength != ogEchoLength && isSaved == false) {
 			return true;
@@ -172,6 +173,7 @@ public class AudioManipulator {
 				isSaved = false;
 			} else {
 				isSaved = true;
+				System.out.println("ei nauhoitus");
 			}
 
 		} catch (LineUnavailableException e) {

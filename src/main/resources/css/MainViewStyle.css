@@ -23,7 +23,7 @@
 
 .effect-section{
 	-fx-border: ridge;
-	-fx-border-color: gray;
+	-fx-border-color: lightgray;
 	-fx-border-radius: 1.0em;
 }
 
