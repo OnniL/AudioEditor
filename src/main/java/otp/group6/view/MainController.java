@@ -1110,7 +1110,6 @@ public class MainController implements Initializable {
 			recorderButtonPlay.setDisable(true);
 			recorderButtonStop.setDisable(true);
 			recorderButtonSave.setDisable(true);
-			recorderToggleButtonStartRecording.setText("Stop");
 
 			controller.recordAudio();
 			timer = new Timer();
@@ -1129,7 +1128,6 @@ public class MainController implements Initializable {
 			textRecordingDuration.setText("0");
 			controller.stopRecord();
 			enableRecorderPlayer();
-			recorderToggleButtonStartRecording.setText("Record");
 			File file = null;
 			file = new File("src/audio/recorder_default.wav").getAbsoluteFile();
 			file.deleteOnExit();
