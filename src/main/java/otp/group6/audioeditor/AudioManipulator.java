@@ -136,9 +136,7 @@ public class AudioManipulator {
 			lowPassSP = new LowPassSP(lowPass, sampleRate);
 			adp.addAudioProcessor(lowPassSP);
 
-			audioPlayer = new AudioPlayer(tarsosFormat);
 
-		} catch (LineUnavailableException e) {
 		} catch (NullPointerException e) {
 		} catch (Exception e) {
 		}
@@ -248,6 +246,7 @@ public class AudioManipulator {
 		flangerEffect.setFlangerLength(ogFlangerLength);
 		flangerEffect.setWet(ogWetness);
 		flangerEffect.setLFOFrequency(ogLfo);
+		wetness = ogWetness;
 	}
 
 	/*
@@ -256,6 +255,7 @@ public class AudioManipulator {
 	public void disableLowPassEffect() {
 		lowPassSP = new LowPassSP(ogLowPass, sampleRate);
 		adp.addAudioProcessor(lowPassSP);
+		lowPass = ogLowPass;
 	}
 
 	/*

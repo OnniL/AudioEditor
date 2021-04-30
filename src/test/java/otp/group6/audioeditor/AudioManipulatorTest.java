@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 
 import otp.group6.controller.Controller;
 
-@Disabled
+
 public class AudioManipulatorTest {
 
-	private Controller controller = new Controller();
-	private AudioManipulator manipulator = new AudioManipulator(controller);
+	private static Controller controller = new Controller();
+	private static AudioManipulator manipulator = new AudioManipulator(controller);
 
-	@BeforeEach
-	public void setUp() {
-		manipulator.setAudioSourceFile(new File("src/audio/mixer_default.wav"));
+	@BeforeAll
+	public static void setUp() {
+		manipulator.setAudioSourceFile(new File("src/audio/testiaani.wav"));
 	}
 
 	@Test
@@ -44,7 +44,7 @@ public class AudioManipulatorTest {
 	@Order(3)
 	void testSetEcho() {
 		manipulator.setEchoLength(1.4);
-		assertEquals(1.4, manipulator.getEffectValue("echoLength"), "Pitch wasn't set succesfully");
+		assertEquals(1.4, manipulator.getEffectValue("echoLength"), "Echo lenght wasn't set succesfully");
 	}
 
 	@Test
@@ -86,4 +86,52 @@ public class AudioManipulatorTest {
 		manipulator.setLowPass((float) 0.7);
 		assertEquals((float) 0.7, manipulator.getEffectValue("lowPass"), "LowPass wasn't set succesfully");
 	}
+	
+	
+	@Test
+	@DisplayName("Test for disabling pitch")
+	@Order(9)
+	void testDisablePitch() {
+		manipulator.disablePitchEffect();
+		assertEquals(1, manipulator.getEffectValue("pitch"), "Pitch wasn't disabled succesfully");
+	}
+	
+	
+	@Test
+	@DisplayName("Test for disabling gain effect")
+	@Order(10)
+	void testDisableGain() {
+		manipulator.disableGainEffect();
+		assertEquals(1, manipulator.getEffectValue("gain"), "Gain wasn't disabled succesfully");
+	}
+	
+	@Test
+	@DisplayName("Test for disabling delay effect")
+	@Order(11)
+	void testDisableDelay() {
+		manipulator.disableDelayEffect();
+		assertEquals(0, manipulator.getEffectValue("decay"), "Decay wasn't disabled succesfully");
+		assertEquals(1, manipulator.getEffectValue("echoLength"), "Echo length wasn't disabled succesfully");
+	}
+	
+	@Test
+	@DisplayName("Test for disabling flanger effect")
+	@Order(12)
+	void testDisableFlanger() {
+		manipulator.disableFlangerEffect();
+		assertEquals(0.01, manipulator.getEffectValue("flangerLength"), "Flanger lenght wasn't disabled succesfully");
+		assertEquals(0, manipulator.getEffectValue("wetness"), "Wetness wasn't disabled succesfully");
+		assertEquals(5, manipulator.getEffectValue("lfo"), "Lfo wasn't disabled succesfully");
+	}
+	
+	@Test
+	@DisplayName("Test for disabling lowpass effect")
+	@Order(13)
+	void testDisableLowPass() {
+		manipulator.disableLowPassEffect();
+		assertEquals(44100, manipulator.getEffectValue("lowPass"), "Low pass wasn't disabled succesfully");
+	}
+	
+	
+	
 }
