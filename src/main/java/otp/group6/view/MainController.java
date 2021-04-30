@@ -96,37 +96,6 @@ public class MainController implements Initializable {
 		boardController.saveSampleData();
 	}
 
-	public boolean isMixerOkToExit() {
-		if (controller.checkIfUnsavedMixedFile() == true) {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle(bundle.getString("mixerUnsavedAlertTitle"));
-			alert.setHeaderText(bundle.getString("mixerUnsavedAlertHeader"));
-			alert.setContentText(bundle.getString("mixerUnsavedAlertContent"));
-
-			ButtonType buttonSave = new ButtonType(bundle.getString("mixerUnsavedAlertSaveButton"));
-			ButtonType buttonExit = new ButtonType(bundle.getString("mixerUnsavedAlertExitButton"));
-			ButtonType buttonCancel = new ButtonType(bundle.getString("mixerUnsavedAlertCancelButton"),
-					ButtonData.CANCEL_CLOSE);
-
-			alert.getButtonTypes().setAll(buttonSave, buttonExit, buttonCancel);
-
-			Optional<ButtonType> result = alert.showAndWait();
-			if (result.get() == buttonSave) {
-				boolean saved = false;
-				while (!saved) {
-					saved = handleAudioManipulatorSaveMixedFileButton();
-				}
-				return true;
-			} else if (result.get() == buttonExit) {
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-		return true;
-	}
-
 	////////////////////////////
 	// MENU BAR
 
@@ -378,6 +347,32 @@ public class MainController implements Initializable {
 		initializeRecorderListener();
 	}
 
+	public boolean isMixerOkToExit() {
+		if (controller.checkIfUnsavedMixedFile() == true) {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle(bundle.getString("mixerUnsavedAlertTitle"));
+			alert.setHeaderText(bundle.getString("mixerUnsavedAlertHeader"));
+			alert.setContentText(bundle.getString("mixerUnsavedAlertContent"));
+
+			ButtonType buttonSave = new ButtonType(bundle.getString("mixerUnsavedAlertSaveButton"));
+			ButtonType buttonExit = new ButtonType(bundle.getString("mixerUnsavedAlertExitButton"));
+			ButtonType buttonCancel = new ButtonType(bundle.getString("mixerUnsavedAlertCancelButton"),
+					ButtonData.CANCEL_CLOSE);
+
+			alert.getButtonTypes().setAll(buttonSave, buttonExit, buttonCancel);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == buttonSave) {
+				return handleAudioManipulatorSaveMixedFileButton();
+			} else if (result.get() == buttonExit) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	// Methods for buttons
 
 	/*
@@ -428,21 +423,21 @@ public class MainController implements Initializable {
 	@FXML
 	public void handleAudioManipulatorTestFilterButton() {
 		if (toggleButtonTestFilter.isSelected() == true) {
-			System.out.println(toggleButtonTestFilter.isSelected());
 			controller.testFilter();
 			buttonMixerFileOpener.setDisable(true);
 			toggleButtonMixerStartRecording.setDisable(true);
 			paneMixerAudioPlayer.setDisable(true);
 			sliderLowPass.setDisable(true);
 			textFieldLowPass.setDisable(true);
+			toggleButtonTestFilter.setText(bundle.getString("mixerButtonTryMixerStopText"));
 		} else {
 			controller.testFilter();
-			System.out.println(toggleButtonTestFilter.isSelected());
 			buttonMixerFileOpener.setDisable(false);
 			toggleButtonMixerStartRecording.setDisable(false);
 			paneMixerAudioPlayer.setDisable(false);
 			sliderLowPass.setDisable(false);
 			textFieldLowPass.setDisable(false);
+			toggleButtonTestFilter.setText(bundle.getString("mixerButtonTryMixerStartText"));
 		}
 	}
 
@@ -455,6 +450,9 @@ public class MainController implements Initializable {
 		ExtensionFilter filter = new ExtensionFilter("WAV files (*.wav)", "*.wav");
 		fileChooser.getExtensionFilters().add(filter);
 		File file = fileChooser.showSaveDialog(mainContainer.getScene().getWindow());
+		if (file == null) { // returns false if user clicks cancel or close buttons
+			return false;
+		}
 		String fullPath;
 		try {
 			fullPath = file.getAbsolutePath();
@@ -1097,8 +1095,18 @@ public class MainController implements Initializable {
 			labelGain.setText(bundle.getString("mixerGainText"));
 
 			buttonMixerFileOpener.setText(bundle.getString("mixerFileButton"));
-			toggleButtonMixerStartRecording.setText(bundle.getString("mixerStartRecordButton"));
-			toggleButtonTestFilter.setText(bundle.getString("mixerTryMixerText"));
+			if (toggleButtonMixerStartRecording.isSelected()) {
+				toggleButtonMixerStartRecording.setText(bundle.getString("mixerStopRecordButton"));
+			} else {
+				toggleButtonMixerStartRecording.setText(bundle.getString("mixerStartRecordButton"));
+			}
+
+			if (toggleButtonTestFilter.isSelected()) {
+				toggleButtonTestFilter.setText(bundle.getString("mixerButtonTryMixerStopText"));
+			} else {
+				toggleButtonTestFilter.setText(bundle.getString("mixerButtonTryMixerStartText"));
+			}
+
 			buttonMixerResetSliders.setText(bundle.getString("mixerResetSlidersButton"));
 			buttonSaveSettings.setText(bundle.getString("mixerSaveSettingsButton"));
 			buttonLoadSettings.setText(bundle.getString("mixerLoadSettingsButton"));

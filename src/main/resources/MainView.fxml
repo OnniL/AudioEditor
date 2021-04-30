@@ -74,9 +74,9 @@
                                                             <AnchorPane prefHeight="231.0" prefWidth="112.0" styleClass="centered-content">
                                                                <children>
                                                                   <Label fx:id="labelSelectFile" alignment="CENTER" layoutX="1.0" layoutY="65.0" text="Select a file " AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" />
-                                                                  <Button fx:id="buttonMixerFileOpener" alignment="CENTER" contentDisplay="CENTER" layoutX="78.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleAudioManipulatorOpenFileButton" styleClass="mixer-controller-buttons" text="File..." AnchorPane.topAnchor="90.0" />
+                                                                  <Button fx:id="buttonMixerFileOpener" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="90.0" mnemonicParsing="false" onAction="#handleAudioManipulatorOpenFileButton" styleClass="mixer-controller-buttons" text="File..." AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="90.0" />
                                                                   <Label fx:id="labelOr" alignment="CENTER" contentDisplay="CENTER" layoutY="151.0" text="OR" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0" />
-                                                                  <ToggleButton fx:id="toggleButtonMixerStartRecording" contentDisplay="CENTER" layoutX="53.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleMixerRecordButton" styleClass="mixer-controller-buttons" text="Start recording" AnchorPane.topAnchor="215.0" />
+                                                                  <ToggleButton fx:id="toggleButtonMixerStartRecording" contentDisplay="CENTER" layoutX="40.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleMixerRecordButton" styleClass="mixer-controller-buttons" text="Start recording" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="215.0" />
                                                                   <Label fx:id="labelRecordFile" alignment="CENTER" layoutX="1.0" layoutY="191.0" text="Record a file" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0" />
                                                                   <Label fx:id="labelSelectedFile" alignment="CENTER" layoutY="23.0" text="File not selected" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
                                                                </children>
@@ -85,7 +85,7 @@
                                                                <children>
                                                                   <Separator layoutX="10.0" layoutY="12.0" prefHeight="2.0" prefWidth="118.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0" />
                                                                   <Label fx:id="labelTryMixer" alignment="CENTER" layoutY="21.0" text="Try mixer" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                                                                  <ToggleButton fx:id="toggleButtonTestFilter" contentDisplay="CENTER" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleAudioManipulatorTestFilterButton" styleClass="mixer-controller-buttons" text="Test Filters" AnchorPane.topAnchor="57.0" />
+                                                                  <ToggleButton fx:id="toggleButtonTestFilter" contentDisplay="CENTER" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleAudioManipulatorTestFilterButton" styleClass="mixer-controller-buttons" text="Test Filters" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="57.0" />
                                                                </children>
                                                             </AnchorPane>
                                                          </children>
@@ -439,7 +439,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <MenuBar>
+      <MenuBar prefHeight="26.0" prefWidth="1046.0">
         <menus>
           <Menu fx:id="menuSettings" mnemonicParsing="false" text="Settings">
             <items>

@@ -43,8 +43,8 @@ public class MainApplication extends Application {
 		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent event) {
-				// Checks if any unsaved files in mixer and closes the application if ok to do
-				// so
+				// Checks if there are any unsaved files in mixer and closes the application if
+				// ok to do so
 				if (mainController.isMixerOkToExit() == true) {
 					mainController.exitRoutine();
 					Platform.exit();
