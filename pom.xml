@@ -68,8 +68,9 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>15.0.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
 	</dependencies>
+	
+
 
 	<build>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
@@ -163,6 +164,17 @@
 					<configuration>
 						<mainClass>otp.group6.view.MainApplication</mainClass>
 					</configuration>
+					<executions>
+						<execution>
+							<id>debug</id>
+							<configuration>
+								<options>
+									<option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
+								</options>
+								<mainClass>otp.group6.view.MainApplication</mainClass>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

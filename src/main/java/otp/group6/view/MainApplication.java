@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.css.Style;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ public class MainApplication extends Application {
 	private AnchorPane rootLayout;
 	private MainController mainController;
 	private Locale curLocale;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -36,18 +38,24 @@ public class MainApplication extends Application {
 		this.primaryStage.setTitle("AudioEditor");
 
 		initializeRootLayout();
-		// Sulkee ohjelman, kun käyttäjä sulkee ikkunan
+
+		Platform.setImplicitExit(false);
+
 		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
-			public void handle(WindowEvent t) {
-				mainController.exitRoutine();
-				Platform.exit();
-				System.exit(0);
+			public void handle(WindowEvent event) {
+				//Checks if any unsaved files in mixer and closes the application if ok to do so
+				if (mainController.isMixerOkToExit() == true) {
+					mainController.exitRoutine();
+					Platform.exit();
+					System.exit(0);
+				} else {
+					event.consume();
+				}
 			}
 		});
 	}
 
-	boolean testi = false;
 	/**
 	 * Initializes the root layout.
 	 */
@@ -70,9 +78,12 @@ public class MainApplication extends Application {
 		}
 
 	}
+
 	/**
 	 * Gets app localization settings from AudioEditor.properties. <br>
-	 * Creates a new {@link Locale} from .properties and finds appropriate localization file
+	 * Creates a new {@link Locale} from .properties and finds appropriate
+	 * localization file
+	 * 
 	 * @return Returns a {@link ResourceBundle} with set localization
 	 */
 	public ResourceBundle getLocalization() {
