@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <package id="1" language="java" name="otp.group6.controller" project="AudioEditor" 
+    file="/AudioEditor/src/main/java/otp/group6/controller" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="393" y="81"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="2" language="java" name="otp.group6.audioeditor" project="AudioEditor" 
+    file="/AudioEditor/src/main/java/otp/group6/audioeditor" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="243" y="220"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="3" language="java" name="otp.group6.view" project="AudioEditor" 
+    file="/AudioEditor/src/main/java/otp/group6/view" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="129" y="81"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <dependency id="4">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="5">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="6">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="false"/>    
+    <operations public="false" package="false" protected="false" private="false" static="false"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
