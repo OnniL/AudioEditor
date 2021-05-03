@@ -502,6 +502,7 @@ public class MainController implements Initializable {
 
 			// Enables all sliders and audio player
 			enableMixerSlidersAndAudioPlayer();
+			buttonPlay.setDisable(false);
 
 		} catch (Exception e) {
 		}
@@ -522,6 +523,7 @@ public class MainController implements Initializable {
 			paneMixerSliders.setDisable(false);
 			buttonMixerFileOpener.setDisable(false);
 			toggleButtonTestFilter.setDisable(false);
+			buttonPlay.setDisable(false);
 			toggleButtonMixerStartRecording.setText(bundle.getString("mixerStartRecordButton"));
 		}
 	}
