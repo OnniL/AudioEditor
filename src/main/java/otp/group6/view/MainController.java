@@ -1172,6 +1172,10 @@ public class MainController implements Initializable {
 
 	private Timer timer;
 
+	
+	/**
+	 * Method to start and stop recording your voice
+	 */
 	@FXML
 	public void recordAudioToggle() {
 		if (recorderToggleButtonStartRecording.isSelected()) {
@@ -1222,6 +1226,9 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Method for disabling/enabling correct buttons
+	 */
 	@FXML
 	public void recorderPlayAudio() {
 		controller.audioRecorderPlayAudio();
@@ -1230,6 +1237,9 @@ public class MainController implements Initializable {
 		recorderButtonStop.setDisable(false);
 	}
 
+	/**
+	 * Method for disabling/enabling correct buttons
+	 */
 	@FXML
 	public void recorderStopAudio() {
 		controller.recorderTimerCancel();
@@ -1239,6 +1249,9 @@ public class MainController implements Initializable {
 		controller.audioRecorderStopAudio();
 	}
 
+	/**
+	 * Method for disabling/enabling correct buttons
+	 */
 	@FXML
 	public void recorderPauseAudio() {
 		controller.recorderTimerCancel();
@@ -1248,6 +1261,9 @@ public class MainController implements Initializable {
 		controller.audioRecorderPauseAudio();
 	}
 
+	/**
+	 * Method for disabling/enabling correct buttons
+	 */
 	private void enableRecorderPlayer() {
 		sliderRecordedFileDuration.setDisable(false);
 		textRecordFileDuration.setDisable(false);
@@ -1255,10 +1271,16 @@ public class MainController implements Initializable {
 		recorderButtonSave.setDisable(false);
 	}
 
+	/**
+	 * Method that tells AudioRecorder class that the slider has been pressed
+	 */
 	public void recorderSliderPressed() {
 		controller.recorderSliderPressed();
 	}
 
+	/**
+	 * Method that initializes a listener for mediaplayerslider
+	 */
 	public void initializeRecorderListener() {
 		sliderRecordedFileDuration.valueProperty().addListener(new InvalidationListener() {
 			public void invalidated(Observable arg0) {
@@ -1277,6 +1299,9 @@ public class MainController implements Initializable {
 		});
 	}
 
+	/**
+	 * Method for saving a recorded file locally, opens a file chooser window
+	 */
 	public void saveRecordedFile() {
 		FileChooser fileChooser = new FileChooser();
 		ExtensionFilter filter = new ExtensionFilter("WAV files (*.wav)", ".wav");
@@ -1295,16 +1320,27 @@ public class MainController implements Initializable {
 
 	}
 
+	/**
+	 * Method that sets the correct maximum value to mediaplayerslider
+	 * @param audioFileLengthInSec
+	 */
 	public void setMaxValueToRecordDurationSlider(double audioFileLengthInSec) {
 		sliderRecordedFileDuration.setMax(audioFileLengthInSec);
 	}
 
+	/**
+	 * Method that sets the current time to the mediaplayerslider
+	 * @param currentSeconds
+	 */
 	public void setCurrentValueToRecordDurationSlider(double currentSeconds) {
 		sliderRecordedFileDuration.setValue(currentSeconds);
 		audioFileProcessedTimeString = secondsToMinutesAndSeconds(sliderRecordedFileDuration.getValue());
 		textRecordFileDuration.setText(audioFileProcessedTimeString + " / " + audioFileDurationString);
 	}
 
+	/**
+	 * Method that makes mandatory changes when playback has reached end
+	 */
 	public void recorderAudioFileReachedEnd() {
 		setCurrentValueToRecordDurationSlider(0);
 		recorderButtonPlay.setDisable(false);
@@ -1312,6 +1348,10 @@ public class MainController implements Initializable {
 		recorderButtonStop.setDisable(true);
 	}
 
+	
+	/**
+	 * Method that initializes recorder localization
+	 */
 	private void initializeRecorderLocalization() {
 
 		try {
