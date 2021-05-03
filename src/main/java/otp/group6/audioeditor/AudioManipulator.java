@@ -93,30 +93,21 @@ public class AudioManipulator {
 	private boolean isLowPassWanted = true;
 
 	private boolean isSaved = true;
+	private boolean isRecordedFile = false;
 
 	public AudioManipulator(Controller controller) {
 		this.controller = controller;
 	}
 
-	public boolean checkIfUnsavedMixedFile() {System.out.println(pitchFactor + " " + ogPitchFactor + isSaved);
-		if (pitchFactor != ogPitchFactor && isSaved == false) {
-			System.out.println(pitchFactor + " " + ogPitchFactor);
+	public boolean checkIfUnsavedMixedFile() {
+		// If any of the effect values differ from the original values and the file is not
+		// saved -> true
+		if (pitchFactor != ogPitchFactor && isSaved == false || echoLength != ogEchoLength && isSaved == false
+				|| decay != ogDecay && isSaved == false || lowPass != ogLowPass && isSaved == false
+				|| wetness != ogWetness && isSaved == false || flangerLength != ogFlangerLength && isSaved == false
+				|| lfo != ogLfo && isSaved == false || gain != ogGain && isSaved == false) {
 			return true;
-		} else if (echoLength != ogEchoLength && isSaved == false) {
-			return true;
-		} else if (decay != ogDecay && isSaved == false) {
-			return true;
-		} else if (lowPass != ogLowPass && isSaved == false) {
-			return true;
-		} else if (wetness != ogWetness && isSaved == false) {
-			return true;
-		} else if (flangerLength != ogFlangerLength && isSaved == false) {
-			return true;
-		} else if (lfo != ogLfo && isSaved == false) {
-			return true;
-		} else if (gain != ogGain && isSaved == false) {
-			return true;
-		} else if (isSaved == false) {
+		} else if (isRecordedFile == true && isSaved == false) { // If unsaved recorded file -> true
 			return true;
 		} else {
 			return false;
@@ -165,9 +156,12 @@ public class AudioManipulator {
 			// prevent the user from exiting the application without saving the recorded
 			// file
 			if (file.getAbsoluteFile().getName().equals("mixer_default.wav")) {
+				// isSaved = false;
+				isRecordedFile = true;
 				isSaved = false;
 			} else {
 				isSaved = true;
+				isRecordedFile = false;
 				System.out.println("ei nauhoitus");
 			}
 

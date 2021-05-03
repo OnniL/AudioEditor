@@ -342,7 +342,7 @@
                                                             </ImageView>
                                                          </graphic>
                                                       </Button>
-                                                      <Button fx:id="buttonPlay" mnemonicParsing="false" onAction="#handleAudioManipulatorPlayButton" styleClass="mediaplayer-button">
+                                                      <Button fx:id="buttonPlay" disable="true" mnemonicParsing="false" onAction="#handleAudioManipulatorPlayButton" styleClass="mediaplayer-button">
                                                          <graphic>
                                                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                                                <image>
@@ -364,7 +364,10 @@
                                                 </ButtonBar>
                                                 <Button fx:id="buttonSaveMixedFile" layoutX="891.0" layoutY="95.0" mnemonicParsing="false" onAction="#handleAudioManipulatorSaveMixedFileButton" prefHeight="30.0" prefWidth="118.0" text="Save Mixed File" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="30.0" />
                                                 <Slider fx:id="sliderAudioFileDuration" blockIncrement="0.1" layoutX="184.0" layoutY="54.0" prefHeight="16.0" prefWidth="672.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="170.0" />
-                                                <Text fx:id="textAudioFileDuration" layoutX="800.0" layoutY="19.94921875" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00 / 0:00" AnchorPane.bottomAnchor="95.0" AnchorPane.rightAnchor="180.0" />
+                                                <Text fx:id="textAudioFileDuration" layoutX="800.0" layoutY="19.94921875" strokeType="OUTSIDE" strokeWidth="0.0" text="0:00 / 0:00" AnchorPane.bottomAnchor="90.0" AnchorPane.rightAnchor="180.0">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font></Text>
                                              </children>
                                           </AnchorPane>
                                        </children>
