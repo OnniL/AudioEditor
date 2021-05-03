@@ -390,7 +390,7 @@
                                  <children>
                                     <ButtonBar layoutX="369.0" layoutY="407.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.bottomAnchor="197.0" AnchorPane.leftAnchor="369.0" AnchorPane.rightAnchor="404.0">
                                       <buttons>
-                                        <Button fx:id="recorderButtonPause" disable="true" mnemonicParsing="false" onAction="#recorderPauseAudio">
+                                        <Button fx:id="recorderButtonPause" disable="true" mnemonicParsing="false" onAction="#recorderPauseAudio" styleClass="mediaplayer-button">
                                              <graphic>
                                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -399,7 +399,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="recorderButtonPlay" disable="true" mnemonicParsing="false" onAction="#recorderPlayAudio">
+                                          <Button fx:id="recorderButtonPlay" disable="true" mnemonicParsing="false" onAction="#recorderPlayAudio" styleClass="mediaplayer-button">
                                              <graphic>
                                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -408,7 +408,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="recorderButtonStop" disable="true" mnemonicParsing="false" onAction="#recorderStopAudio">
+                                          <Button fx:id="recorderButtonStop" disable="true" mnemonicParsing="false" onAction="#recorderStopAudio" styleClass="mediaplayer-button">
                                              <graphic>
                                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
