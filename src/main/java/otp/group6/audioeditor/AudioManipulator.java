@@ -152,6 +152,7 @@ public class AudioManipulator {
 			// LowPass
 			lowPassSP = new LowPassSP(lowPass, sampleRate);
 			adp.addAudioProcessor(lowPassSP);
+
 			// Only if the file being used is a recording, isSaved is false. This is to
 			// prevent the user from exiting the application without saving the recorded
 			// file
@@ -164,7 +165,6 @@ public class AudioManipulator {
 				isRecordedFile = false;
 				System.out.println("ei nauhoitus");
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
