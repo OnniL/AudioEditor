@@ -23,6 +23,9 @@ public class AudioManipulatorTest {
 		manipulator.setAudioSourceFile(new File("src/audio/testiaani.wav"));
 	}
 
+	/**
+	 * Test for setting gain
+	 */
 	@Test
 	@DisplayName("Test for setting gain")
 	@Order(1)
@@ -31,6 +34,9 @@ public class AudioManipulatorTest {
 		assertEquals(2.0, manipulator.getEffectValue("gain"), "Gain wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting pitch
+	 */
 	@Test
 	@DisplayName("Test for setting pitch")
 	@Order(2)
@@ -39,6 +45,9 @@ public class AudioManipulatorTest {
 		assertEquals(2.4, manipulator.getEffectValue("pitch"), "Pitch wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting length
+	 */
 	@Test
 	@DisplayName("Test for setting echo length")
 	@Order(3)
@@ -47,6 +56,9 @@ public class AudioManipulatorTest {
 		assertEquals(1.4, manipulator.getEffectValue("echoLength"), "Echo lenght wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting decay
+	 */
 	@Test
 	@DisplayName("Test for setting decay")
 	@Order(4)
@@ -55,6 +67,9 @@ public class AudioManipulatorTest {
 		assertEquals(3.1, manipulator.getEffectValue("decay"), "Decay wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting flanger effect
+	 */
 	@Test
 	@DisplayName("Test for setting flanger effect")
 	@Order(5)
@@ -63,6 +78,9 @@ public class AudioManipulatorTest {
 		assertEquals(0.2, manipulator.getEffectValue("flangerLength"), "flanger effect wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting wetness effect
+	 */
 	@Test
 	@DisplayName("Test for setting wetness effect")
 	@Order(6)
@@ -71,6 +89,9 @@ public class AudioManipulatorTest {
 		assertEquals(0.5, manipulator.getEffectValue("wetness"), "wetness wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting LFO
+	 */
 	@Test
 	@DisplayName("Test for setting LFO")
 	@Order(7)
@@ -79,6 +100,9 @@ public class AudioManipulatorTest {
 		assertEquals(0.7, manipulator.getEffectValue("lfo"), "LFO wasn't set succesfully");
 	}
 
+	/**
+	 * Test for setting LowPass
+	 */
 	@Test
 	@DisplayName("Test for setting LowPass")
 	@Order(8)
@@ -87,7 +111,9 @@ public class AudioManipulatorTest {
 		assertEquals((float) 0.7, manipulator.getEffectValue("lowPass"), "LowPass wasn't set succesfully");
 	}
 	
-	
+	/**
+	 * Test for disabling pitch
+	 */
 	@Test
 	@DisplayName("Test for disabling pitch")
 	@Order(9)
@@ -96,7 +122,9 @@ public class AudioManipulatorTest {
 		assertEquals(1, manipulator.getEffectValue("pitch"), "Pitch wasn't disabled succesfully");
 	}
 	
-	
+	/**
+	 * Test for disabling gain effect
+	 */
 	@Test
 	@DisplayName("Test for disabling gain effect")
 	@Order(10)
@@ -105,6 +133,9 @@ public class AudioManipulatorTest {
 		assertEquals(1, manipulator.getEffectValue("gain"), "Gain wasn't disabled succesfully");
 	}
 	
+	/**
+	 * Test for disabling delay effect
+	 */
 	@Test
 	@DisplayName("Test for disabling delay effect")
 	@Order(11)
@@ -114,6 +145,9 @@ public class AudioManipulatorTest {
 		assertEquals(1, manipulator.getEffectValue("echoLength"), "Echo length wasn't disabled succesfully");
 	}
 	
+	/**
+	 * Test for disabling flanger effect
+	 */
 	@Test
 	@DisplayName("Test for disabling flanger effect")
 	@Order(12)
@@ -124,6 +158,9 @@ public class AudioManipulatorTest {
 		assertEquals(5, manipulator.getEffectValue("lfo"), "Lfo wasn't disabled succesfully");
 	}
 	
+	/**
+	 * Test for disabling lowpass effect
+	 */
 	@Test
 	@DisplayName("Test for disabling lowpass effect")
 	@Order(13)
@@ -131,7 +168,4 @@ public class AudioManipulatorTest {
 		manipulator.disableLowPassEffect();
 		assertEquals(44100, manipulator.getEffectValue("lowPass"), "Low pass wasn't disabled succesfully");
 	}
-	
-	
-	
 }
