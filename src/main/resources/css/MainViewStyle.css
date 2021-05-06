@@ -36,9 +36,3 @@
 .mixer-controller-buttons{
 	-fx-pref-width: 10.0em;	
 }
-
-.testi{
-	-fx-display: inline-block;
-	-fx-height: auto;
-	-fx-width:auto;
-}

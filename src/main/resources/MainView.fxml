@@ -146,7 +146,7 @@
                                                                                                 <Insets left="20.0" top="20.0" />
                                                                                              </HBox.margin>
                                                                                           </Label>
-                                                                                          <Button fx:id="buttonInfoPitch" mnemonicParsing="false" onAction="#handleTooltipClick" styleClass="info-button">
+                                                                                          <Button fx:id="buttonInfoPitch" mnemonicParsing="false" styleClass="info-button">
                                                                                              <graphic>
                                                                                                 <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                                                                                    <image>
