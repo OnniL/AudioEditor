@@ -1,0 +1,2 @@
+Muumi;C:\Users\Mr. Nice\git\AudioEditor\AudioEditor\src\audio\muumiStereo.wav
+Testi‰‰ni;C:\Users\Mr. Nice\git\AudioEditor\AudioEditor\src\audio\testiaani.wav

@@ -118,8 +118,7 @@ public class LoadSelectionController implements Initializable {
 	 * setSliderValues. Also will close the currently open stage.
 	 */
 	public void loadFromLocal() {
-		// TODO Varmista oikea tiedostomuoto
-		try {
+			try {
 			File file = AudioFileHandler.openFileExplorer(mainContainer.getScene().getWindow());
 			Scanner myReader = new Scanner(file);
 			while (myReader.hasNextLine()) {

@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Disabled;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 /**
+ * Test class for AudioCloudDAO to check for different methods functionality with the database 
  * 
  * @author Joonas Soininen
  *
@@ -24,12 +25,18 @@ import org.junit.jupiter.api.Disabled;
 @Disabled
 class AudioCloudDAOTest {
 
+	/**
+	 * Instance of AudioCloudDAO and variables for thestin
+	 */
 	private AudioCloudDAO dao = new AudioCloudDAO();
 	private final String user1 = "test1";
 	private final String user2 = "Joonas123";
 	private final String pw1 = "test";
 	private final String pw2 = "Password1!";
 
+	/**
+	 * Database query checking for the username availability
+	 */
 	@Test
 	@DisplayName("Cheking the database for availability in the username")
 	@Order(1)
@@ -38,8 +45,12 @@ class AudioCloudDAOTest {
 		assertFalse(dao.chekcforUser(user2), "chekforUser(user): false, when the username is not in the database");
 	}
 
+	/**
+	 * Database query for adding a new username.
+	 * @throws SQLException if there is a problem with the database connection
+	 */
 	@Test
-	@DisplayName("Regitsering a new user")
+	@DisplayName("Registering a new user")
 	@Order(2)
 	void testCreateUser() throws SQLException {
 		assertFalse(AudioCloudDAO.isValid(pw1),
@@ -48,6 +59,9 @@ class AudioCloudDAOTest {
 		assertTrue(dao.createUser(user2, pw2), "createUser(user): true when there is a problem creatin the user");
 	}
 
+	/**
+	 * Database query for logging in the new user.
+	 */
 	@Test
 	@DisplayName("User login")
 	@Order(3)
@@ -55,6 +69,10 @@ class AudioCloudDAOTest {
 		assertEquals("Welcome Joonas123", dao.loginUser(user2, pw2), "loginUser(String, String): ");
 	}
 
+	/**
+	 * Database query to add new mixer setting.
+	 * @throws SQLException if there is a problem with the database connection.
+	 */
 	@Test
 	@DisplayName("Creating a new mixer setting")
 	@Order(7)
@@ -66,6 +84,9 @@ class AudioCloudDAOTest {
 				"createMix(Mixersetting): true, when setting was created");
 	}
 
+	/**
+	 * Logging out the previously logged in user.
+	 */
 	@Test
 	@DisplayName("Logout test")
 	@Order(4)
@@ -73,6 +94,9 @@ class AudioCloudDAOTest {
 		assertTrue(dao.logoutUser(), "logoutUser(): true, if the logout was a success");
 	}
 
+	/**
+	 * Query to list all registered users from the database.
+	 */
 	@Test
 	@DisplayName("Getting all registered users")
 	void testGetUsers() {
@@ -81,6 +105,9 @@ class AudioCloudDAOTest {
 		assertEquals(expected, actual, "Length is set for the testing, must be cheked if tested later on");
 	}
 
+	/**
+	 * Query to get all the mixer settings from the database.
+	 */
 	@Test
 	@DisplayName("Getting all mixer settings")
 	void testGetAllMixArray() {
@@ -89,6 +116,9 @@ class AudioCloudDAOTest {
 		assertEquals(expected, actual, "Length is set for the testing, must be cheked if tested later on");
 	}
 
+	/**
+	 * Query to get a specific mixer setting from the database using different variables.
+	 */
 	@Test
 	@DisplayName("Getting specific mixer setting")
 	void testGetCertainMixesArray() {
@@ -100,6 +130,9 @@ class AudioCloudDAOTest {
 				"Checks for the amount of entries including specified symbols");
 	}
 
+	/**
+	 * Query to delete previously created mixer setting from the database.
+	 */
 	@Test
 	@DisplayName("Deleting mixer setting")
 	@Order(8)
@@ -112,6 +145,9 @@ class AudioCloudDAOTest {
 		assertTrue(dao.deleteMix("test6", id), "deleteMix(String, int): true, if the specified mix was deleted");
 	}
 
+	/**
+	 * Query to delete previously created user.
+	 */
 	@Test
 	@DisplayName("Deleting the just created user")
 	@Order(6)
@@ -120,13 +156,19 @@ class AudioCloudDAOTest {
 		assertTrue(dao.deleteUser(), "deleteUser(): true, when user deletion is ok");
 	}
 
+	/**
+	 * Checking for password validity.
+	 */
 	@Test
 	@DisplayName("Password is valid")
 	void testIsValid() {
 		assertTrue(AudioCloudDAO.isValid(pw2),
 				"isValid(String): true, when the inserted password matches requirements");
 	}
-
+	
+	/**
+	 * Query for changing password.
+	 */
 	@Test
 	@DisplayName("Change password")
 	@Order(5)

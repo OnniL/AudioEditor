@@ -2,6 +2,7 @@ package otp.group6.view;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,6 +28,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ImageInput;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.AnchorPane;
@@ -47,7 +51,6 @@ import otp.group6.controller.Controller;
  * 
  * @author Joonas Soininen
  *
- *         TODO Metodi suosikkien tallentamiseen tietokantaan puuttuu
  */
 public class MixerSettingsController implements Initializable {
 	/** Object of the MainController.java class */
@@ -112,6 +115,16 @@ public class MixerSettingsController implements Initializable {
 	private String mSDeleteAlert1Content;
 	private String mSDelteAlert2Title;
 	private String mSDeleteAlert2Header;
+	private String mSAlertTitle;
+	private String mSAlertHeader;
+	private String mSAlertContent;
+	private String mSMixCreator;
+	private String mSMixName;
+	private String mSMixDescription;
+	private String mSMixStar;
+	private Image starImage;
+	private FileInputStream inputStar;
+
 
 	/**
 	 * Variables for different information to store.
@@ -142,12 +155,14 @@ public class MixerSettingsController implements Initializable {
 		 */
 		HBoxCell(String labelText, String buttonText, int id) {
 			super();
-
+			
 			label.setText(labelText);
 			label.setMaxWidth(Double.MAX_VALUE);
 			HBox.setHgrow(label, Priority.ALWAYS);
 
+			
 			button.setText(buttonText);
+			button.setGraphic(new ImageView(starImage));
 			button.setId(String.valueOf(id));
 
 			if (localList.contains(String.valueOf(id))) {
@@ -209,6 +224,22 @@ public class MixerSettingsController implements Initializable {
 		mSDeleteAlert1Content = bundle.getString("mSDeleteAlert1Content");
 		mSDelteAlert2Title = bundle.getString("mSDelteAlert2Title");
 		mSDeleteAlert2Header = bundle.getString("mSDeleteAlert2Header");
+		mSAlertTitle = bundle.getString("mSAlertTitle");
+		mSAlertHeader = bundle.getString("mSAlertHeader");
+		mSAlertContent = bundle.getString("mSAlertContent");
+		mSMixName = bundle.getString("mSMixName");
+		mSMixCreator = bundle.getString("mSMixCreator");
+		mSMixDescription = bundle.getString("mSMixDescription");
+		
+		
+		try {
+			inputStar = new FileInputStream("src/main/resources/images/star.png");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			mSMixStar = bundle.getString("mSMixStar");
+		}
+		starImage = new Image(inputStar, 20, 20, true, true);
+		
 	}
 
 	/**
@@ -293,8 +324,8 @@ public class MixerSettingsController implements Initializable {
 			for (MixerSetting mix : setlist) {
 				for (int i = 0; i < localList.size(); i++) {
 					if (mix.getMixID() == Integer.valueOf(localList.get(i))) {
-						mixerSettings.add("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
-								+ "\nMix Description: " + mix.getDescription());
+						mixerSettings.add(mSMixCreator+" " + mix.getCreatorName() + "\n"+mSMixName+" "
+								+ mix.getMixName() + "\n"+mSMixDescription+" "+ mix.getDescription());
 						mixerID.add(mix.getMixID());
 					}
 				}
@@ -344,8 +375,8 @@ public class MixerSettingsController implements Initializable {
 		ObservableList<Object> mixCretor = FXCollections.observableArrayList(); // List to save specific mixer creator
 																				// name
 		for (MixerSetting mix : setlist) {
-			settingsListWithButton.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: "
-					+ mix.getMixName() + "\nMix Description: " + mix.getDescription(), "STAR", mix.getMixID()));
+			settingsListWithButton.add(new HBoxCell(mSMixCreator+" " + mix.getCreatorName() + "\n"+mSMixName+" "
+					+ mix.getMixName() + "\n"+mSMixDescription+" "+ mix.getDescription(), mSMixStar, mix.getMixID()));
 			mixerID.add(mix.getMixID());
 			mixCretor.add(mix.getCreatorName());
 		}
@@ -372,9 +403,9 @@ public class MixerSettingsController implements Initializable {
 		controller.intializeDatabaseConnection();
 		if (getMixerIndetification() == 0) {
 			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error");
-			alert.setHeaderText("No input detected!");
-			alert.setContentText("Please select one setting from the list.");
+			alert.setTitle(mSAlertTitle);
+			alert.setHeaderText(mSAlertHeader);
+			alert.setContentText(mSAlertContent);
 			alert.showAndWait();
 		} else {
 			MixerSetting[] setlist = controller.getAllMixArray();
@@ -415,8 +446,8 @@ public class MixerSettingsController implements Initializable {
 																					// creator name
 			List<HBoxCell> list = new ArrayList<>();
 			for (MixerSetting mix : setlist) {
-				list.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
-						+ "\nMix Description: " + mix.getDescription(), "STAR", mix.getMixID()));
+				list.add(new HBoxCell(mSMixCreator+" " + mix.getCreatorName() + "\n"+mSMixName+" "
+						+ mix.getMixName() + "\n"+mSMixDescription+" "+ mix.getDescription(), mSMixStar, mix.getMixID()));
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
@@ -439,8 +470,8 @@ public class MixerSettingsController implements Initializable {
 																					// creator name
 			List<HBoxCell> list = new ArrayList<>();
 			for (MixerSetting mix : setlist) {
-				list.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
-						+ "\nMix Description: " + mix.getDescription(), "STAR", mix.getMixID()));
+				list.add(new HBoxCell(mSMixCreator+" " + mix.getCreatorName() + "\n"+mSMixName+" "			
+						+ mix.getMixName() + "\n"+mSMixDescription+" "+ mix.getDescription(), mSMixStar, mix.getMixID()));
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
@@ -463,8 +494,8 @@ public class MixerSettingsController implements Initializable {
 																					// creator name
 			List<HBoxCell> list = new ArrayList<>();
 			for (MixerSetting mix : setlist) {
-				list.add(new HBoxCell("Creator: " + mix.getCreatorName() + "\nMix Name: " + mix.getMixName()
-						+ "\nMix Description: " + mix.getDescription(), "STAR", mix.getMixID()));
+				list.add(new HBoxCell(mSMixCreator+" " + mix.getCreatorName() + "\n"+mSMixName+" "	
+						+ mix.getMixName() + "\n"+mSMixDescription+" "+ mix.getDescription(), mSMixStar, mix.getMixID()));
 				mixerID.add(mix.getMixID());
 				mixCretor.add(mix.getCreatorName());
 			}
