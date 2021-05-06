@@ -61,13 +61,13 @@
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-controls</artifactId>
-			<version>15.0.1</version>
+			<version>11</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
 		<dependency>
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-fxml</artifactId>
-			<version>15.0.1</version>
+			<version>11</version>
 		</dependency>
 	</dependencies>
 
@@ -122,7 +122,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>otp.group6.view.MainApplication</mainClass>
+								<mainClass>otp.group6.view.LaunchHelper</mainClass>
 							</manifest>
 						</archive>
 						<descriptorRefs>
