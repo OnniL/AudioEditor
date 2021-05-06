@@ -203,50 +203,91 @@ public class Controller {
 	// AudioManipulator methods end
 
 	// AudioRecorder methods start
+	
+	/**
+	 * Starts recording audio
+	 */
 	public void recordAudio() {
 		recorder.recordAudio();
 	}
 
+	/**
+	 * Stops recording audio
+	 */
 	public void stopRecord() {
 		recorder.stopRecord();
 	}
 
+	/**
+	 * Plays the recorded audio on recorder tab
+	 */
 	public void audioRecorderPlayAudio() {
 		recorder.playAudio();
 	}
 
+	/**
+	 * Stops playing audio on recorder tab
+	 */
 	public void audioRecorderStopAudio() {
 		recorder.stopAudio();
 	}
 
+	/**
+	 * Pauses playing audio on recorder tab
+	 */
 	public void audioRecorderPauseAudio() {
 		recorder.pauseAudio();
 	}
 
+	/**
+	 * Starts playing the recorded file from a certain position
+	 * @param seconds
+	 */
 	public void recorderPlayFromDesiredSec(double seconds) {
 		recorder.playFromDesiredSec(seconds);
 	}
 
+	/**
+	 * Cancels timer that is used in showing the recorder duration
+	 */
 	public void recorderTimerCancel() {
 		recorder.timerCancel();
 	}
 
+	/**
+	 * Communicates AudioRecorder class that the mediaplayerslider has been pressed
+	 */
 	public void recorderSliderPressed() {
 		recorder.recorderSliderPressed();
 	}
 
+	/**
+	 * Used to save the recorded file
+	 * @param path
+	 */
 	public void saveAudioFile(String path) {
 		recorder.saveAudioFile(path);
 	}
-
+	
+	/**
+	 * Sets correct value to mediaplayerslider
+	 * @param currentSeconds
+	 */
 	public void setCurrentValueToRecordFileDurationSlider(Double currentSeconds) {
 		mainController.setCurrentValueToRecordDurationSlider(currentSeconds);
 	}
 
+	/**
+	 * Sets the correct duration of audio file
+	 * @param audioFileDuration
+	 */
 	public void recorderSetAudioFileDuration(float audioFileDuration) {
 		recorder.setAudioFileDuration(audioFileDuration);
 	}
 
+	/**
+	 * Communicates that audio file has reached end
+	 */
 	public void recorderAudioFileReachedEnd() {
 		mainController.recorderAudioFileReachedEnd();
 	}
