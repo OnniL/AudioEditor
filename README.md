@@ -3,7 +3,7 @@
 Desktop application for recording, mixing and playing sound files. AudioEditor was made as a group project at Metropolia University of Applied Sciences. The application was developed with Java as a Maven project.
 
 ## Installation guide
-Download zip file found through this [link](https://drive.google.com/file/d/1fLdKwnzuLtTmERpbbFtKJa_s7MHymp12/view) , and unzip the package to your desired destination. Next just run the AudioEditor.jar file found in the package.
+Download zip file found through [this link](https://drive.google.com/file/d/1fLdKwnzuLtTmERpbbFtKJa_s7MHymp12/view) , and unzip the package to your desired destination. Next just run the AudioEditor.jar file found in the package.
 
 
 ## For developers
