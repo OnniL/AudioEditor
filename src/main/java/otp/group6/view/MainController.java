@@ -567,8 +567,6 @@ public class MainController implements Initializable {
 	@FXML
 	public void handleAudioFileDurationSliderClick() {
 		controller.timerCancel();
-
-		System.out.println("slideria klikattu " + sliderAudioFileDuration.getValue());
 		controller.audioManipulatorPlayFromDesiredSec(sliderAudioFileDuration.getValue());
 
 		// Nyk kesto tekstinä
@@ -1149,11 +1147,11 @@ public class MainController implements Initializable {
 				if (mixerSelectedFile.getName().equals("mixer_default.wav")) {
 					labelSelectedFile.setText(bundle.getString("mixerFileSelectedText") + " "
 							+ bundle.getString("mixerSelectedRecordingText"));
-					System.out.println("ei oo null");
+			
 				} else {
 					labelSelectedFile
 							.setText(bundle.getString("mixerFileSelectedText") + " " + mixerSelectedFile.getName());
-					System.out.println("on null");
+				
 				}
 			} else {
 				labelSelectedFile.setText(bundle.getString("mixerFileNotSelectedText"));
@@ -1798,7 +1796,6 @@ public class MainController implements Initializable {
 			soundboardRoot.setTopAnchor(temp, 0.0);
 			soundboardRoot.setLeftAnchor(temp, 0.0);
 			soundboardRoot.setRightAnchor(temp, 0.0);
-			System.out.println(temp.sceneProperty());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

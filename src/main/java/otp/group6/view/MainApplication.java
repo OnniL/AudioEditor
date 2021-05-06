@@ -104,7 +104,6 @@ public class MainApplication extends Application {
 			return ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(Locale.getDefault());
 			return ResourceBundle.getBundle("properties/ApplicationResources", Locale.getDefault());
 		}
 	}

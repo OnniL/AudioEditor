@@ -182,7 +182,6 @@ public class AudioManipulator {
 			} else {
 				isSaved = true;
 				isRecordedFile = false;
-				System.out.println("ei nauhoitus");
 			}
 
 		} catch (Exception e) {
