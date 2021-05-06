@@ -11,31 +11,38 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Window;
 
 /**
+ * Class for handling audio files and audio input streams
  * 
- * @author Kevin Akkoyun, Joonas Soininen
- * @version 0.1
- *
+ * @author Kevin Akkoyun, Joonas Soininen, Roosa Laukkanen
  */
-
 public class AudioFileHandler {
 
-	// Constructor
 	public AudioFileHandler() {
 
 	}
 
+	/**
+	 * Creates a new AudioInputStream using the given file path
+	 * 
+	 * @param name - file path
+	 * @return audio input stream
+	 */
 	public static AudioInputStream OpenFile(String name) {
 		AudioInputStream a = null;
 		try {
 			a = AudioSystem.getAudioInputStream(new File(name).getAbsoluteFile());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return a;
 
 	}
 
+	/**
+	 * Closes the specified file
+	 * 
+	 * @param file to be closed
+	 */
 	public static void CloseFile(AudioInputStream file) {
 		try {
 			file.close();
@@ -44,6 +51,13 @@ public class AudioFileHandler {
 		}
 	}
 
+	/**
+	 * Saves audio input stream to specified file
+	 * 
+	 * @param audio      - audio input stream to be saved
+	 * @param targetFile - file where the audio input stream will be saved
+	 * @param fileFormat - format in which the audio input stream will be saved
+	 */
 	public static void SaveFile(AudioInputStream audio, File targetFile, Type fileFormat) {
 		try {
 			AudioSystem.write(audio, fileFormat, targetFile);
@@ -53,9 +67,11 @@ public class AudioFileHandler {
 
 	}
 
-	// TODO Tiedostonimi tai Inputstreami!
-	// Muista varmitaa lopullinen versio!
-	// Muista varmistaa käyttäjältä ennen tiedoston poistoa!
+	/**
+	 * Deletes the specified file
+	 * 
+	 * @param path to the file to be deleted
+	 */
 	public static void DeleteFile(String name) {
 		try {
 			File tiedosto = new File(name).getAbsoluteFile();
@@ -66,8 +82,12 @@ public class AudioFileHandler {
 
 	}
 
-	// TODO Jokaiselle oikea tiedostomuoto, eli useampi metodi, yks per
-	// tiedostomuoto.
+	/**
+	 * Creates and opens a file chooser
+	 * 
+	 * @param window - window where the file chooser will be opened in
+	 * @return chosen file
+	 */
 	public static File openFileExplorer(Window window) {
 		FileChooser fc = new FileChooser();
 		File file = fc.showOpenDialog(window);

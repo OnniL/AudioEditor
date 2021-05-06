@@ -17,20 +17,24 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- * @version 0.1
+ * Class that starts the application
+ * 
+ * @author Roosa Laukkanen, Kevin Akkoyun
  */
 public class MainApplication extends Application {
 
 	private Stage primaryStage;
 	private AnchorPane rootLayout;
 	private MainController mainController;
-	private Locale curLocale;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
 	@Override
+	/**
+	 * Starts the application
+	 */
 	public void start(Stage primaryStage) throws Exception {
 
 		this.primaryStage = primaryStage;
@@ -59,7 +63,6 @@ public class MainApplication extends Application {
 	/**
 	 * Initializes the root layout.
 	 */
-	// TODO Täytä metodit, tyhjennä "start"
 	public void initializeRootLayout() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -87,13 +90,17 @@ public class MainApplication extends Application {
 	 * @return Returns a {@link ResourceBundle} with set localization
 	 */
 	public ResourceBundle getLocalization() {
+		Locale locale = new Locale("en","US");
+		Locale.setDefault(locale);
+		
 		String appConfigPath = "src/main/resources/properties/AudioEditor.properties";
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(new File(appConfigPath).getAbsoluteFile()));
 			String language = properties.getProperty("language");
 			String country = properties.getProperty("country");
-			curLocale = new Locale(language, country);
+			
+			Locale curLocale = new Locale(language, country);
 			return ResourceBundle.getBundle("properties/ApplicationResources", curLocale);
 		} catch (Exception e) {
 			e.printStackTrace();

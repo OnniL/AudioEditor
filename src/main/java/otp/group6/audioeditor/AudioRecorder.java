@@ -111,7 +111,6 @@ public class AudioRecorder extends Thread {
 			writer = new WaveformWriter(format, "src/audio/recorder_default.wav");
 			getLine();
 			line.open(format);
-			System.out.println(line.isOpen());
 			line.start();
 
 			ais = new AudioInputStream(line);
@@ -126,7 +125,6 @@ public class AudioRecorder extends Thread {
 				t = new Thread(adp);
 			}
 			t.start();
-			System.out.println("Recording started");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,8 +136,6 @@ public class AudioRecorder extends Thread {
 	 */
 	public void stopRecord() {
 		adp.stop();
-		System.out.println("Record duration: " + adp.secondsProcessed());
-		System.out.println("Recording stopped");
 	}
 
 	/**
@@ -189,11 +185,9 @@ public class AudioRecorder extends Thread {
 			@Override
 			public void run() {
 				if (!isPressed) {
-					System.out.println(adp.secondsProcessed());
 					setCurrentPositionToRecordFileDurationSlider(adp.secondsProcessed());
 
 				} else {
-					System.out.println(isPressed);
 				}
 			}
 		};
@@ -231,7 +225,6 @@ public class AudioRecorder extends Thread {
 	 */
 	public void playFromDesiredSec(double seconds) {
 		playbackStartingPoint = (float) seconds;
-		System.out.println(seconds);
 		if (isPlaying == true) {
 			playAudio();
 		}
@@ -268,7 +261,7 @@ public class AudioRecorder extends Thread {
 		if (timer != null) {
 			timer.cancel();
 			task.cancel();
-			System.out.println("timer cancelled");
+		
 		}
 	}
 
@@ -277,7 +270,7 @@ public class AudioRecorder extends Thread {
 	 */
 	public void recorderSliderPressed() {
 		isPressed = true;
-		System.out.println("Slider pressed");
+
 	}
 
 	/**
@@ -344,8 +337,6 @@ public class AudioRecorder extends Thread {
 	public void getLine() {
 		try {
 			line = (TargetDataLine) AudioSystem.getLine(info);
-			System.out.println(AudioSystem.getLine(info));
-			System.out.println(info);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
