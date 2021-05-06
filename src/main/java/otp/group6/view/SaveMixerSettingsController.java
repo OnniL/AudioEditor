@@ -224,7 +224,8 @@ public class SaveMixerSettingsController implements Initializable {
 	 * Method is used to store mixer values to the database. Alerts are used for
 	 * feedback with the process.
 	 * 
-	 * @throws SQLException, thrown if there are any errors with the database
+	 * @throws SQLException 
+	 * thrown if there are any errors with the database
 	 *                       connection.
 	 */
 	public void saveMix() throws SQLException {

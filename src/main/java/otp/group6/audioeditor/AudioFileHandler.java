@@ -70,7 +70,7 @@ public class AudioFileHandler {
 	/**
 	 * Deletes the specified file
 	 * 
-	 * @param path to the file to be deleted
+	 * @param name to the file to be deleted
 	 */
 	public static void DeleteFile(String name) {
 		try {

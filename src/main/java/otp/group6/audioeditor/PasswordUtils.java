@@ -10,6 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 /**
+ * This class encrypts passwrods in Byte64.
  * 
  * @author Sergey Kargopolov, modified by Joonas Soininen
  *         https://www.appsdeveloperblog.com/encrypt-user-password-example-java/

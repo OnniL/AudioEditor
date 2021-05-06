@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import otp.group6.controller.Controller;
 
 /**
+ * This test class is for AudioRecorder.
  * 
  * @author Onni Lukkarila
  *

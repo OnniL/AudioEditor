@@ -7,13 +7,14 @@ import org.junit.jupiter.api.TestMethodOrder;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 /**
  * Test class for soundboard view
  * 
  * @author Kevin Akkoyun
  *
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Disabled
 public class SoundboardViewTest extends Application {
 

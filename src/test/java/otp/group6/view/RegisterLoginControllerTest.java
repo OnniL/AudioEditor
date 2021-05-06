@@ -6,9 +6,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
+/**
+ * This test class is used to test RegisterLoginController.
+ * 
+ * @author Joonas Soininen
+ *
+ */
 class RegisterLoginControllerTest {
 
+	/**
+	 * Tests for the password formatting to be correct
+	 */
 	@Test
 	@DisplayName("Cheking for the password format to be correct")
 	final void testPwIsValid() {
@@ -22,6 +30,9 @@ class RegisterLoginControllerTest {
 				"Returns true when the password is the right format");
 	}
 
+	/**
+	 * Tests for the username formatting to be correct
+	 */
 	@Test
 	@DisplayName("Cheking for the username format to be correct")
 	final void testUnisValid() {

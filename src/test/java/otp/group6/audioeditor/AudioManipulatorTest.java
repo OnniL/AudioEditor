@@ -11,7 +11,12 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import otp.group6.controller.Controller;
-
+/**
+ * This test class is for testing the AudioManipulator.
+ * 
+ * @author Onni Lukkarila 
+ *
+ */
 
 public class AudioManipulatorTest {
 

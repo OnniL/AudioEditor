@@ -20,14 +20,14 @@ import org.junit.jupiter.api.Disabled;
 
 import otp.group6.audioeditor.Soundboard.Sample;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
 /**
  * Test class for soundboard
  * 
  * @author Kevin Akkoyun
  *
  */
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class SoundboardTest {
 	private Soundboard soundboard = new Soundboard();
 	
@@ -63,7 +63,6 @@ class SoundboardTest {
 	/**
 	 * Creates a new {@link Sample} from a file path. <br>
 	 * Attempts to remove it from the <b>sampleArray</b> with given index
-	 * @see {@link Soundboard#removeSample(int)}
 	 */
 	@DisplayName("Removing a sample from sampleArray with an index")
 	@Order(3)
@@ -80,7 +79,6 @@ class SoundboardTest {
 	/**
 	 *  Creates a new {@link Sample} from a file path. <br>
 	 *  Attempt to delete created <b>Sample</b> with reference to itself.
-	 *  @see {@link Soundboard#removeSample(Sample)}
 	 */
 	@DisplayName("Removing a Sample from sampleArray with a reference to a Sample")
 	@Order(4)

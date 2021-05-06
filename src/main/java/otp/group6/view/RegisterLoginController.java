@@ -238,7 +238,8 @@ public class RegisterLoginController implements Initializable {
 	 * also the password must be in correct form
 	 * 
 	 * @param event, button push handling
-	 * @throws SQLException, thrown if there is a problem with the database
+	 * @throws SQLException 
+	 * thrown if there is a problem with the database
 	 */
 	public void registerUser(ActionEvent event) throws SQLException {
 

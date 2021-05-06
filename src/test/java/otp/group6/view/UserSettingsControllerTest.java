@@ -2,9 +2,17 @@ package otp.group6.view;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
+/**
+ * This test class is used to thest UserSettingsController.
+ * 
+ * @author Joonas Soininen
+ *
+ */
 class UserSettingsControllerTest {
 
+	/**
+	 *  Tests for correct password formatting.
+	 */
 	@Test
 	final void testIsValid() {
 		assertFalse(UserSettingsController.isValid("keijo"), "Returns false if the password is not the right format");

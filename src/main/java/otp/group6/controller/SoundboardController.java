@@ -9,7 +9,7 @@ import otp.group6.audioeditor.Soundboard.Sample;
  * Controller for {@link Soundboard} features
  * 
  * @author Kevin Akkoyun
- * @Version 1.1
+ * @version 1.1
  *
  */
 public class SoundboardController {
@@ -79,7 +79,7 @@ public class SoundboardController {
 	/**
 	 * Controller method for adding samples to the {@link Soundboard}
 	 * 
-	 * @param path - filepath for audio file
+	 * @param filepath for audio file
 	 * @return index of the added sample
 	 */
 	public int addSample(String filepath) {
@@ -90,8 +90,7 @@ public class SoundboardController {
 	 * Controller method for removing samples
 	 * 
 	 * @param index - index of the <b>sample</b>
-	 * @return if successful, returns removed sample, otherwise returns null
-	 * @see {@link Sample}
+	 * @return if successful, returns removed sample, otherwise returns null 
 	 */
 	public Sample removeSample(int index) {
 		return soundboard.removeSample(index);

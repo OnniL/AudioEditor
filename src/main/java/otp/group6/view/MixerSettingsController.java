@@ -248,8 +248,8 @@ public class MixerSettingsController implements Initializable {
 	 * 
 	 * @param id,    mixer setting id
 	 * @param title, mixer setting title
-	 * @throws IOException, exception is thrown if the local {@link #save()} or
-	 *                      {@link #read()} fails
+	 * @throws IOException
+	 *  exception is thrown if the local save() or read() fails
 	 */
 	public void favoriteButton(String id, String title) throws IOException {
 		mixerSettings.add(title);
@@ -263,7 +263,8 @@ public class MixerSettingsController implements Initializable {
 	 * Method to store the favorite list data locally so it can be automatically
 	 * loaded when this view opens
 	 * 
-	 * @throws IOException, exception is thrown if the local save fails.
+	 * @throws IOException 
+	 * exception is thrown if the local save fails.
 	 */
 	public void save() throws IOException {
 		// Automatic save method
@@ -306,7 +307,8 @@ public class MixerSettingsController implements Initializable {
 	 * Method to read from local storage automatically when the view is opened.
 	 * Loads favorite mixer settings automatically.
 	 * 
-	 * @throws IOException, exception thrown if the read fails.
+	 * @throws IOException 
+	 * exception thrown if the read fails.
 	 */
 	@SuppressWarnings({ "unchecked" })
 	public void read() throws IOException {
@@ -348,7 +350,8 @@ public class MixerSettingsController implements Initializable {
 	/**
 	 * Method to remove favorite settings from the shown list
 	 * 
-	 * @throws IOException, exception is thrown if the local {@link #save()} or
+	 * @throws IOException 
+	 * exception is thrown if the local {@link #save()} or
 	 *                      {@link #read()} fails
 	 */
 	public void removeFav() throws IOException {
@@ -530,8 +533,9 @@ public class MixerSettingsController implements Initializable {
 	 * Method to delete user created mixer setting from the database. Alerts are
 	 * used to give feedback for the user.
 	 * 
-	 * @throws IOException, exception is thrown if the local {@link #save()} or
-	 *                      {@link #read()} fails
+	 * @throws IOException 
+	 * exception is thrown if the local #save() or
+	 *                       #read() fails
 	 */
 	@FXML
 	public void deleteMix() throws IOException {
@@ -571,9 +575,11 @@ public class MixerSettingsController implements Initializable {
 	/**
 	 * Method sets variable to the parameter provided from MainController.java
 	 * 
-	 * @param mainController, is the instance of MainController.java that is in the
+	 * @param mainController 
+	 * is the instance of MainController.java that is in the
 	 *                        current thread running.
-	 * @throws IOException, exception is thrown if the local {@link #read()} fails
+	 * @throws IOException
+	 * exception is thrown if the local {@link #read()} fails
 	 */
 	public void setMainController(MainController mainController) throws IOException {
 		this.mc = mainController;

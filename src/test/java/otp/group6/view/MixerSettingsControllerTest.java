@@ -5,10 +5,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
+/**
+ * This test class tests basic functions in this class
+ * 
+ * @author Joonas Soininen
+ *
+ */
 class MixerSettingsControllerTest {
 	MixerSettingsController msc = new MixerSettingsController();
 
+	/**
+	 * Tests for correct identification for the mixer setting
+	 */
 	@Test
 	@DisplayName("Cheking for mix identifiaction to be correct")
 	@Order(1)
@@ -16,7 +24,10 @@ class MixerSettingsControllerTest {
 		msc.setMixerIndetification(15);
 		assertEquals(15, msc.getMixerIndetification());
 	}
-
+	
+	/**
+	 * Tests for correct identification for the mixer setting
+	 */	
 	@Test
 	@DisplayName("Cheking for mix identifiaction to be correct")
 	@Order(2)
@@ -25,6 +36,9 @@ class MixerSettingsControllerTest {
 		assertEquals(155, msc.getMixerIndetification());
 	}
 
+	/**
+	 * Tests for the mix creator to be correct
+	 */
 	@Test
 	@DisplayName("Cheking for mix creator to be correct")
 	@Order(3)
@@ -33,6 +47,9 @@ class MixerSettingsControllerTest {
 		assertEquals("TESTIKÄYTTÄJÄ", msc.getMixerCreatorName(), "Returns the assigned mix creator");
 	}
 
+	/**
+	 * Tests for the mix creator to be correct
+	 */
 	@Test
 	@DisplayName("Cheking for mix creator to be correct")
 	@Order(4)

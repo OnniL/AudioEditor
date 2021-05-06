@@ -129,7 +129,6 @@ public class Soundboard {
 	/**
 	 * an <b>ArrayList</b> that contains all Sample data <br>
 	 * 
-	 * @see {@link Sample}
 	 */
 	private ArrayList<Sample> sampleArray = new ArrayList<Sample>();
 
@@ -418,7 +417,7 @@ public class Soundboard {
 	}
 
 	/**
-	 * Sets a {@link LineListener} to the {@link SounboardPlayer}
+	 * Sets a LineListener to the SounboardPlayer
 	 * 
 	 * @param listener - <b>LineListener</b>
 	 */
@@ -427,8 +426,8 @@ public class Soundboard {
 	}
 
 	/**
-	 * Removes a {@link LineListener} from the {@link SounboardPlayer}
-	 * 
+	 * Removes a LineListener from the SounboardPlayer
+	 *
 	 * @param listener - <b>LineListener</b>
 	 */
 	public void removeListener(LineListener listener) {

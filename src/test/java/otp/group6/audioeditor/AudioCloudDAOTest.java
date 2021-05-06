@@ -15,13 +15,13 @@ import otp.group6.audioeditor.AudioCloudDAO.User;
 
 import org.junit.jupiter.api.Disabled;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 /**
  * Test class for AudioCloudDAO to check for different methods functionality with the database 
  * 
  * @author Joonas Soininen
  *
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Disabled
 class AudioCloudDAOTest {
 

@@ -447,6 +447,7 @@ public class SoundboardViewController implements Initializable {
 	 * Refreshes button specific Text - element string
 	 * 
 	 * @param container - root element of the button
+	 * @param index of the container
 	 */
 	private void refreshContainerText(Pane container, int index) {
 		List<Node> nList = container.getChildren();
@@ -476,10 +477,10 @@ public class SoundboardViewController implements Initializable {
 	}
 
 	/**
-	 * Functionality for button created by {@link #addNewSoundButton(Pane)} <br>
+	 * Functionality for button created by addNewSoundButton(Pane) <br>
 	 * <br>
 	 * Replaces itself with a button created by
-	 * {@link #addSoundboardButton(Pane)}<br>
+	 * addSoundboardButton(Pane)<br>
 	 * Creates another one of itself to the next container in {@link #containerMap}
 	 */
 	private void newSoundButton() {
@@ -512,7 +513,6 @@ public class SoundboardViewController implements Initializable {
 	 * Functionality for the play button
 	 * 
 	 * @param index - index of the <b>Sample</b>
-	 * @see {@link Sample}
 	 */
 	@SuppressWarnings("unused")
 	private void playButton(int index) {
@@ -540,7 +540,6 @@ public class SoundboardViewController implements Initializable {
 	 * Functionality for the edit button
 	 * 
 	 * @param index - index of the <b>Sample</b>
-	 * @see {@link Sample}
 	 */
 	private void editButton(int index) {
 		File newFile = openFileExplorer();
@@ -555,7 +554,6 @@ public class SoundboardViewController implements Initializable {
 	 * loss. Checks if the input is valid and changes sample name.
 	 * 
 	 * @param index - index of the <b>Sample</b>
-	 * @see {@link Sample}
 	 */
 	@SuppressWarnings("unchecked")
 	private void renameButton(int index) {
@@ -632,9 +630,6 @@ public class SoundboardViewController implements Initializable {
 	/**
 	 * Clears everything and recreates storage variables
 	 * 
-	 * @see {@link #buttonList} <br>
-	 *      {@link #containerMap} <br>
-	 *      {@link Soundboard#sampleArray}
 	 */
 	@FXML
 	private void clearAllButton() {

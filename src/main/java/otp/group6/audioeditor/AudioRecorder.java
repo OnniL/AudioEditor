@@ -29,7 +29,7 @@ import otp.group6.controller.Controller;
 /**
  * Provides tools for basic audio recording and playback of that recorded file
  * 
- * @authors Onni Lukkarila
+ * @author Onni Lukkarila
  * @version 0.2
  *
  */

@@ -769,15 +769,16 @@ public class AudioCloudDAO {
 		}
 	}
 
+
+	private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
+	private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+	
 	/**
 	 * Used here only for JUnit testing
 	 * 
 	 * @param password is the inputed password
 	 * @return true if it matches requirements
 	 */
-	private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
-	private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-
 	public static boolean isValid(final String password) {
 		Matcher matcher = pattern.matcher(password);
 		return matcher.matches();

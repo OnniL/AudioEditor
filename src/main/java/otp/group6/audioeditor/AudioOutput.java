@@ -12,6 +12,8 @@ import be.tarsos.dsp.io.jvm.AudioPlayer;
 import be.tarsos.dsp.io.jvm.JVMAudioInputStream;
 
 /**
+ * This class is used to play pack audio files
+ * 
  * 
  * @author Kevin Akkoyun, Joonas Soininen
  * @version 0.2
