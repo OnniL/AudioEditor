@@ -29,7 +29,8 @@ Additionally you have another option and that is to use Git.
 
 ## Group members
 
+- Onni Lukkarila
 - Joonas Soininen 
 - Kevin Akkoyun
 - Roosa Laukkanen
-- Onni Lukkarila
+
